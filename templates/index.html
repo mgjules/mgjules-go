@@ -1,0 +1,74 @@
+{% extends "templates/layouts/editor.html" %} {% block editor_content %}
+<div
+  class="flex flex-col-reverse items-center gap-8 m-4 sm:flex-row sm:justify-around sm:my-12"
+>
+  <div class="flex flex-col items-center sm:items-start max-w-128">
+    <h1 class="my-0 font-light text-center text-brand-primary sm:text-left">
+      Wild <span class="font-semibold text-brand-accent">BACKEND ENGINEER</span>
+      appeared!
+    </h1>
+    <div class="mt-4 text-base text-center sm:text-left">
+      {{intro.introduction|markdown}}
+    </div>
+    <div class="mt-4">
+      <a
+        href="{{links.1.alternate_url|default:links.1.url}}"
+        class="btn"
+        data-swup-preload
+        >Learn more
+      </a>
+    </div>
+  </div>
+  <div class="relative w-40 h-40 shrink-0 sm:h-60 sm:w-60">
+    <div
+      class="w-full h-full transition-all clip-avatar bg-brand-foreground/70"
+    ></div>
+    <div
+      class="absolute bottom-0 w-full h-full transition-all clip-box bg-brand-foreground/50"
+    ></div>
+    <img
+      class="absolute bottom-0 transition-all clip-avatar contrast-125 brightness-95"
+      src="{{intro.avatar}}"
+      alt="Avatar"
+    />
+  </div>
+</div>
+
+<style>
+  @keyframes clip-avatar-animation {
+    0% {
+      clip-path: polygon(0 6%, 100% 0, 83% 100%, 5% 95%);
+    }
+
+    100% {
+      clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+    }
+  }
+
+  .clip-avatar {
+    clip-path: polygon(0 6%, 100% 0, 83% 100%, 5% 95%);
+    animation: alternate;
+    animation-duration: 15s;
+    animation-name: clip-avatar-animation;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes clip-box-animation {
+    0% {
+      clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+    }
+
+    100% {
+      clip-path: polygon(0 16%, 98% 4%, 93% 94%, 7% 86%);
+    }
+  }
+
+  .clip-box {
+    clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+    animation: alternate;
+    animation-duration: 30s;
+    animation-name: clip-box-animation;
+    animation-iteration-count: infinite;
+  }
+</style>
+{% endblock %}

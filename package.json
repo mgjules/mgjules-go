@@ -1,0 +1,12 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "unocss -w",
+    "build": "unocss -m"
+  },
+  "devDependencies": {
+    "unocss": "latest"
+  }
+}

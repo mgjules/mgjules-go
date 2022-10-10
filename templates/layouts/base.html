@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="{{meta.lang|lower}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <meta name="description" content="{{meta.description}}" />
+    <meta name="keywords" content="{{meta.keywords|join:","}}" />
+    <meta name="author" content="{{meta.first_name}} {{meta.last_name}}" />
+    <meta name="copyright" content="{{meta.first_name}} {{meta.last_name}}" />
+    <meta name="robots" content="follow" />
+
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:description" content="{{meta.description}}" />
+    <meta property="og:image" content="{{meta.avatar}}" />
+    <meta property="og:url" content="{{meta.base_url}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="{{title}}" />
+    <meta
+      name="twitter:image:alt"
+      content="{{meta.first_name}} {{meta.last_name}} Profile Picture"
+    />
+    <meta name="profile:first_name" content="{{meta.first_name}}" />
+    <meta name="profile:last_name" content="{{meta.last_name}}" />
+    <meta name="profile:username" content="{{meta.username}}" />
+    <meta name="profile:gender" content="{{meta.gender}}" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"></link>
+    <link rel="stylesheet" href="/assets/style.css"></link>
+
+    <script
+      src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"
+      async
+    ></script>
+    <script src="https://unpkg.com/swup@2.0.18/dist/swup.min.js" defer></script>
+    <script
+      src="https://unpkg.com/@mgjules/swup-progress-plugin@1.3.0/dist/SwupProgressPlugin.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/@swup/preload-plugin@1.0.4/dist/SwupPreloadPlugin.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/@swup/head-plugin@1.2.1/dist/SwupHeadPlugin.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/swup-morph-plugin@0.2.0/dist/SwupMorphPlugin.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/@ngsctt/swup-preserve-scroll-plugin@0.1.0/dist/SwupPreserveScrollPlugin.min.js"
+      defer
+    ></script>
+    <script type="module" defer>
+      new Swup({
+        animationSelector: '[class*="swup-transition-"]',
+        plugins: [
+          new SwupProgressPlugin(),
+          new SwupPreloadPlugin(),
+          new SwupHeadPlugin({
+            persistAssets: true,
+          }),
+          new SwupMorphPlugin({
+            containers: ["#tabs", "#sidebar", "#title"],
+          }),
+          new SwupPreserveScrollPlugin({
+            selector: ".swup-preserve-scroll",
+            quiet: false,
+          }),
+        ],
+      });
+    </script>
+
+    <title>{{title}}</title>
+  </head>
+
+  <body class="font-sans antialiased scroll-smooth">
+    {% block content %}No content :({% endblock %}
+  </body>
+</html>
