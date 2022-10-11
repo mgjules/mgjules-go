@@ -37,7 +37,11 @@ func main() {
 
 	auth := auth.New(cfg.AuthToken)
 
-	projection := projection.New(cfg.Prod, repo, templates)
+	projection, err := projection.New(cfg.Prod, repo, templates)
+	if err != nil {
+		logger.Logger.Fatalf("failed to create projection: %v", err)
+	}
+
 	projection.Start()
 	projection.FetchData()
 	projection.BuildProjections()
