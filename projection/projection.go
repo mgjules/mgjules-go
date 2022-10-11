@@ -29,12 +29,12 @@ type Projection struct {
 	templateSet *pongo2.TemplateSet
 	cron        *cron.Cron
 
-	dataMu sync.Mutex // guards the data
+	dataMu sync.RWMutex // guards the data
 	meta   entity.Meta
 	links  []entity.Link
 	intro  entity.Introduction
 
-	projectionsMu sync.Mutex // guards the projections
+	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
 }
 
@@ -80,9 +80,6 @@ func (p *Projection) FetchData() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	p.dataMu.Lock()
-	defer p.dataMu.Unlock()
-
 	var wg sync.WaitGroup
 	wg.Add(1)
 	p.pool.Submit(func() {
@@ -93,7 +90,9 @@ func (p *Projection) FetchData() {
 		if err != nil {
 			logger.Logger.Errorf("failed to get meta: %v", err)
 		} else {
+			p.dataMu.Lock()
 			p.meta = *meta
+			p.dataMu.Unlock()
 		}
 	})
 
@@ -106,7 +105,9 @@ func (p *Projection) FetchData() {
 		if err != nil {
 			logger.Logger.Errorf("failed to get links: %v", err)
 		} else {
+			p.dataMu.Lock()
 			p.links = links
+			p.dataMu.Unlock()
 		}
 	})
 
@@ -119,7 +120,9 @@ func (p *Projection) FetchData() {
 		if err != nil {
 			logger.Logger.Errorf("failed to get introduction: %v", err)
 		} else {
+			p.dataMu.Lock()
 			p.intro = *intro
+			p.dataMu.Unlock()
 		}
 	})
 
@@ -134,7 +137,9 @@ func (p *Projection) BuildProjections() {
 		defer wg.Done()
 
 		logger.Logger.Debug("Building index projection...")
+		p.dataMu.RLock()
 		index, err := p.BuildIndex()
+		p.dataMu.RUnlock()
 		if err != nil {
 			logger.Logger.Errorf("failed to build index projection: %v", err)
 		} else {
@@ -156,7 +161,10 @@ func (p *Projection) Get(keys ...string) ([]byte, bool) {
 		p.BuildProjections()
 	}
 
+	p.projectionsMu.RLock()
 	out, found := p.projections[buildKey(keys...)]
+	p.projectionsMu.RUnlock()
+
 	return out, found
 }
 
