@@ -33,7 +33,7 @@ func (p *Projection) render(ctx map[string]any, routeName, tplFilename string) (
 	pCtx := mergemap.Merge(ctx, map[string]any{
 		"meta":         mapstruct.FromSingle(p.meta),
 		"links":        mapstruct.FromSlice(links),
-		"editorCSS":    editorCSS,
+		"editor_css":   editorCSS,
 		"current_year": time.Now().Year(),
 	})
 
