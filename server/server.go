@@ -32,7 +32,7 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 
 	engine := gin.New()
 
-	desugared := logger.Logger.Desugar()
+	desugared := logger.L.Desugar()
 
 	engine.Use(ginzap.Ginzap(desugared, time.RFC3339, true))
 	engine.Use(ginzap.RecoveryWithZap(desugared, true))
@@ -57,7 +57,7 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 }
 
 func (s *Server) Start() error {
-	logger.Logger.Infof("server listening on %s:%d...", s.host, s.port)
+	logger.L.Infof("server listening on %s:%d...", s.host, s.port)
 
 	es := endless.NewServer(fmt.Sprintf("%s:%v", s.host, s.port), s.engine)
 	es.Server.ReadTimeout = 10 * time.Second
@@ -74,14 +74,14 @@ func (s *Server) AttachRoutes() {
 
 	css, err := fs.Sub(s.static, "static/css")
 	if err != nil {
-		logger.Logger.Errorf("error when creating css FS handler: %v", err)
+		logger.L.Errorf("error when creating css FS handler: %v", err)
 	} else {
 		s.engine.StaticFS("/css", http.FS(css))
 	}
 
 	img, err := fs.Sub(s.static, "static/img")
 	if err != nil {
-		logger.Logger.Errorf("error when creating image FS handler: %v", err)
+		logger.L.Errorf("error when creating image FS handler: %v", err)
 	} else {
 		s.engine.StaticFS("/img", http.FS(img))
 	}

@@ -20,7 +20,7 @@ func (db *EdgeDB) GetLinks(ctx context.Context) ([]entity.Link, error) {
 		} order by .sort
 	`, &links)
 	if err != nil {
-		return nil, fmt.Errorf("failed to query single meta: %w", err)
+		return nil, fmt.Errorf("failed to query links: %w", err)
 	}
 
 	return links, nil

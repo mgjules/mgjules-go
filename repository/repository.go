@@ -15,4 +15,7 @@ type Repository interface {
 
 	// Introduction
 	GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error)
+
+	// Section
+	GetSections(ctx context.Context) ([]entity.Section, error)
 }

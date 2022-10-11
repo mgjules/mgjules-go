@@ -13,7 +13,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projection) render(ctx map[string]any, routeName, tplFilename string) ([]byte, error) {
+func (p *Projection) render(values map[string]any, routeName, tplFilename string) ([]byte, error) {
 	tpl, err := p.templateSet.FromFile(tplFilename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load templates from file: %w", err)
@@ -32,14 +32,14 @@ func (p *Projection) render(ctx map[string]any, routeName, tplFilename string) (
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
 	}
 
-	pCtx := mergemap.Merge(ctx, map[string]any{
+	values = mergemap.Merge(values, map[string]any{
 		"meta":         mapstruct.FromSingle(p.meta),
 		"links":        mapstruct.FromSlice(links),
 		"editor_css":   editorCSS,
 		"current_year": time.Now().Year(),
 	})
 
-	out, err := tpl.ExecuteBytes(pongo2.Context(pCtx))
+	out, err := tpl.ExecuteBytes(pongo2.Context(values))
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

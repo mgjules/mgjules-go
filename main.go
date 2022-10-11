@@ -32,14 +32,14 @@ func main() {
 	ctx := context.Background()
 	repo, err := edgedb.New(ctx, cfg.EdgeDBDSN)
 	if err != nil {
-		logger.Logger.Fatalf("failed to create edgedb repository: %v", err)
+		logger.L.Fatalf("failed to create edgedb repository: %v", err)
 	}
 
 	auth := auth.New(cfg.AuthToken)
 
 	projection, err := projection.New(cfg.Prod, repo, templates)
 	if err != nil {
-		logger.Logger.Fatalf("failed to create projection: %v", err)
+		logger.L.Fatalf("failed to create projection: %v", err)
 	}
 
 	projection.Start()
@@ -48,6 +48,6 @@ func main() {
 
 	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, auth, projection, static)
 	if err = server.Start(); err != nil {
-		logger.Logger.Fatalf("failed to start server: %v", err)
+		logger.L.Fatalf("failed to start server: %v", err)
 	}
 }

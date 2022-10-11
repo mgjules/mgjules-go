@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var Logger zap.SugaredLogger
+var L zap.SugaredLogger
 
 func Init(prod bool) error {
 	var (
@@ -22,7 +22,7 @@ func Init(prod bool) error {
 		return fmt.Errorf("failed to initialize logger: %w", err)
 	}
 
-	Logger = *logger.Sugar()
+	L = *logger.Sugar()
 
 	return nil
 }
