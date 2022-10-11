@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "unocss -w",
+    "dev": "unocss -m -w",
     "build": "unocss -m"
   },
   "devDependencies": {

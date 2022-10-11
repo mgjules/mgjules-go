@@ -3,12 +3,22 @@ package projection
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/wellington/go-libsass"
 )
 
 func (p *Projection) parseSCSS(file string) (string, error) {
-	scss, err := p.templates.Open(file)
+	var (
+		scss io.Reader
+		err  error
+	)
+	if p.prod {
+		scss, err = p.templates.Open(file)
+	} else {
+		scss, err = os.Open(file)
+	}
 	if err != nil {
 		return "", fmt.Errorf("failed to open: %w", err)
 	}

@@ -37,8 +37,9 @@ func main() {
 
 	auth := auth.New(cfg.AuthToken)
 
-	projection := projection.New(repo, templates)
+	projection := projection.New(cfg.Prod, repo, templates)
 	projection.Start()
+	projection.FetchData()
 	projection.BuildProjections()
 
 	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, auth, projection, public)

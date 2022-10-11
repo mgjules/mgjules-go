@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/fvbock/endless"
@@ -21,7 +22,7 @@ type Server struct {
 	port       int
 	auth       *auth.Auth
 	projection *projection.Projection
-	public     embed.FS
+	public     fs.FS
 }
 
 func New(prod bool, host string, port int, auth *auth.Auth, projection *projection.Projection, public embed.FS) *Server {
@@ -42,7 +43,12 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 		port:       port,
 		auth:       auth,
 		projection: projection,
-		public:     public,
+	}
+
+	if prod {
+		s.public = public
+	} else {
+		s.public = os.DirFS(".")
 	}
 
 	s.AttachRoutes()
@@ -77,6 +83,7 @@ func (s *Server) AttachRoutes() {
 	authenticated := s.engine.Group("/_")
 	authenticated.Use(s.Authorize())
 	{
+		authenticated.POST("/refetch-data", s.RefetchDataHandler())
 		authenticated.POST("/rebuild-projections", s.RebuildProjectionsHandler())
 	}
 }

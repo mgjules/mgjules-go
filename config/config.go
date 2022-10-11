@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Prod       bool   `envconfig:"prod"`
+	Prod       bool   `envconfig:"PROD"`
 	EdgeDBDSN  string `envconfig:"EDGEDB_DSN" required:"true"`
 	ServerHost string `envconfig:"SERVER_HOST" default:"0.0.0.0"`
 	ServerPort int    `envconfig:"SERVER_PORT" default:"13337"`

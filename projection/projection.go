@@ -20,6 +20,8 @@ const (
 )
 
 type Projection struct {
+	prod bool
+
 	dataMu sync.Mutex // guards the data
 	meta   entity.Meta
 	links  []entity.Link
@@ -34,16 +36,25 @@ type Projection struct {
 	cron        *cron.Cron
 }
 
-func New(repo repository.Repository, templates embed.FS) *Projection {
+func New(prod bool, repo repository.Repository, templates embed.FS) *Projection {
 	p := &Projection{
+		prod:        prod,
 		repo:        repo,
 		cron:        cron.New(),
 		projections: make(map[string][]byte),
 		templates:   templates,
-		templateSet: pongo2.NewSet("", &loader.Loader{Content: templates}),
 	}
 
-	p.cron.AddFunc("@hourly", p.BuildProjections)
+	if p.prod {
+		p.templateSet = pongo2.NewSet("", &loader.Loader{Content: templates})
+	} else {
+		p.templateSet = pongo2.NewSet("", pongo2.MustNewLocalFileSystemLoader("./"))
+	}
+
+	p.cron.AddFunc("@hourly", func() {
+		p.FetchData()
+		p.BuildProjections()
+	})
 
 	return p
 }
@@ -89,8 +100,6 @@ func (p *Projection) FetchData() {
 }
 
 func (p *Projection) BuildProjections() {
-	p.FetchData()
-
 	logger.Logger.Debug("Building index projection...")
 	index, err := p.BuildIndex()
 	if err != nil {
@@ -105,6 +114,10 @@ func (p *Projection) BuildProjections() {
 func (p *Projection) Get(keys ...string) ([]byte, bool) {
 	if len(keys) == 0 {
 		return nil, false
+	}
+
+	if !p.prod {
+		p.BuildProjections()
 	}
 
 	out, found := p.projections[buildKey(keys...)]
