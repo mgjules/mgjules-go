@@ -7,8 +7,8 @@
 
     <meta name="description" content="{{meta.description}}" />
     <meta name="keywords" content="{{meta.keywords|join:","}}" />
-    <meta name="author" content="{{meta.first_name}} {{meta.last_name}}" />
-    <meta name="copyright" content="{{meta.first_name}} {{meta.last_name}}" />
+    <meta name="author" content="{{meta.full_name}}" />
+    <meta name="copyright" content="{{meta.full_name}}" />
     <meta name="robots" content="follow" />
 
     <meta property="og:title" content="{{title}}" />
@@ -20,7 +20,7 @@
     <meta property="og:site_name" content="{{title}}" />
     <meta
       name="twitter:image:alt"
-      content="{{meta.first_name}} {{meta.last_name}} Profile Picture"
+      content="{{meta.full_name}} Profile Picture"
     />
     <meta name="profile:first_name" content="{{meta.first_name}}" />
     <meta name="profile:last_name" content="{{meta.last_name}}" />

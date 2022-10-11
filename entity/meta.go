@@ -9,6 +9,7 @@ type Meta struct {
 	Description string      `edgedb:"description" json:"description"`
 	FirstName   string      `edgedb:"first_name" json:"first_name"`
 	LastName    string      `edgedb:"last_name" json:"last_name"`
+	FullName    string      `edgedb:"full_name" json:"full_name"`
 	Keywords    []string    `edgedb:"keywords" json:"keywords"`
 	Github      string      `edgedb:"github" json:"github"`
 	Username    string      `edgedb:"username" json:"username"`

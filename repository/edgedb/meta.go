@@ -22,6 +22,7 @@ func (db *EdgeDB) GetMeta(ctx context.Context, id string) (*entity.Meta, error) 
 			lang,
 			first_name,
 			last_name,
+			full_name := .first_name ++ ' ' ++ .last_name,
 			gender,
 			description,
 			keywords,

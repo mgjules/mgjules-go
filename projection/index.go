@@ -29,7 +29,7 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 	}
 
 	pCtx := map[string]any{
-		"title":       p.meta.FirstName + " " + p.meta.LastName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"intro":       mapstruct.FromSingle(p.intro),
 		"index_css":   indexCSS,
