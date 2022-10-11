@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.html" %} {% block editor_content %}
+{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
 <div
   class="flex flex-col-reverse items-center gap-8 m-4 sm:flex-row sm:justify-around sm:my-12"
 >

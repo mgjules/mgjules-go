@@ -8,7 +8,7 @@ export default defineConfig({
   cli: {
     entry: [
       {
-        patterns: ['./templates/**/*.html', './templates/**/*.scss'],
+        patterns: ['./templates/**/*.dhtml', './templates/**/*.scss'],
         outFile: './static/css/style.css'
       }
     ]

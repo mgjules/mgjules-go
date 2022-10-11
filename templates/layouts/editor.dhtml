@@ -1,4 +1,4 @@
-{% extends "templates/layouts/base.html" %} {% block content %}
+{% extends "templates/layouts/base.dhtml" %} {% block content %}
 <div class="flex justify-center p-4 print:p-0">
   <div
     class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:rounded-none backdrop-blur-sm bg-brand-background/90"

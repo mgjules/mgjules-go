@@ -35,7 +35,7 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 		"index_css":   indexCSS,
 	}
 
-	out, err := p.render(pCtx, "Home", "templates/index.html")
+	out, err := p.render(pCtx, "Home", "templates/index.dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
