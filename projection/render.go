@@ -45,7 +45,11 @@ func (p *Projection) render(ctx map[string]any, routeName, tplFilename string) (
 	}
 
 	var b bytes.Buffer
-	w := gzip.NewWriter(&b)
+	w, err := gzip.NewWriterLevel(&b, gzip.BestCompression)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create new gzip writer: %w", err)
+	}
+
 	w.Write(out)
 	w.Close()
 
