@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/mgjules/mgjules-go/logger"
 	"github.com/wellington/go-libsass"
 )
 
@@ -19,7 +20,10 @@ func (p *Projection) parseSCSS(file string) (string, error) {
 	} else {
 		scss, err = os.Open(file)
 	}
-	if err != nil {
+	if os.IsNotExist(err) {
+		logger.L.Debugf("file '%s' not found", file)
+		return "", nil
+	} else if err != nil {
 		return "", fmt.Errorf("failed to open: %w", err)
 	}
 

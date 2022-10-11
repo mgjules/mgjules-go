@@ -1,41 +1,45 @@
 package projection
 
 import (
-	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/mgjules/mgjules-go/entity"
 	"github.com/mgjules/mgjules-go/mapstruct"
-	"github.com/samber/lo"
 )
 
-func (p *Projection) BuildCV(section string) ([]byte, error) {
-	link, found := lo.Find(p.links, func(link entity.Link) bool {
-		return link.Name == "Home"
-	})
-	if !found {
-		return nil, errors.New("missing current link")
+func (p *Projection) BuildCV(section entity.Section) ([]byte, error) {
+	var tabs []entity.Tab
+	for _, section := range p.sections {
+		tabs = append(tabs, entity.Tab{
+			Name:      section.Name,
+			Icon:      section.Icon,
+			Extension: "cv",
+			URL:       "/cv/" + strings.ToLower(section.Name),
+		})
 	}
 
 	currentTab := entity.Tab{
-		Name:      link.Name,
-		Icon:      link.Icon,
-		Extension: "index",
+		Name:      section.Name,
+		Icon:      section.Icon,
+		Extension: "cv",
+		URL:       "/cv/" + strings.ToLower(section.Name),
 	}
 
-	indexCSS, err := p.parseSCSS("templates/index.scss")
+	cvCSS, err := p.parseSCSS("templates/cv/" + strings.ToLower(section.Name) + ".scss")
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
 	}
 
 	values := map[string]any{
 		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"intro":       mapstruct.FromSingle(p.intro),
-		"index_css":   indexCSS,
+		"cv_css":      cvCSS,
 	}
 
-	out, err := p.render(values, "Home", "templates/index.dhtml")
+	out, err := p.render(values, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

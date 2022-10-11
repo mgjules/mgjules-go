@@ -23,6 +23,10 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 		Extension: "index",
 	}
 
+	tabs := []entity.Tab{
+		currentTab,
+	}
+
 	indexCSS, err := p.parseSCSS("templates/index.scss")
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
@@ -30,6 +34,7 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 
 	pCtx := map[string]any{
 		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"intro":       mapstruct.FromSingle(p.intro),
 		"index_css":   indexCSS,

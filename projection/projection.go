@@ -134,7 +134,7 @@ func (p *Projection) FetchData() {
 		logger.L.Debug("Fetching section data...")
 		sections, err := p.repo.GetSections(ctx)
 		if err != nil {
-			logger.L.Errorf("failed to get section: %v", err)
+			logger.L.Errorf("failed to get sections: %v", err)
 		} else {
 			p.dataMu.Lock()
 			p.sections = sections
@@ -164,6 +164,30 @@ func (p *Projection) BuildProjections() {
 			p.projectionsMu.Unlock()
 		}
 	})
+
+	p.dataMu.RLock()
+	sections := p.sections
+	p.dataMu.RUnlock()
+	for _, section := range sections {
+		section := section
+
+		wg.Add(1)
+		p.pool.Submit(func() {
+			defer wg.Done()
+
+			logger.L.Debugf("Building cv '%s' projection...", section.Name)
+			p.dataMu.RLock()
+			cv, err := p.BuildCV(section)
+			p.dataMu.RUnlock()
+			if err != nil {
+				logger.L.Errorf("failed to build cv '%s' projection: %v", section.Name, err)
+			} else {
+				p.projectionsMu.Lock()
+				p.projections[buildKey("cv", strings.ToLower(section.Name))] = cv
+				p.projectionsMu.Unlock()
+			}
+		})
+	}
 
 	wg.Wait()
 }

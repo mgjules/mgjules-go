@@ -69,6 +69,7 @@ func (s *Server) Start() error {
 
 func (s *Server) AttachRoutes() {
 	s.engine.GET("/", s.IndexHandler())
+	s.engine.GET("/cv/:section", s.CVHandler())
 
 	s.engine.StaticFileFS("/favicon.ico", "static/favicon.ico", http.FS(s.static))
 
