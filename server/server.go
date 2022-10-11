@@ -60,11 +60,18 @@ func (s *Server) AttachRoutes() {
 
 	s.engine.StaticFileFS("/favicon.ico", "public/favicon.ico", http.FS(s.public))
 
-	sub, err := fs.Sub(s.public, "public/assets")
+	assets, err := fs.Sub(s.public, "public/assets")
 	if err != nil {
 		logger.Logger.Errorf("error when creating assets FS handler: %v", err)
 	} else {
-		s.engine.StaticFS("/assets", http.FS(sub))
+		s.engine.StaticFS("/assets", http.FS(assets))
+	}
+
+	img, err := fs.Sub(s.public, "public/img")
+	if err != nil {
+		logger.Logger.Errorf("error when creating image FS handler: %v", err)
+	} else {
+		s.engine.StaticFS("/img", http.FS(img))
 	}
 
 	authenticated := s.engine.Group("/_")
