@@ -14,6 +14,6 @@ func (s *Server) IndexHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.Data(http.StatusOK, "text/html", index)
+		s.respond(c, http.StatusOK, index)
 	}
 }

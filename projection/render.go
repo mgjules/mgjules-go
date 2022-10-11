@@ -1,6 +1,8 @@
 package projection
 
 import (
+	"bytes"
+	"compress/gzip"
 	"fmt"
 	"time"
 
@@ -42,5 +44,10 @@ func (p *Projection) render(ctx map[string]any, routeName, tplFilename string) (
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
 
-	return out, nil
+	var b bytes.Buffer
+	w := gzip.NewWriter(&b)
+	w.Write(out)
+	w.Close()
+
+	return b.Bytes(), nil
 }
