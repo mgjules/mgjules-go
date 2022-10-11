@@ -1,3 +1,8 @@
+.markdown > p {
+  margin: 0;
+  line-height: inherit;
+}
+
 .swup-transition-pulse {
   transition-duration: 1ms;
   filter: blur(0);
