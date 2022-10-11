@@ -58,7 +58,13 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 
 func (s *Server) Start() error {
 	logger.Logger.Infof("server listening on %s:%d...", s.host, s.port)
-	return endless.ListenAndServe(fmt.Sprintf("%s:%v", s.host, s.port), s.engine)
+
+	es := endless.NewServer(fmt.Sprintf("%s:%v", s.host, s.port), s.engine)
+	es.Server.ReadTimeout = 10 * time.Second
+	es.Server.WriteTimeout = 10 * time.Second
+	es.Server.MaxHeaderBytes = 1 << 20
+
+	return es.ListenAndServe()
 }
 
 func (s *Server) AttachRoutes() {
