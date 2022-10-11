@@ -1,0 +1,35 @@
+@keyframes clip-avatar-animation {
+  0% {
+    clip-path: polygon(0 6%, 100% 0, 83% 100%, 5% 95%);
+  }
+
+  100% {
+    clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+  }
+}
+
+.clip-avatar {
+  clip-path: polygon(0 6%, 100% 0, 83% 100%, 5% 95%);
+  animation: alternate;
+  animation-duration: 15s;
+  animation-name: clip-avatar-animation;
+  animation-iteration-count: infinite;
+}
+
+@keyframes clip-box-animation {
+  0% {
+    clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+  }
+
+  100% {
+    clip-path: polygon(0 16%, 98% 4%, 93% 94%, 7% 86%);
+  }
+}
+
+.clip-box {
+  clip-path: polygon(6% 0, 100% 14%, 98% 85%, 0 100%);
+  animation: alternate;
+  animation-duration: 30s;
+  animation-name: clip-box-animation;
+  animation-iteration-count: infinite;
+}

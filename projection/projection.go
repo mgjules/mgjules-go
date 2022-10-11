@@ -20,12 +20,12 @@ const (
 )
 
 type Projection struct {
-	dataMu sync.RWMutex // guards the data
+	dataMu sync.Mutex // guards the data
 	meta   entity.Meta
 	links  []entity.Link
 	intro  entity.Introduction
 
-	projectionsMu sync.RWMutex // guards the projections
+	projectionsMu sync.Mutex // guards the projections
 	projections   map[string][]byte
 
 	repo        repository.Repository
@@ -107,8 +107,6 @@ func (p *Projection) Get(keys ...string) ([]byte, bool) {
 		return nil, false
 	}
 
-	p.projectionsMu.RLock()
-	defer p.projectionsMu.RUnlock()
 	out, found := p.projections[buildKey(keys...)]
 	return out, found
 }

@@ -11,9 +11,11 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/nathan-osman/pongo2-embed-loader v1.0.1
+	github.com/peterbourgon/mergemap v0.0.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/samber/lo v1.31.0
+	github.com/wellington/go-libsass v0.9.2
 	go.uber.org/zap v1.23.0
 )
 
@@ -30,7 +32,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	github.com/wellington/go-libsass v0.9.2 // indirect
 	github.com/xdg/scram v1.0.5 // indirect
 	github.com/xdg/stringprep v1.0.3 // indirect
 	go.opentelemetry.io/otel v1.10.0 // indirect
