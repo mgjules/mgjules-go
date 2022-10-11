@@ -22,10 +22,10 @@ type Server struct {
 	port       int
 	auth       *auth.Auth
 	projection *projection.Projection
-	public     fs.FS
+	static     fs.FS
 }
 
-func New(prod bool, host string, port int, auth *auth.Auth, projection *projection.Projection, public embed.FS) *Server {
+func New(prod bool, host string, port int, auth *auth.Auth, projection *projection.Projection, static embed.FS) *Server {
 	if prod {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -46,9 +46,9 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 	}
 
 	if prod {
-		s.public = public
+		s.static = static
 	} else {
-		s.public = os.DirFS(".")
+		s.static = os.DirFS(".")
 	}
 
 	s.AttachRoutes()
@@ -64,16 +64,16 @@ func (s *Server) Start() error {
 func (s *Server) AttachRoutes() {
 	s.engine.GET("/", s.IndexHandler())
 
-	s.engine.StaticFileFS("/favicon.ico", "public/favicon.ico", http.FS(s.public))
+	s.engine.StaticFileFS("/favicon.ico", "static/favicon.ico", http.FS(s.static))
 
-	assets, err := fs.Sub(s.public, "public/assets")
+	css, err := fs.Sub(s.static, "static/css")
 	if err != nil {
-		logger.Logger.Errorf("error when creating assets FS handler: %v", err)
+		logger.Logger.Errorf("error when creating css FS handler: %v", err)
 	} else {
-		s.engine.StaticFS("/assets", http.FS(assets))
+		s.engine.StaticFS("/css", http.FS(css))
 	}
 
-	img, err := fs.Sub(s.public, "public/img")
+	img, err := fs.Sub(s.static, "static/img")
 	if err != nil {
 		logger.Logger.Errorf("error when creating image FS handler: %v", err)
 	} else {

@@ -18,8 +18,8 @@ import (
 //go:embed templates
 var templates embed.FS
 
-//go:embed public
-var public embed.FS
+//go:embed static
+var static embed.FS
 
 func main() {
 	cfg, err := config.Parse()
@@ -42,7 +42,7 @@ func main() {
 	projection.FetchData()
 	projection.BuildProjections()
 
-	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, auth, projection, public)
+	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, auth, projection, static)
 	if err = server.Start(); err != nil {
 		logger.Logger.Fatalf("failed to start server: %v", err)
 	}
