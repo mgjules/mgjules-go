@@ -10,7 +10,7 @@ func (s *Server) IndexHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		index, found := s.projection.Get("index")
 		if !found {
-			c.JSON(http.StatusNotFound, gin.H{"error": "404 Not Found"})
+			c.Redirect(http.StatusFound, "/not-found")
 			return
 		}
 

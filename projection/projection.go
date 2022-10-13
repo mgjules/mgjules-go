@@ -342,6 +342,23 @@ func (p *Projection) BuildProjections() {
 		})
 	}
 
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Building 404 projection...")
+		p.dataMu.RLock()
+		notFound, err := p.Build404()
+		p.dataMu.RUnlock()
+		if err != nil {
+			logger.L.Errorf("failed to build 404 projection: %v", err)
+		} else {
+			p.projectionsMu.Lock()
+			p.projections[buildKey("404")] = notFound
+			p.projectionsMu.Unlock()
+		}
+	})
+
 	wg.Wait()
 }
 
