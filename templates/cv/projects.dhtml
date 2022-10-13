@@ -36,7 +36,7 @@
   </li>
   {% endfor %}
   <li class="pl-0 my-0 print:mt-4">
-    <a href={github} target="_blank" class="flex items-center gap-2 w-fit btn"
+    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit btn"
       >View more <span class="hidden print:inline"
         >[ {{meta.github|removescheme}} ]
       </span>
