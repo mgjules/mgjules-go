@@ -30,4 +30,7 @@ type Repository interface {
 
 	// Award
 	GetAwards(ctx context.Context) ([]entity.Award, error)
+
+	// Interest
+	GetInterests(ctx context.Context) ([]entity.Interest, error)
 }

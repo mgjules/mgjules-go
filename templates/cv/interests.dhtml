@@ -1,0 +1,27 @@
+{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+<ul
+  role="list"
+  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:mt-4 print:columns-2"
+>
+  {% for interest in interests %}
+    <li
+      id="{{interest.name|slugify}}"
+      class=" relative w-full overflow-hidden border shadow-md bg-brand-foreground/10 border-brand-foreground/30
+  group interest print:break-inside-avoid max-h-20"
+    >
+      <img
+        class="relative z-10 object-cover w-full polygon-clip"
+        src="{{interest.image}}"
+        alt="{{interest.name}} Image"
+      />
+      <h3 class="absolute my-0 transition-all -translate-y-1/2 z-5 opacity-0 group-hover:opacity-100 group-hover:z-20 top-1/2 right-4 drop-shadow-md">
+        {{interest.name}}
+      </h3>
+    </li>
+  {% endfor %}
+</ul>
+
+<style>
+  {{cv_css|safe}}
+</style>
+{% endblock %}

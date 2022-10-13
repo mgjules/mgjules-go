@@ -38,6 +38,7 @@ type Projection struct {
 	projects      []entity.Project
 	contributions []entity.Contribution
 	awards        []entity.Award
+	interests     []entity.Interest
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
@@ -202,6 +203,21 @@ func (p *Projection) FetchData() {
 		} else {
 			p.dataMu.Lock()
 			p.awards = awards
+			p.dataMu.Unlock()
+		}
+	})
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Fetching interest data...")
+		interests, err := p.repo.GetInterests(ctx)
+		if err != nil {
+			logger.L.Errorf("failed to get interests: %v", err)
+		} else {
+			p.dataMu.Lock()
+			p.interests = interests
 			p.dataMu.Unlock()
 		}
 	})

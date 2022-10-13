@@ -1,0 +1,8 @@
+.polygon-clip {
+  transition: all 0.4s;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.interest:hover .polygon-clip {
+  clip-path: polygon(0 0, 45% 0, 55% 100%, 0 100%);
+}
