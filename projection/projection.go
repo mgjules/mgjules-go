@@ -40,6 +40,7 @@ type Projection struct {
 	awards        []entity.Award
 	interests     []entity.Interest
 	languages     []entity.Language
+	posts         []entity.Post
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
@@ -238,6 +239,21 @@ func (p *Projection) FetchData() {
 		}
 	})
 
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Fetching post data...")
+		posts, err := p.repo.GetPosts(ctx)
+		if err != nil {
+			logger.L.Errorf("failed to get posts: %v", err)
+		} else {
+			p.dataMu.Lock()
+			p.posts = posts
+			p.dataMu.Unlock()
+		}
+	})
+
 	wg.Wait()
 }
 
@@ -284,6 +300,23 @@ func (p *Projection) BuildProjections() {
 			}
 		})
 	}
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Building blog index projection...")
+		p.dataMu.RLock()
+		blogIndex, err := p.BuildBlogIndex()
+		p.dataMu.RUnlock()
+		if err != nil {
+			logger.L.Errorf("failed to build blog index projection: %v", err)
+		} else {
+			p.projectionsMu.Lock()
+			p.projections[buildKey("blog", "index")] = blogIndex
+			p.projectionsMu.Unlock()
+		}
+	})
 
 	wg.Wait()
 }

@@ -1,0 +1,33 @@
+{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+<div class="m-4">
+  <div class="flex flex-col gap-4">
+    {% for post in posts %}
+    <div class="flex gap-4">
+      <div class="flex flex-col items-center shrink-0">
+        <div class="text-4xl text-brand-primary">
+          {{post.created_at|formatdate:"02"}}
+        </div>
+        <div class="text-lg text-brand-secondary">
+          {{post.created_at|formatdate}}
+        </div>
+      </div>
+      <div class="flex-1">
+        <a
+          href="/blog/{{post.slug}}"
+          class="text-xl no-underline"
+          data-swup-preload
+        >
+          {{post.title}}
+        </a>
+        <div class="mt-1 line-clamp-2">{{post.summary}}</div>
+        <div class="flex gap-2 mt-2">
+          {% for tag in post.tags %}
+          <span class="pill">{{tag.name}}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

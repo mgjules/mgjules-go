@@ -36,4 +36,7 @@ type Repository interface {
 
 	// Language
 	GetLanguages(ctx context.Context) ([]entity.Language, error)
+
+	// Post
+	GetPosts(ctx context.Context) ([]entity.Post, error)
 }
