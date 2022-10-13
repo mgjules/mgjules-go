@@ -42,6 +42,8 @@ func (p *Projection) BuildCV(section entity.Section) ([]byte, error) {
 	switch section.Name {
 	case "Experiences":
 		values["experiences"] = mapstruct.FromSlice(p.experiences)
+	case "Projects":
+		values["projects"] = mapstruct.FromSlice(p.projects)
 	}
 
 	out, err := p.render(values, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml")

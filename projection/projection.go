@@ -35,6 +35,7 @@ type Projection struct {
 	intro       entity.Introduction
 	sections    []entity.Section
 	experiences []entity.Experience
+	projects    []entity.Project
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
@@ -154,6 +155,21 @@ func (p *Projection) FetchData() {
 		} else {
 			p.dataMu.Lock()
 			p.experiences = experiences
+			p.dataMu.Unlock()
+		}
+	})
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Fetching project data...")
+		projects, err := p.repo.GetProjects(ctx)
+		if err != nil {
+			logger.L.Errorf("failed to get projects: %v", err)
+		} else {
+			p.dataMu.Lock()
+			p.projects = projects
 			p.dataMu.Unlock()
 		}
 	})

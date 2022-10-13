@@ -21,4 +21,7 @@ type Repository interface {
 
 	// Experience
 	GetExperiences(ctx context.Context) ([]entity.Experience, error)
+
+	// Project
+	GetProjects(ctx context.Context) ([]entity.Project, error)
 }
