@@ -24,4 +24,7 @@ type Repository interface {
 
 	// Project
 	GetProjects(ctx context.Context) ([]entity.Project, error)
+
+	// Contribution
+	GetContributions(ctx context.Context) ([]entity.Contribution, error)
 }

@@ -29,13 +29,14 @@ type Projection struct {
 	templateSet *pongo2.TemplateSet
 	cron        *cron.Cron
 
-	dataMu      sync.RWMutex // guards the data
-	meta        entity.Meta
-	links       []entity.Link
-	intro       entity.Introduction
-	sections    []entity.Section
-	experiences []entity.Experience
-	projects    []entity.Project
+	dataMu        sync.RWMutex // guards the data
+	meta          entity.Meta
+	links         []entity.Link
+	intro         entity.Introduction
+	sections      []entity.Section
+	experiences   []entity.Experience
+	projects      []entity.Project
+	contributions []entity.Contribution
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
@@ -170,6 +171,21 @@ func (p *Projection) FetchData() {
 		} else {
 			p.dataMu.Lock()
 			p.projects = projects
+			p.dataMu.Unlock()
+		}
+	})
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Fetching contribution data...")
+		contributions, err := p.repo.GetContributions(ctx)
+		if err != nil {
+			logger.L.Errorf("failed to get contributions: %v", err)
+		} else {
+			p.dataMu.Lock()
+			p.contributions = contributions
 			p.dataMu.Unlock()
 		}
 	})
