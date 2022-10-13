@@ -39,6 +39,11 @@ func (p *Projection) BuildCV(section entity.Section) ([]byte, error) {
 		"cv_css":      cvCSS,
 	}
 
+	switch section.Name {
+	case "Experiences":
+		values["experiences"] = mapstruct.FromSlice(p.experiences)
+	}
+
 	out, err := p.render(values, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)

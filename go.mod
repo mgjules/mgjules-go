@@ -3,7 +3,9 @@ module github.com/mgjules/mgjules-go
 go 1.19
 
 require (
+	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/edgedb/edgedb-go v0.12.0
+	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
 	github.com/flosch/pongo2/v6 v6.0.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/gin-contrib/zap v0.1.0

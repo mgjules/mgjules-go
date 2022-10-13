@@ -18,4 +18,7 @@ type Repository interface {
 
 	// Section
 	GetSections(ctx context.Context) ([]entity.Section, error)
+
+	// Experience
+	GetExperiences(ctx context.Context) ([]entity.Experience, error)
 }
