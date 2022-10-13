@@ -318,6 +318,30 @@ func (p *Projection) BuildProjections() {
 		}
 	})
 
+	p.dataMu.RLock()
+	posts := p.posts
+	p.dataMu.RUnlock()
+	for _, post := range posts {
+		post := post
+
+		wg.Add(1)
+		p.pool.Submit(func() {
+			defer wg.Done()
+
+			logger.L.Debugf("Building blog '%s' projection...", post.Slug)
+			p.dataMu.RLock()
+			blogPost, err := p.BuildBlogPost(post)
+			p.dataMu.RUnlock()
+			if err != nil {
+				logger.L.Errorf("failed to build blog '%s' projection: %v", post.Slug, err)
+			} else {
+				p.projectionsMu.Lock()
+				p.projections[buildKey("blog", strings.ToLower(post.Slug))] = blogPost
+				p.projectionsMu.Unlock()
+			}
+		})
+	}
+
 	wg.Wait()
 }
 

@@ -71,6 +71,7 @@ func (s *Server) AttachRoutes() {
 	s.engine.GET("/", s.IndexHandler())
 	s.engine.GET("/cv/:section", s.CVHandler())
 	s.engine.GET("/blog", s.BlogIndexHandler())
+	s.engine.GET("/blog/:slug", s.BlogPostHandler())
 
 	s.engine.StaticFileFS("/favicon.ico", "static/favicon.ico", http.FS(s.static))
 

@@ -17,3 +17,15 @@ func (s *Server) BlogIndexHandler() gin.HandlerFunc {
 		s.respond(c, http.StatusOK, index)
 	}
 }
+
+func (s *Server) BlogPostHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		index, found := s.projection.Get("blog", c.Param("slug"))
+		if !found {
+			c.JSON(http.StatusNotFound, gin.H{"error": "404 Not Found"})
+			return
+		}
+
+		s.respond(c, http.StatusOK, index)
+	}
+}
