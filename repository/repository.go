@@ -27,4 +27,7 @@ type Repository interface {
 
 	// Contribution
 	GetContributions(ctx context.Context) ([]entity.Contribution, error)
+
+	// Award
+	GetAwards(ctx context.Context) ([]entity.Award, error)
 }

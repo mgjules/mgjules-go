@@ -1,0 +1,40 @@
+{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+<ul
+  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:mt-4 print:columns-2"
+>
+  {% for award in awards %}
+    <li
+      id="{{award.event|add:" "|add:award.formattedDate|slugify}}"
+      class="flex flex-col pl-0 my-0  group print:mt-4 print:first:mt-0 print:break-inside-avoid"
+    >
+      <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2">
+        <h3 class="my-0">
+          <a
+            href="{{award.link}}"
+            target="_blank"
+            class="font-medium no-underline"
+          >
+            {{award.event}}
+            <span class="hidden text-sm print:inline">
+              ( {{award.link|removescheme}} )
+            </span>
+          </a>
+        </h3>
+        <div class="mt-1 text-sm sm:mt-0 text-brand-secondary">
+          {{award.date|formatdate}}
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mt-1 text-sm text-brand-secondary">
+        <iconify-icon
+          icon="{{award.icon}}"
+          class="flex-shrink-0 w-4 h-4"
+          width="16"
+          height="16"
+        ></iconify-icon>
+        <span>{{award.result}}</span>
+      </div>
+      <div class="mt-1 markdown-inline">{{award.description|markdown}}</div>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
