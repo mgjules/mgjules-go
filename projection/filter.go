@@ -6,7 +6,6 @@ import (
 	"github.com/araddon/dateparse"
 	"github.com/extemporalgenome/slug"
 	"github.com/flosch/pongo2/v6"
-	"github.com/mgjules/mgjules-go/logger"
 	"github.com/russross/blackfriday/v2"
 )
 
@@ -49,8 +48,6 @@ func filterFormatDate(in *pongo2.Value, param *pongo2.Value) (*pongo2.Value, *po
 	if format == "" {
 		format = "Jan 2006"
 	}
-
-	logger.L.Debugf("filter:formatdate '%s' => '%v' => '%s'", val, t, t.Format(format))
 
 	return pongo2.AsSafeValue(t.Format(format)), nil
 }
