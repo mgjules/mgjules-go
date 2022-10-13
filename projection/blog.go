@@ -81,14 +81,14 @@ func (p *Projection) BuildBlogPost(post entity.Post) ([]byte, error) {
 		})
 	}
 
-	pCtx := map[string]any{
+	values := map[string]any{
 		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"post":        mapstruct.FromSingle(post),
 	}
 
-	out, err := p.render(pCtx, "Blog", "templates/blog/post.dhtml")
+	out, err := p.render(values, "Blog", "templates/blog/post.dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

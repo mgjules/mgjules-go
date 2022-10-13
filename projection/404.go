@@ -18,13 +18,13 @@ func (p *Projection) Build404() ([]byte, error) {
 		currentTab,
 	}
 
-	pCtx := map[string]any{
+	values := map[string]any{
 		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 	}
 
-	out, err := p.render(pCtx, "", "templates/404.dhtml")
+	out, err := p.render(values, "", "templates/404.dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

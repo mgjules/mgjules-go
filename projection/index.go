@@ -32,7 +32,7 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
 	}
 
-	pCtx := map[string]any{
+	values := map[string]any{
 		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
@@ -40,7 +40,7 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 		"index_css":   indexCSS,
 	}
 
-	out, err := p.render(pCtx, "Home", "templates/index.dhtml")
+	out, err := p.render(values, "Home", "templates/index.dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
