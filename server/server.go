@@ -14,18 +14,27 @@ import (
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/projection"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 type Server struct {
 	engine     *gin.Engine
 	host       string
 	port       int
+	tlsDomain  string
 	auth       *auth.Auth
 	projection *projection.Projection
 	static     fs.FS
 }
 
-func New(prod bool, host string, port int, auth *auth.Auth, projection *projection.Projection, static embed.FS) *Server {
+func New(prod bool,
+	host string,
+	port int,
+	tlsDomain string,
+	auth *auth.Auth,
+	projection *projection.Projection,
+	static embed.FS,
+) *Server {
 	if prod {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -41,6 +50,7 @@ func New(prod bool, host string, port int, auth *auth.Auth, projection *projecti
 		engine:     engine,
 		host:       host,
 		port:       port,
+		tlsDomain:  tlsDomain,
 		auth:       auth,
 		projection: projection,
 	}
@@ -63,6 +73,11 @@ func (s *Server) Start() error {
 	es.Server.ReadTimeout = 10 * time.Second
 	es.Server.WriteTimeout = 10 * time.Second
 	es.Server.MaxHeaderBytes = 1 << 20
+
+	if s.tlsDomain != "" {
+		es.EndlessListener = autocert.NewListener(s.tlsDomain)
+		return es.Serve()
+	}
 
 	return es.ListenAndServe()
 }

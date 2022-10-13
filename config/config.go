@@ -7,11 +7,12 @@ import (
 )
 
 type Config struct {
-	Prod       bool   `envconfig:"PROD"`
-	EdgeDBDSN  string `envconfig:"EDGEDB_DSN" required:"true"`
-	ServerHost string `envconfig:"SERVER_HOST" default:"0.0.0.0"`
-	ServerPort int    `envconfig:"SERVER_PORT" default:"13337"`
-	AuthToken  string `envconfig:"AUTH_TOKEN" required:"true"`
+	Prod            bool   `envconfig:"PROD"`
+	EdgeDBDSN       string `envconfig:"EDGEDB_DSN" required:"true"`
+	ServerHost      string `envconfig:"SERVER_HOST" default:"0.0.0.0"`
+	ServerPort      int    `envconfig:"SERVER_PORT" default:"13337"`
+	ServerTLSDomain string `envconfig:"SERVER_TLS_DOMAIN"`
+	AuthToken       string `envconfig:"AUTH_TOKEN" required:"true"`
 }
 
 func Parse() (*Config, error) {

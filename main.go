@@ -46,7 +46,7 @@ func main() {
 	projection.FetchData()
 	projection.BuildProjections()
 
-	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, auth, projection, static)
+	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, cfg.ServerTLSDomain, auth, projection, static)
 	if err = server.Start(); err != nil {
 		logger.L.Fatalf("failed to start server: %v", err)
 	}
