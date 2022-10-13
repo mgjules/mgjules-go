@@ -11,7 +11,7 @@
 html.is-animating .swup-transition-pulse {
   filter: blur(0.000001rem);
   animation-name: pulse;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-direction: alternate;
   animation-iteration-count: infinite;
