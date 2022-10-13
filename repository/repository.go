@@ -33,4 +33,7 @@ type Repository interface {
 
 	// Interest
 	GetInterests(ctx context.Context) ([]entity.Interest, error)
+
+	// Language
+	GetLanguages(ctx context.Context) ([]entity.Language, error)
 }

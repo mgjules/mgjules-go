@@ -39,6 +39,7 @@ type Projection struct {
 	contributions []entity.Contribution
 	awards        []entity.Award
 	interests     []entity.Interest
+	languages     []entity.Language
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
@@ -218,6 +219,21 @@ func (p *Projection) FetchData() {
 		} else {
 			p.dataMu.Lock()
 			p.interests = interests
+			p.dataMu.Unlock()
+		}
+	})
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
+		logger.L.Debug("Fetching language data...")
+		languages, err := p.repo.GetLanguages(ctx)
+		if err != nil {
+			logger.L.Errorf("failed to get languages: %v", err)
+		} else {
+			p.dataMu.Lock()
+			p.languages = languages
 			p.dataMu.Unlock()
 		}
 	})
