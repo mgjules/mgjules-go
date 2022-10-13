@@ -69,6 +69,7 @@ func (p *Projection) BuildBlogPost(post entity.Post) ([]byte, error) {
 			Name:      link.Name,
 			Icon:      link.Icon,
 			Extension: "index",
+			URL:       link.URL,
 		},
 	}
 	for _, post := range p.posts {
