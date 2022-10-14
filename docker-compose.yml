@@ -10,6 +10,8 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
 
+      - --accesslog.filepath=/var/traefik/access.log
+
       # HTTP
       - --entrypoints.web.address=:80
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -32,7 +34,8 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /dockers/letsencrypt:/letsencrypt
+      - ./traefik/letsencrypt:/letsencrypt
+      - ./traefik/:/var/traefik/
     labels:
       - traefik.enable=true
 
