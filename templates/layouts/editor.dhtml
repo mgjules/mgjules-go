@@ -117,14 +117,6 @@
             <iconify-icon icon="mdi:alpha-e-box" width="16" />
           </a>
           <a
-            href="https://netlify.com/"
-            target="_blank"
-            title="Netlify"
-            class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
-          >
-            <iconify-icon icon="simple-icons:netlify" width="16" />
-          </a>
-          <a
             href="https://digitalocean.com/"
             target="_blank"
             title="DigitalOcean"
