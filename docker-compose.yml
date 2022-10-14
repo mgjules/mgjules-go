@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.9
+    container_name: traefik_public
+    restart: unless-stopped
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.certresolver.acme.httpchallenge=true
+      - --certificatesresolvers.certresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.certresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.certresolver.acme.email=julesmichaelgiovanni@gmail.com
+      - --certificatesresolvers.certresolver.acme.storage=/letsencrypt/acme.json
+      - --log.level=INFO
+    ports:
+      # The HTTP port
+      - "80:80"
+      - "443:443"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /dockers/letsencrypt:/letsencrypt
+    labels:
+      - traefik.frontend.rule=Host(`traefik.mgjules.dev`)
+      - traefik.port=8081
+
+  myspace:
+    image: julesmike/myspace
+    restart: unless-stopped
+    env_file:
+      - .env
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.myspaceredirect.redirectscheme.scheme=https
+      - traefik.http.routers.myspacehttp.middlewares=myspaceredirect
+      - traefik.http.routers.myspacehttp.rule=Host(`mgjules.dev`)
+      - traefik.http.routers.myspacehttp.entrypoints=web
+      - traefik.http.routers.myspacesecure.rule=Host(`mgjules.dev`)
+      - traefik.http.routers.myspacesecure.entrypoints=websecure
+      - traefik.http.routers.myspacesecure.tls=true
+      - traefik.http.routers.myspacesecure.tls.certresolver=certresolver
+      - traefik.http.services.myspace-service.loadbalancer.server.port=80
+      - traefik.http.services.myspace-service.loadbalancer.server.scheme=http
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
