@@ -1,7 +1,7 @@
 FROM golang:1.19-alpine AS builder
 
 # Add git, curl and upx support
-RUN apk add --no-cache git curl upx gcc g++
+RUN apk add --no-cache git curl upx gcc g++ ca-certificates
 
 WORKDIR /src
 
@@ -20,5 +20,11 @@ RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
 FROM scratch
+
+# Add in certs
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+# Add the binary
 COPY --from=builder /tmp/myspace /myspace
+
 CMD ["/myspace"]
