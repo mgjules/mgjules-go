@@ -13,12 +13,12 @@ RUN go mod download
 COPY . ./
 
 # Build application for deployment
-RUN go build -tags=jsoniter -trimpath -ldflags "-s -w" -o /tmp/myspace .
+RUN go build -tags=jsoniter -trimpath -ldflags '-s -w -linkmode external -extldflags "-static"' -o /tmp/myspace .
 
 # Compress binary
 RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
-FROM bitnami/minideb:latest
+FROM scratch
 COPY --from=builder /tmp/myspace /myspace
 CMD ["/myspace"]
