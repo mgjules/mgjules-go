@@ -20,10 +20,8 @@ jobs:
             julesmike/myspace
           # generate Docker tags based on the following events/attributes
           tags: |
-            julesmike/myspace:latest
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
             type=semver,pattern={{major}}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
