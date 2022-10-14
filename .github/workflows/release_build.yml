@@ -20,6 +20,7 @@ jobs:
             julesmike/myspace
           # generate Docker tags based on the following events/attributes
           tags: |
+            julesmike/myspace:latest
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}.{{minor}}.{{patch}}
@@ -37,5 +38,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
