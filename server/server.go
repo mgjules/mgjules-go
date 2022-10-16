@@ -85,9 +85,15 @@ func (s *Server) Start() error {
 
 func (s *Server) AttachRoutes() {
 	s.engine.GET("/", s.IndexHandler())
-	s.engine.GET("/cv/:section", s.CVHandler())
-	s.engine.GET("/blog", s.BlogIndexHandler())
-	s.engine.GET("/blog/:slug", s.BlogPostHandler())
+	cv := s.engine.Group("/cv")
+	{
+		cv.GET("/:section", s.CVHandler())
+	}
+	blog := s.engine.Group("/blog")
+	{
+		blog.GET("/", s.BlogIndexHandler())
+		blog.GET("/:slug", s.BlogPostHandler())
+	}
 	s.engine.NoRoute(s.NotFoundHandler())
 
 	s.engine.StaticFileFS("/favicon.ico", "static/favicon.ico", http.FS(s.static))
