@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/fvbock/endless"
+	"github.com/gin-contrib/gzip"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/mgjules/mgjules-go/auth"
@@ -95,14 +96,22 @@ func (s *Server) AttachRoutes() {
 	if err != nil {
 		logger.L.Errorf("error when creating css FS handler: %v", err)
 	} else {
-		s.engine.StaticFS("/css", http.FS(css))
+		cssR := s.engine.Group("/css")
+		cssR.Use(gzip.Gzip(gzip.BestCompression))
+		{
+			cssR.StaticFS("/", http.FS(css))
+		}
 	}
 
 	img, err := fs.Sub(s.static, "static/img")
 	if err != nil {
 		logger.L.Errorf("error when creating image FS handler: %v", err)
 	} else {
-		s.engine.StaticFS("/img", http.FS(img))
+		imgR := s.engine.Group("/img")
+		imgR.Use(gzip.Gzip(gzip.BestCompression))
+		{
+			imgR.StaticFS("/", http.FS(img))
+		}
 	}
 
 	authenticated := s.engine.Group("/_")
