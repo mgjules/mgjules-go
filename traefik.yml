@@ -1,0 +1,48 @@
+api:
+  dashboard: true
+
+providers:
+  docker:
+    watch: true
+    exposedByDefault: false
+
+accessLog:
+  filePath: "/var/traefik/access.log"
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: "certresolver"
+  edgedb:
+    address: ":5656"
+
+certificatesResolvers:
+  certresolver:
+    acme:
+      httpChallenge:
+        entryPoint: "web"
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      email: "julesmichaelgiovanni@gmail.com"
+      storage: "/letsencrypt/acme.json"
+
+log:
+  level: "INFO"
+
+tls:
+  options:
+    default:
+      alpnProtocols:
+        # traefik defaults
+        - http/1.1
+        - h2
+        - acme-tls/1
+        # enable edgedb protocol
+        - edgedb-binary

@@ -5,36 +5,15 @@ services:
     # The official v2 Traefik docker image
     image: traefik:v2.9
     restart: unless-stopped
-    command:
-      - --api.dashboard=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-
-      - --accesslog.filepath=/var/traefik/access.log
-
-      # HTTP
-      - --entrypoints.web.address=:80
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-
-      # HTTPs
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.websecure.http.tls=true
-      - --entrypoints.websecure.http.tls.certresolver=certresolver
-
-      # Certificate resolver
-      - --certificatesresolvers.certresolver.acme.httpchallenge=true
-      - --certificatesresolvers.certresolver.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.certresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.certresolver.acme.email=julesmichaelgiovanni@gmail.com
-      - --certificatesresolvers.certresolver.acme.storage=/letsencrypt/acme.json
-      - --log.level=INFO
     ports:
       - "80:80"
       - "443:443"
+      - "5656:5656"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/letsencrypt:/letsencrypt
+      - ./traefik/traefik.yml:/traefik.yml:ro
       - ./traefik/:/var/traefik/
     labels:
       - traefik.enable=true
@@ -56,6 +35,27 @@ services:
       # Middlewares
       - "traefik.http.middlewares.auth.basicauth.users=mike:{SHA}S6ZS14HTJKY7DmsMkmQwN2vnsGU="
 
+  traefik-certs-dumper:
+    image: ldez/traefik-certs-dumper:v2.8.1
+    container_name: traefik-certs-dumper
+    entrypoint: sh -c '
+      apk add jq
+      ; while ! [ -e /data/acme.json ]
+      || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do
+      sleep 1
+      ; done
+      && traefik-certs-dumper file --version v2 --domain-subdir --watch
+        --crt-name=fullchain --crt-ext=.pem --key-name=privkey --key-ext=.pem
+        --source /data/acme.json --dest /data/certs
+        --post-hook "sh /hook.sh"'
+    volumes:
+      - ./traefik/letsencrypt:/data
+      - ./hook.sh:/hook.sh
+    depends_on:
+      - traefik
+      - myspace
+      - edgedb
+
   myspace:
     image: julesmike/myspace:v1
     restart: unless-stopped
@@ -69,23 +69,29 @@ services:
       - traefik.http.services.myspace.loadbalancer.server.scheme=http
     depends_on:
       - traefik
+      - edgedb
 
-  # edgedb:
-  #   image: edgedb/edgedb
-  #   restart: unless-stopped
-  #   env_file:
-  #     .env
-  #   volumes:
-  #     - "./edgedb/data:/var/lib/edgedb/data"
-  #     - "./edgedb/dbschema:/dbschema"
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.edgedb.rule=Host(`edgy2.mgjules.dev`)
-  #     - traefik.http.routers.edgedb.entrypoints=websecure
-  #     - traefik.http.services.edgedb.loadbalancer.server.port=5656
-  #     - traefik.http.services.edgedb.loadbalancer.server.scheme=https
-  #   depends_on:
-  #     - traefik
+  edgedb:
+    image: edgedb/edgedb:2
+    restart: unless-stopped
+    hostname: "edgy.mgjules.dev"
+    env_file:
+      .env
+    volumes:
+      - "./edgedb/data:/var/lib/edgedb/data"
+      - "./edgedb/dbschema:/dbschema"
+      - "./traefik:/traefik"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.edgedb.rule=Host(`edgy.mgjules.dev`) && PathPrefix(`/ui`)
+      - traefik.http.routers.edgedb.entrypoints=websecure
+      # TCP router
+      - traefik.tcp.routers.edgedb.rule=HostSNI(`*`)
+      - traefik.tcp.routers.edgedb.entrypoints=edgedb
+      - traefik.tcp.routers.edgedb.tls=true
+      - traefik.tcp.routers.edgedb.tls.passthrough=true
+    depends_on:
+      - traefik
 
   watchtower:
     image: containrrr/watchtower
