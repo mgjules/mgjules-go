@@ -83,10 +83,7 @@ services:
       - "./traefik:/traefik"
     labels:
       - traefik.enable=true
-      - traefik.http.routers.edgedb.rule=Host(`edgy.mgjules.dev`) && PathPrefix(`/ui`)
-      - traefik.http.routers.edgedb.entrypoints=websecure
-      # TCP router
-      - traefik.tcp.routers.edgedb.rule=HostSNI(`*`)
+      - traefik.tcp.routers.edgedb.rule=HostSNI(`edgy.mgjules.dev`)
       - traefik.tcp.routers.edgedb.entrypoints=edgedb
       - traefik.tcp.routers.edgedb.tls=true
       - traefik.tcp.routers.edgedb.tls.passthrough=true
