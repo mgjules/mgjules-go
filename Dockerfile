@@ -21,6 +21,9 @@ RUN upx --best --lzma /tmp/myspace
 # Create minimal image
 FROM scratch
 
+# Add curl
+COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
+
 # Add in certs
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
