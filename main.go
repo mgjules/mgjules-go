@@ -9,7 +9,7 @@ import (
 	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/projection"
-	"github.com/mgjules/mgjules-go/repository/edgedb"
+	"github.com/mgjules/mgjules-go/repository/directus"
 	"github.com/mgjules/mgjules-go/server"
 )
 
@@ -30,10 +30,7 @@ func main() {
 	logger.Init(cfg.Prod)
 
 	ctx := context.Background()
-	repo, err := edgedb.New(ctx, cfg.EdgeDBDSN)
-	if err != nil {
-		logger.L.Fatalf("failed to create edgedb repository: %v", err)
-	}
+	repo := directus.New(ctx, cfg.Prod, cfg.DirectusURL, cfg.DirectusToken)
 
 	auth := auth.New(cfg.AuthToken)
 
