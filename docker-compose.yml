@@ -37,7 +37,6 @@ services:
 
   traefik-certs-dumper:
     image: ldez/traefik-certs-dumper:v2.8.1
-    container_name: traefik-certs-dumper
     entrypoint: sh -c '
       apk add jq
       ; while ! [ -e /data/acme.json ]
@@ -80,7 +79,7 @@ services:
     restart: unless-stopped
     hostname: "edgy.mgjules.dev"
     env_file:
-      .env.edgedb
+      - .env.edgedb
     volumes:
       - "./edgedb/data:/var/lib/edgedb/data"
       - "./edgedb/dbschema:/dbschema"
@@ -100,6 +99,25 @@ services:
     depends_on:
       - traefik
       - traefik-certs-dumper
+
+  directus:
+    image: directus/directus:latest
+    hostname: "directus.mgjules.dev"
+    restart: unless-stopped
+    env_file:
+      - .env.directus
+    volumes:
+      - "./directus/uploads:/directus/uploads"
+      - "./directus/database:/directus/database"
+      # - "./directus/extensions:/directus/extensions"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.directus.rule=Host(`directus.mgjules.dev`)
+      - traefik.http.routers.directus.entrypoints=websecure
+      - traefik.http.services.directus.loadbalancer.server.port=80
+      - traefik.http.services.directus.loadbalancer.server.scheme=http
+    depends_on:
+      - traefik
 
   watchtower:
     image: containrrr/watchtower

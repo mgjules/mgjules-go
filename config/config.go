@@ -13,6 +13,8 @@ type Config struct {
 	ServerPort      int    `envconfig:"SERVER_PORT" default:"13337"`
 	ServerTLSDomain string `envconfig:"SERVER_TLS_DOMAIN"`
 	AuthToken       string `envconfig:"AUTH_TOKEN" required:"true"`
+	DirectusURL     string `envconfig:"DIRECTUS_URL" required:"true"`
+	DirectusToken   string `envconfig:"DIRECTUS_TOKEN" required:"true"`
 }
 
 func Parse() (*Config, error) {
