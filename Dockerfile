@@ -30,4 +30,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifi
 # Add the binary
 COPY --from=builder /tmp/myspace /myspace
 
+EXPOSE 80/tcp
+
 CMD ["/myspace"]
