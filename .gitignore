@@ -1,5 +1,7 @@
 .vscode
 .env
+.env.*
+!.env.*.example
 *.http
 __debug_bin
 node_modules

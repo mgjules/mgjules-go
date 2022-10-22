@@ -80,7 +80,7 @@ services:
     restart: unless-stopped
     hostname: "edgy.mgjules.dev"
     env_file:
-      .env
+      .env.edgedb
     volumes:
       - "./edgedb/data:/var/lib/edgedb/data"
       - "./edgedb/dbschema:/dbschema"
