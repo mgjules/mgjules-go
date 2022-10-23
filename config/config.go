@@ -7,14 +7,18 @@ import (
 )
 
 type Config struct {
-	Prod            bool   `envconfig:"PROD"`
-	EdgeDBDSN       string `envconfig:"EDGEDB_DSN" required:"true"`
+	Prod bool `envconfig:"PROD"`
+
 	ServerHost      string `envconfig:"SERVER_HOST" default:"0.0.0.0"`
 	ServerPort      int    `envconfig:"SERVER_PORT" default:"13337"`
 	ServerTLSDomain string `envconfig:"SERVER_TLS_DOMAIN"`
-	AuthToken       string `envconfig:"AUTH_TOKEN" required:"true"`
-	DirectusURL     string `envconfig:"DIRECTUS_URL" required:"true"`
-	DirectusToken   string `envconfig:"DIRECTUS_TOKEN" required:"true"`
+
+	AuthToken string `envconfig:"AUTH_TOKEN" required:"true"`
+
+	EdgeDBDSN string `envconfig:"EDGEDB_DSN"`
+
+	DirectusURL   string `envconfig:"DIRECTUS_URL"`
+	DirectusToken string `envconfig:"DIRECTUS_TOKEN"`
 }
 
 func Parse() (*Config, error) {

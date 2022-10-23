@@ -2,8 +2,12 @@ package repository
 
 import (
 	"context"
+	"errors"
 
+	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/entity"
+	"github.com/mgjules/mgjules-go/repository/directus"
+	"github.com/mgjules/mgjules-go/repository/edgedb"
 )
 
 type Repository interface {
@@ -39,4 +43,21 @@ type Repository interface {
 
 	// Post
 	GetPosts(ctx context.Context) ([]entity.Post, error)
+}
+
+func New(ctx context.Context, cfg *config.Config) (Repository, error) {
+	var (
+		repo Repository
+		err  error
+	)
+
+	if cfg.EdgeDBDSN != "" {
+		repo, err = edgedb.New(ctx, cfg.EdgeDBDSN)
+	} else if cfg.DirectusURL != "" {
+		repo = directus.New(ctx, cfg.Prod, cfg.DirectusURL, cfg.DirectusToken)
+	} else {
+		err = errors.New("no configuration for a valid repository found")
+	}
+
+	return repo, err
 }

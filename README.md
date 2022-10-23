@@ -8,8 +8,8 @@ Create a `.env` file with a valid `EDGEDB_DSN` and an `AUTH_TOKEN` of your choic
 ```shell
 PROD=false
 SERVER_PORT=13337
-EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
 AUTH_TOKEN=a_very_long_but_obviously_fake_token
+EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
 DIRECTUS_URL=https://directus.mgjules.dev
 DIRECTUS_TOKEN=a_very_long_but_obviously_fake_token
 ```
@@ -30,8 +30,8 @@ Create a `.env` file with a valid `PROD`, `EDGEDB_DSN`, `DIRECTUS_URL`, `DIRECTU
 ```shell
 PROD=true
 SERVER_PORT=80
-EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
 AUTH_TOKEN=a_very_long_but_obviously_fake_token
+EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
 DIRECTUS_URL=https://directus.mgjules.dev
 DIRECTUS_TOKEN=a_very_long_but_obviously_fake_token
 ```

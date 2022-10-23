@@ -9,7 +9,7 @@ import (
 	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/projection"
-	"github.com/mgjules/mgjules-go/repository/directus"
+	"github.com/mgjules/mgjules-go/repository"
 	"github.com/mgjules/mgjules-go/server"
 )
 
@@ -30,7 +30,10 @@ func main() {
 	logger.Init(cfg.Prod)
 
 	ctx := context.Background()
-	repo := directus.New(ctx, cfg.Prod, cfg.DirectusURL, cfg.DirectusToken)
+	repo, err := repository.New(ctx, cfg)
+	if err != nil {
+		logger.L.Fatalf("failed to create repository: %v", err)
+	}
 
 	auth := auth.New(cfg.AuthToken)
 
