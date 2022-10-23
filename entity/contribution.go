@@ -1,13 +1,15 @@
 package entity
 
-import "github.com/edgedb/edgedb-go"
+import (
+	"time"
+)
 
 type Contribution struct {
-	ID    edgedb.UUID              `edgedb:"id" json:"id"`
-	Event string                   `edgedb:"event" json:"event"`
-	Title string                   `edgedb:"title" json:"title"`
-	From  edgedb.LocalDate         `edgedb:"from" json:"from"`
-	To    edgedb.OptionalLocalDate `edgedb:"to" json:"to"`
-	Link  string                   `edgedb:"link" json:"link"`
-	Role  string                   `edgedb:"role" json:"role"`
+	ID    string     `json:"id"`
+	Event string     `json:"event"`
+	Title string     `json:"title"`
+	From  time.Time  `json:"from"`
+	To    *time.Time `json:"to"`
+	Link  string     `json:"link"`
+	Role  string     `json:"role"`
 }

@@ -1,13 +1,11 @@
 package entity
 
-import "github.com/edgedb/edgedb-go"
-
 type Link struct {
-	ID           edgedb.UUID        `edgedb:"id" json:"id"`
-	Name         string             `edgedb:"name" json:"name"`
-	URL          string             `edgedb:"url" json:"url"`
-	Icon         string             `edgedb:"icon" json:"icon"`
-	AlternateURL edgedb.OptionalStr `edgedb:"alternate_url" json:"alternate_url"`
-	NewWindow    bool               `edgedb:"new_window" json:"new_window"`
-	IsCurrent    bool               `edgedb:"-" json:"is_current"`
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	URL          string  `json:"url"`
+	Icon         string  `json:"icon"`
+	AlternateURL *string `json:"alternate_url"`
+	NewWindow    bool    `json:"new_window"`
+	IsCurrent    bool    `json:"is_current"`
 }
