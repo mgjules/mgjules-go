@@ -6,8 +6,12 @@ A Go alternative of my [personal website](https://github.com/mgjules/mgjules). G
 
 Create a `.env` file with a valid `EDGEDB_DSN` and an `AUTH_TOKEN` of your choice:
 ```shell
-EDGEDB_DSN="edgedb://edgedb:password@host:port/db"
-AUTH_TOKEN="C7jI8iyCsaS9kiFRerVFpqvVzBedEEGVsFw1WSDN8mBQNxJ1dyi1qrWzKo8gOTbb0hmiK"
+PROD=false
+SERVER_PORT=13337
+EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
+AUTH_TOKEN=a_very_long_but_obviously_fake_token
+DIRECTUS_URL=https://directus.mgjules.dev
+DIRECTUS_TOKEN=a_very_long_but_obviously_fake_token
 ```
 
 Run `go` app:
@@ -22,11 +26,14 @@ $ npm run dev
 
 ## Production
 
-Create a `.env` file with a valid `PROD`, `EDGEDB_DSN` and an `AUTH_TOKEN` of your choice:
+Create a `.env` file with a valid `PROD`, `EDGEDB_DSN`, `DIRECTUS_URL`, `DIRECTUS_TOKEN`, and an `AUTH_TOKEN` of your choice:
 ```shell
 PROD=true
-EDGEDB_DSN="edgedb://edgedb:password@host:port/db"
-AUTH_TOKEN="C7jI8iyCsaS9kiFRerVFpqvVzBedEEGVsFw1WSDN8mBQNxJ1dyi1qrWzKo8gOTbb0hmiK"
+SERVER_PORT=80
+EDGEDB_DSN=edgedb://edgedb:fakepassword@edgy.mgjules.dev/myspace
+AUTH_TOKEN=a_very_long_but_obviously_fake_token
+DIRECTUS_URL=https://directus.mgjules.dev
+DIRECTUS_TOKEN=a_very_long_but_obviously_fake_token
 ```
 
 ```shell
