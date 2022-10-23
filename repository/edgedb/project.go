@@ -48,9 +48,9 @@ func (db *EdgeDB) GetProjects(ctx context.Context) ([]entity.Project, error) {
 		return nil, fmt.Errorf("failed to query projects: %w", err)
 	}
 
-	var projects []entity.Project
-	for _, result := range results {
-		projects = append(projects, result.ToEntity())
+	projects := make([]entity.Project, len(results))
+	for i, result := range results {
+		projects[i] = result.ToEntity()
 	}
 
 	return projects, nil

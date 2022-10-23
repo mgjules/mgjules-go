@@ -5,9 +5,9 @@ import jsoniter "github.com/json-iterator/go"
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func FromSlice[T any](ss []T) []map[string]any {
-	var res []map[string]any
-	for _, s := range ss {
-		res = append(res, FromSingle(s))
+	res := make([]map[string]any, len(ss))
+	for i, s := range ss {
+		res[i] = FromSingle(s)
 	}
 
 	return res
