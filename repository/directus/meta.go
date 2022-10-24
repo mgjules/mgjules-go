@@ -36,6 +36,7 @@ func (m Meta) ToEntity(directusURL string) entity.Meta {
 func (db *Directus) GetMeta(ctx context.Context, id string) (*entity.Meta, error) {
 	var result Result[Meta]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",

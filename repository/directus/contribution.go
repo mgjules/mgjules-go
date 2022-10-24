@@ -50,6 +50,7 @@ func (c Contribution) ToEntity() entity.Contribution {
 func (db *Directus) GetContributions(ctx context.Context) ([]entity.Contribution, error) {
 	var result Result[[]Contribution]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",

@@ -26,6 +26,7 @@ func (i Interest) ToEntity(directusURL string) entity.Interest {
 func (db *Directus) GetInterests(ctx context.Context) ([]entity.Interest, error) {
 	var result Result[[]Interest]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",

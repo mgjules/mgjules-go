@@ -31,6 +31,7 @@ func (l Link) ToEntity() entity.Link {
 func (db *Directus) GetLinks(ctx context.Context) ([]entity.Link, error) {
 	var result Result[[]Link]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",

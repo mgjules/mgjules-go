@@ -66,6 +66,7 @@ func (e Experience) ToEntity() entity.Experience {
 func (db *Directus) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
 	var result Result[[]Experience]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",

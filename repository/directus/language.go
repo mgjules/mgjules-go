@@ -27,6 +27,7 @@ func (l Language) ToEntity() entity.Language {
 func (db *Directus) GetLanguages(ctx context.Context) ([]entity.Language, error) {
 	var result Result[[]Language]
 	resp, err := db.client.R().
+		SetContext(ctx).
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"id",
