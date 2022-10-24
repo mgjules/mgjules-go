@@ -21,7 +21,9 @@ type Experience struct {
 	Technologies []struct {
 		Technology Technology `json:"technology"`
 	} `json:"technologies"`
-	Tasks []string `json:"tasks"`
+	Tasks []struct {
+		Task string `json:"task"`
+	} `json:"tasks"`
 }
 
 func (e Experience) ToEntity() entity.Experience {
@@ -44,6 +46,11 @@ func (e Experience) ToEntity() entity.Experience {
 		technologies[i] = technology.Technology.ToEntity()
 	}
 
+	tasks := make([]string, len(e.Tasks))
+	for i, task := range e.Tasks {
+		tasks[i] = task.Task
+	}
+
 	return entity.Experience{
 		ID:           e.ID,
 		Company:      e.Company,
@@ -52,7 +59,7 @@ func (e Experience) ToEntity() entity.Experience {
 		To:           to,
 		Link:         e.Link,
 		Technologies: technologies,
-		Tasks:        e.Tasks,
+		Tasks:        tasks,
 	}
 }
 
