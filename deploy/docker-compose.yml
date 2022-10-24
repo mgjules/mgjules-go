@@ -72,33 +72,34 @@ services:
       timeout: 2s
     depends_on:
       - traefik
-      - edgedb
+      # - edgedb
+      - directus
 
-  edgedb:
-    image: edgedb/edgedb:2
-    restart: unless-stopped
-    hostname: "edgy.mgjules.dev"
-    env_file:
-      - .env.edgedb
-    volumes:
-      - "./edgedb/data:/var/lib/edgedb/data"
-      - "./edgedb/dbschema:/dbschema"
-      - "./traefik:/traefik"
-    labels:
-      - traefik.enable=true
-      - traefik.tcp.routers.edgedb.rule=HostSNI(`edgy.mgjules.dev`)
-      - traefik.tcp.routers.edgedb.entrypoints=edgedb
-      - traefik.tcp.routers.edgedb.tls=true
-      - traefik.tcp.routers.edgedb.tls.passthrough=true
-    healthcheck:
-      test: ["CMD", "curl", "-f", "https://edgy.mgjules.dev:5656/ui"]
-      interval: 5s
-      retries: 2
-      start_period: 30s
-      timeout: 2s
-    depends_on:
-      - traefik
-      - traefik-certs-dumper
+  # edgedb:
+  #   image: edgedb/edgedb:2
+  #   restart: unless-stopped
+  #   hostname: "edgy.mgjules.dev"
+  #   env_file:
+  #     - .env.edgedb
+  #   volumes:
+  #     - "./edgedb/data:/var/lib/edgedb/data"
+  #     - "./edgedb/dbschema:/dbschema"
+  #     - "./traefik:/traefik"
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.tcp.routers.edgedb.rule=HostSNI(`edgy.mgjules.dev`)
+  #     - traefik.tcp.routers.edgedb.entrypoints=edgedb
+  #     - traefik.tcp.routers.edgedb.tls=true
+  #     - traefik.tcp.routers.edgedb.tls.passthrough=true
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "https://edgy.mgjules.dev:5656/ui"]
+  #     interval: 5s
+  #     retries: 2
+  #     start_period: 30s
+  #     timeout: 2s
+  #   depends_on:
+  #     - traefik
+  #     - traefik-certs-dumper
 
   directus:
     image: directus/directus:9
