@@ -9,17 +9,11 @@ import (
 )
 
 type Meta struct {
-	ID          string   `json:"id"`
-	BaseURL     string   `json:"base_url"`
-	Lang        string   `json:"lang"`
-	Description string   `json:"description"`
-	FirstName   string   `json:"first_name"`
-	LastName    string   `json:"last_name"`
-	Keywords    []string `json:"keywords"`
-	Github      string   `json:"github"`
-	Username    string   `json:"username"`
-	Gender      string   `json:"gender"`
-	Avatar      string   `json:"avatar"`
+	ID       string   `json:"id"`
+	BaseURL  string   `json:"base_url"`
+	Lang     string   `json:"lang"`
+	Keywords []string `json:"keywords"`
+	User     User     `json:"user"`
 }
 
 func (m Meta) ToEntity(directusURL string) entity.Meta {
@@ -27,15 +21,15 @@ func (m Meta) ToEntity(directusURL string) entity.Meta {
 		ID:          m.ID,
 		BaseURL:     m.BaseURL,
 		Lang:        m.Lang,
-		Description: m.Description,
-		FirstName:   m.FirstName,
-		LastName:    m.LastName,
-		FullName:    m.FirstName + " " + m.LastName,
+		Description: m.User.Description,
+		FirstName:   m.User.FirstName,
+		LastName:    m.User.LastName,
+		FullName:    m.User.FirstName + " " + m.User.LastName,
 		Keywords:    m.Keywords,
-		Github:      m.Github,
-		Username:    m.Username,
-		Gender:      m.Gender,
-		Avatar:      directusURL + "/assets/" + m.Avatar + "/avatar.webp?key=meta",
+		Github:      m.User.Github,
+		Username:    m.User.Username,
+		Gender:      m.User.Gender,
+		Avatar:      directusURL + "/assets/" + m.User.Avatar + "/avatar.webp?key=meta",
 	}
 }
 
@@ -46,14 +40,14 @@ func (db *Directus) GetMeta(ctx context.Context, id string) (*entity.Meta, error
 			"fields": []string{
 				"base_url",
 				"lang",
-				"description",
-				"first_name",
-				"last_name",
 				"keywords",
-				"github",
-				"username",
-				"gender",
-				"avatar",
+				"user.first_name",
+				"user.last_name",
+				"user.description",
+				"user.avatar",
+				"user.github",
+				"user.username",
+				"user.gender",
 			},
 			"limit": []string{"1"},
 		}).
