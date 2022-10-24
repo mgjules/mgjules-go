@@ -75,12 +75,12 @@ func (db *Directus) GetExperiences(ctx context.Context) ([]entity.Experience, er
 				"from",
 				"to",
 				"link",
-				"technologies.*.id",
-				"technologies.*.name",
+				"technologies.technology.id",
+				"technologies.technology.name",
 				"tasks",
 			},
 			"status": []string{"published"},
-			"sort":   []string{"sort"},
+			"sort":   []string{"-from"},
 		}).
 		SetResult(&result).
 		Get("/items/experience")

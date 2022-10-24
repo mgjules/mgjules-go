@@ -52,7 +52,7 @@ func (db *Directus) GetAwards(ctx context.Context) ([]entity.Award, error) {
 				"icon",
 			},
 			"status": []string{"published"},
-			"sort":   []string{"sort"},
+			"sort":   []string{"-date"},
 		}).
 		SetResult(&result).
 		Get("/items/award")

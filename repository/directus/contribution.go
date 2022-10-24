@@ -62,7 +62,7 @@ func (db *Directus) GetContributions(ctx context.Context) ([]entity.Contribution
 				"role",
 			},
 			"status": []string{"published"},
-			"sort":   []string{"sort"},
+			"sort":   []string{"-from"},
 		}).
 		SetResult(&result).
 		Get("/items/contribution")
