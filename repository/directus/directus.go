@@ -8,7 +8,8 @@ import (
 )
 
 type Directus struct {
-	client *resty.Client
+	directusURL string
+	client      *resty.Client
 }
 
 func New(ctx context.Context, isProd bool, url, token string) *Directus {
@@ -22,5 +23,8 @@ func New(ctx context.Context, isProd bool, url, token string) *Directus {
 	client.SetBaseURL(url)
 	client.SetTimeout(30 * time.Second)
 
-	return &Directus{client: client}
+	return &Directus{
+		directusURL: url,
+		client:      client,
+	}
 }

@@ -15,7 +15,6 @@ type Meta struct {
 	Description string   `json:"description"`
 	FirstName   string   `json:"first_name"`
 	LastName    string   `json:"last_name"`
-	FullName    string   `json:"full_name"`
 	Keywords    []string `json:"keywords"`
 	Github      string   `json:"github"`
 	Username    string   `json:"username"`
@@ -23,7 +22,7 @@ type Meta struct {
 	Avatar      string   `json:"avatar"`
 }
 
-func (m Meta) ToEntity() entity.Meta {
+func (m Meta) ToEntity(directusURL string) entity.Meta {
 	return entity.Meta{
 		ID:          m.ID,
 		BaseURL:     m.BaseURL,
@@ -31,12 +30,12 @@ func (m Meta) ToEntity() entity.Meta {
 		Description: m.Description,
 		FirstName:   m.FirstName,
 		LastName:    m.LastName,
-		FullName:    m.FullName,
+		FullName:    m.FirstName + " " + m.LastName,
 		Keywords:    m.Keywords,
 		Github:      m.Github,
 		Username:    m.Username,
 		Gender:      m.Gender,
-		Avatar:      m.Avatar,
+		Avatar:      directusURL + "/assets/" + m.Avatar + "/avatar.webp?key=meta",
 	}
 }
 
@@ -46,8 +45,15 @@ func (db *Directus) GetMeta(ctx context.Context, id string) (*entity.Meta, error
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
 				"base_url",
+				"lang",
+				"description",
 				"first_name",
 				"last_name",
+				"keywords",
+				"github",
+				"username",
+				"gender",
+				"avatar",
 			},
 			"limit": []string{"1"},
 		}).
@@ -61,7 +67,7 @@ func (db *Directus) GetMeta(ctx context.Context, id string) (*entity.Meta, error
 		return nil, fmt.Errorf("failed to get meta: response code %d", resp.StatusCode())
 	}
 
-	meta := result.Data.ToEntity()
+	meta := result.Data.ToEntity(db.directusURL)
 
 	return &meta, nil
 }
