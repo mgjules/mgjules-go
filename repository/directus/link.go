@@ -46,11 +46,11 @@ func (db *Directus) GetLinks(ctx context.Context) ([]entity.Link, error) {
 		SetResult(&result).
 		Get("/items/link")
 	if err != nil {
-		return nil, fmt.Errorf("failed to get meta: %w", err)
+		return nil, fmt.Errorf("failed to get links: %w", err)
 	}
 
 	if resp.IsError() {
-		return nil, fmt.Errorf("failed to get meta: response code %d", resp.StatusCode())
+		return nil, fmt.Errorf("failed to get links: response code %d", resp.StatusCode())
 	}
 
 	links := make([]entity.Link, len(result.Data))
