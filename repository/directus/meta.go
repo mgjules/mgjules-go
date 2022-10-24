@@ -38,6 +38,7 @@ func (db *Directus) GetMeta(ctx context.Context, id string) (*entity.Meta, error
 	resp, err := db.client.R().
 		SetQueryParamsFromValues(url.Values{
 			"fields": []string{
+				"id",
 				"base_url",
 				"lang",
 				"keywords",
