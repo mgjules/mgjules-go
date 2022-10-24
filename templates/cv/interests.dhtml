@@ -6,7 +6,7 @@
   {% for interest in interests %}
   <li
     id="{{interest.name|slugify}}"
-    class=" relative w-full overflow-hidden border shadow-md bg-brand-foreground/10 border-brand-foreground/30
+    class="relative w-full overflow-hidden box-content border shadow-md bg-brand-foreground/10 border-brand-foreground/30
 group interest print:break-inside-avoid max-h-20"
   >
     <img
