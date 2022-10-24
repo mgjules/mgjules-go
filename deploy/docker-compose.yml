@@ -101,7 +101,7 @@ services:
       - traefik-certs-dumper
 
   directus:
-    image: directus/directus:latest
+    image: directus/directus:9
     hostname: "directus.mgjules.dev"
     restart: unless-stopped
     env_file:
