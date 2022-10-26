@@ -25,10 +25,10 @@ export default defineConfig({
       brand: {
         foreground: '#252D38',
         background: '#191F28',
-        primary: theme.colors.gray[300],
-        secondary: theme.colors.gray[400],
-        tertiary: theme.colors.gray[500],
-        accent: theme.colors.cyan[500]
+        primary: theme.colors?.gray[300],
+        secondary: theme.colors?.gray[400],
+        tertiary: theme.colors?.gray[500],
+        accent: theme.colors?.cyan[500]
       }
     }
   },
@@ -37,13 +37,13 @@ export default defineConfig({
     presetTypography({
       cssExtend: {
         'h1,h2,h3,h4,h5,h6': {
-          color: theme.colors.gray[300]
+          color: theme.colors?.gray[300]
         },
         'a,code': {
-          color: theme.colors.cyan[500]
+          color: theme.colors?.cyan[500]
         },
         'a:hover': {
-          color: theme.colors.cyan[400]
+          color: theme.colors?.cyan[400]
         }
       }
     }),
