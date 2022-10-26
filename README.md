@@ -1,6 +1,12 @@
 # mgjules-go
 
-A Go alternative of my [personal website](https://github.com/mgjules/mgjules). Gotta go fast!
+Source code for my [personal website](https://github.com/mgjules/mgjules).
+
+## Background
+
+This website has seen several iterations through the years and moved across many repositories.
+
+This iteration has for primary goal to experiment with the idea of pre-rendering the various views and serving them from memory. This obviously is over-engineered but that's the whole point; to experiment without limits :wink:
 
 ## Development
 
