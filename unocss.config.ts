@@ -1,6 +1,5 @@
 // vite.config.ts
 import { defineConfig, presetUno, presetTypography } from 'unocss'
-import presetWebFonts from '@unocss/preset-web-fonts'
 import transformerDirective from '@unocss/transformer-directives'
 import { theme } from '@unocss/preset-mini'
 
@@ -45,13 +44,6 @@ export default defineConfig({
         'a:hover': {
           color: theme.colors?.cyan[400]
         }
-      }
-    }),
-    presetWebFonts({
-      provider: 'google',
-      fonts: {
-        sans: 'Open Sans',
-        mono: ['Fira Code VF']
       }
     })
   ],

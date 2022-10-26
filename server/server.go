@@ -120,6 +120,17 @@ func (s *Server) AttachRoutes() {
 		}
 	}
 
+	fonts, err := fs.Sub(s.static, "static/fonts")
+	if err != nil {
+		logger.L.Errorf("error when creating image FS handler: %v", err)
+	} else {
+		fontR := s.engine.Group("/fonts")
+		fontR.Use(gzip.Gzip(gzip.BestCompression))
+		{
+			fontR.StaticFS("/", http.FS(fonts))
+		}
+	}
+
 	authenticated := s.engine.Group("/_")
 	authenticated.Use(s.Authorize())
 	{
