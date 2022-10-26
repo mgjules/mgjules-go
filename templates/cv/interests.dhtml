@@ -14,7 +14,7 @@ group interest print:break-inside-avoid max-h-20"
       src="{{interest.image}}"
       alt="{{interest.name}} Image"
     />
-    <h3 class="absolute my-0 transition-all -translate-y-1/2 z-5 opacity-0 group-hover:opacity-100 group-hover:z-20 top-1/2 right-4 drop-shadow-md">
+    <h3 class="absolute my-0 transition-all -translate-y-1/2 z-5 opacity-0 group-hover:opacity-100 group-hover:z-20 top-1/2 right-4 drop-shadow-md select-none">
       {{interest.name}}
     </h3>
   </li>
