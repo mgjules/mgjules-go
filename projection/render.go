@@ -35,6 +35,8 @@ func (p *Projection) render(values map[string]any, routeName, tplFilename string
 	values = mergemap.Merge(values, map[string]any{
 		"meta":         mapstruct.FromSingle(p.meta),
 		"links":        mapstruct.FromSlice(links),
+		"fetched_at":   p.fetchedAt,
+		"projected_at": p.projectedAt,
 		"editor_css":   editorCSS,
 		"current_year": time.Now().Year(),
 	})

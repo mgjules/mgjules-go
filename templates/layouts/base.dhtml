@@ -74,6 +74,11 @@
         ],
       });
     </script>
+    <script>
+      console.group("%c\u2728 Project Information", "color:DodgerBlue");
+      console.info("%cFetched: {{fetched_at|formatdate:'Mon, 02 Jan 2006 15:04:05 -0700'}}", "color:DodgerBlue");
+      console.info("%cProjected: {{projected_at|formatdate:'Mon, 02 Jan 2006 15:04:05 -0700'}}", "color:DodgerBlue");
+    </script>
 
     <title>{{title}}</title>
   </head>

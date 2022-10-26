@@ -41,9 +41,11 @@ type Projection struct {
 	interests     []entity.Interest
 	languages     []entity.Language
 	posts         []entity.Post
+	fetchedAt     time.Time
 
 	projectionsMu sync.RWMutex // guards the projections
 	projections   map[string][]byte
+	projectedAt   time.Time
 }
 
 func New(prod bool, repo repository.Repository, templates embed.FS) (*Projection, error) {
@@ -255,6 +257,10 @@ func (p *Projection) FetchData() {
 	})
 
 	wg.Wait()
+
+	p.dataMu.Lock()
+	p.fetchedAt = time.Now()
+	p.dataMu.Unlock()
 }
 
 func (p *Projection) BuildProjections() {
@@ -360,6 +366,10 @@ func (p *Projection) BuildProjections() {
 	})
 
 	wg.Wait()
+
+	p.projectionsMu.Lock()
+	p.projectedAt = time.Now()
+	p.projectionsMu.Unlock()
 }
 
 func (p *Projection) Get(keys ...string) ([]byte, bool) {
