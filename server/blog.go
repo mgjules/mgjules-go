@@ -10,7 +10,7 @@ func (s *Server) BlogIndexHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		index, found := s.projection.Get("blog", "index")
 		if !found {
-			c.Redirect(http.StatusFound, "/not-found")
+			s.NotFoundHandler()(c)
 			return
 		}
 
@@ -22,7 +22,7 @@ func (s *Server) BlogPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		index, found := s.projection.Get("blog", c.Param("slug"))
 		if !found {
-			c.Redirect(http.StatusFound, "/not-found")
+			s.NotFoundHandler()(c)
 			return
 		}
 

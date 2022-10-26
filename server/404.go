@@ -15,6 +15,6 @@ func (s *Server) NotFoundHandler() gin.HandlerFunc {
 			return
 		}
 
-		s.respond(c, http.StatusOK, notFound)
+		s.respond(c, http.StatusNotFound, notFound)
 	}
 }
