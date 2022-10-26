@@ -90,6 +90,10 @@ func (p *Projection) FetchData() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
+	p.dataMu.Lock()
+	p.fetchedAt = time.Now()
+	p.dataMu.Unlock()
+
 	var wg sync.WaitGroup
 	wg.Add(1)
 	p.pool.Submit(func() {
@@ -257,14 +261,14 @@ func (p *Projection) FetchData() {
 	})
 
 	wg.Wait()
-
-	p.dataMu.Lock()
-	p.fetchedAt = time.Now()
-	p.dataMu.Unlock()
 }
 
 func (p *Projection) BuildProjections() {
 	var wg sync.WaitGroup
+
+	p.projectionsMu.Lock()
+	p.projectedAt = time.Now()
+	p.projectionsMu.Unlock()
 
 	wg.Add(1)
 	p.pool.Submit(func() {
@@ -366,10 +370,6 @@ func (p *Projection) BuildProjections() {
 	})
 
 	wg.Wait()
-
-	p.projectionsMu.Lock()
-	p.projectedAt = time.Now()
-	p.projectionsMu.Unlock()
 }
 
 func (p *Projection) Get(keys ...string) ([]byte, bool) {
