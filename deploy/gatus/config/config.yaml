@@ -1,0 +1,25 @@
+endpoints:
+  - name: traefik
+    group: internal
+    url: "https://traefik.mgjules.dev/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 401"
+
+  - name: directus
+    group: internal
+    url: "https://directus.mgjules.dev/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: myspace
+    group: core
+    url: "https://mgjules.dev/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+
+storage:
+  type: sqlite
+  path: /data/data.db

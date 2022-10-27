@@ -53,6 +53,21 @@ services:
     depends_on:
       - traefik
 
+  gatus:
+    image: twinproduction/gatus:latest
+    restart: unless-stopped
+    volumes:
+      - ./gatus/config:/config
+      - ./gatus/data:/data/
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gatus.rule=Host(`status.mgjules.dev`)
+      - traefik.http.routers.gatus.entrypoints=websecure
+      - traefik.http.services.gatus.loadbalancer.server.port=8080
+      - traefik.http.services.gatus.loadbalancer.server.scheme=http
+    depends_on:
+      - traefik
+
   myspace:
     image: julesmike/myspace:v1
     restart: unless-stopped
