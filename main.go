@@ -7,10 +7,10 @@ import (
 
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/config"
+	"github.com/mgjules/mgjules-go/http"
 	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/projection"
 	"github.com/mgjules/mgjules-go/repository"
-	"github.com/mgjules/mgjules-go/server"
 )
 
 //go:generate npm run build
@@ -46,7 +46,7 @@ func main() {
 	projection.FetchData()
 	projection.BuildProjections()
 
-	server := server.New(cfg.Prod, cfg.ServerHost, cfg.ServerPort, cfg.ServerTLSDomain, auth, projection, static)
+	server := http.NewServer(cfg.Prod, cfg.ServerHost, cfg.ServerPort, cfg.ServerTLSDomain, auth, projection, static)
 	if err = server.Start(); err != nil {
 		logger.L.Fatalf("failed to start server: %v", err)
 	}

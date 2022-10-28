@@ -1,4 +1,4 @@
-package server
+package http
 
 import (
 	"embed"
@@ -28,7 +28,7 @@ type Server struct {
 	static     fs.FS
 }
 
-func New(prod bool,
+func NewServer(prod bool,
 	host string,
 	port int,
 	tlsDomain string,
