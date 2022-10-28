@@ -56,7 +56,7 @@ func New(ctx context.Context, cfg *config.Config) (Repository, error) {
 	} else if cfg.DirectusURL != "" {
 		repo = directus.New(ctx, cfg.Prod, cfg.DirectusURL, cfg.DirectusToken)
 	} else {
-		err = errors.New("no configuration for a valid repository found")
+		err = errors.New("no valid configuration for repository found")
 	}
 
 	return repo, err
