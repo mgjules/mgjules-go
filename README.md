@@ -1,7 +1,7 @@
 # mgjules-go
 
 [![Go version](https://img.shields.io/github/go-mod/go-version/mgjules/mgjules-go.svg)](https://pkg.go.dev/github.com/mgjules/mgjules-go)
-[![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/uptimes/24h/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
+[![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/uptimes/7d/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
 
 Source code for my [personal website](https://mgjules.dev).
 
