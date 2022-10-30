@@ -13,6 +13,13 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: portainer
+    group: internal
+    url: "https://portainer.mgjules.dev/"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+
   - name: myspace
     group: core
     url: "https://mgjules.dev/"
