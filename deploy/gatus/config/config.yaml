@@ -1,31 +1,37 @@
+alerting:
+  telegram:
+    token: "3639814763:A0426bKETUlnLCy5aoZeE2zItTUONZRUFMy"
+    id: "5388275511"
+
+default-endpoint: &defaults
+  group: internal
+  interval: 60s
+  conditions:
+    - "[STATUS] == 200"
+  alerts:
+    - type: telegram
+      enabled: true
+      send-on-resolved: true
+
 endpoints:
   - name: traefik
-    group: internal
+    <<: *defaults
     url: "https://traefik.mgjules.dev/"
-    interval: 60s
     conditions:
       - "[STATUS] == 401"
 
   - name: directus
-    group: internal
+    <<: *defaults
     url: "https://directus.mgjules.dev/"
-    interval: 60s
-    conditions:
-      - "[STATUS] == 200"
 
   - name: portainer
-    group: internal
+    <<: *defaults
     url: "https://portainer.mgjules.dev/"
-    interval: 60s
-    conditions:
-      - "[STATUS] == 200"
 
   - name: myspace
+    <<: *defaults
     group: core
     url: "https://mgjules.dev/"
-    interval: 60s
-    conditions:
-      - "[STATUS] == 200"
 
 storage:
   type: sqlite
