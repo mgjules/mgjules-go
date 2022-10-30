@@ -21,9 +21,15 @@
     <div class="mt-1 text-sm text-brand-secondary">{{ experience.position }}</div>
     <div class="flex flex-wrap gap-2 mt-2">
       {% for technology in experience.technologies %}
-      <span class="pill">
-        {{technology.name}}
-      </span>
+        {% if technology.link %}
+        <a href="{{technology.link}}" target="_blank" class="pill pill-link">
+          {{technology.name}}
+        </a>
+        {% else %}
+        <span class="pill">
+          {{technology.name}}
+        </span>
+        {% endif %}
       {% endfor %}
     </div>
     <ul role="list" class="mt-3 mb-0">

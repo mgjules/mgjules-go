@@ -26,9 +26,15 @@
           class="mt-1 break-words markdown-inline">{{project.description|markdown}}</div>
         <div class="flex flex-wrap gap-2 mt-2">
           {% for technology in project.technologies %}
-          <span class="pill">
-            {{technology.name}}
-          </span>
+            {% if technology.link %}
+            <a href="{{technology.link}}" target="_blank" class="pill pill-link">
+              {{technology.name}}
+            </a>
+            {% else %}
+            <span class="pill">
+              {{technology.name}}
+            </span>
+            {% endif %}
           {% endfor %}
         </div>
       </div>

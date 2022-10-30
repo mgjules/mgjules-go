@@ -40,7 +40,8 @@ func (db *EdgeDB) GetProjects(ctx context.Context) ([]entity.Project, error) {
 			link,
 			description,
 			technologies: {
-				name
+				name,
+				link
 			} order by @sort
 		} order by .sort
 	`, &results)

@@ -45,6 +45,7 @@ func (db *Directus) GetProjects(ctx context.Context) ([]entity.Project, error) {
 				"link",
 				"technologies.technology.id",
 				"technologies.technology.name",
+				"technologies.technology.link",
 			},
 			"status": []string{"published"},
 			"sort":   []string{"sort"},

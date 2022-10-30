@@ -66,7 +66,8 @@ func (db *EdgeDB) GetExperiences(ctx context.Context) ([]entity.Experience, erro
 			link,
 			tasks,
 			technologies: {
-				name
+				name,
+				link
 			} order by @sort
 		} order by .from desc
 	`, &results)

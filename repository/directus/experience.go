@@ -77,6 +77,7 @@ func (db *Directus) GetExperiences(ctx context.Context) ([]entity.Experience, er
 				"link",
 				"technologies.technology.id",
 				"technologies.technology.name",
+				"technologies.technology.link",
 				"tasks",
 			},
 			"status": []string{"published"},
