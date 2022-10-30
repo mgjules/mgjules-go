@@ -21,8 +21,6 @@ entryPoints:
     http:
       tls:
         certResolver: "certresolver"
-  edgedb:
-    address: ":5656"
 
 certificatesResolvers:
   certresolver:

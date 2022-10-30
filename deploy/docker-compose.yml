@@ -8,7 +8,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "5656:5656"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -103,9 +102,10 @@ services:
   #   labels:
   #     - traefik.enable=true
   #     - traefik.tcp.routers.edgedb.rule=HostSNI(`edgy.mgjules.dev`)
-  #     - traefik.tcp.routers.edgedb.entrypoints=edgedb
+  #     - traefik.tcp.routers.edgedb.entrypoints=websecure
   #     - traefik.tcp.routers.edgedb.tls=true
   #     - traefik.tcp.routers.edgedb.tls.passthrough=true
+  #     - traefik.tcp.services.edgedb.loadbalancer.server.port=5656
   #   healthcheck:
   #     test: ["CMD", "curl", "-f", "https://edgy.mgjules.dev:5656/ui"]
   #     interval: 5s
