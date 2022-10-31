@@ -53,25 +53,20 @@ services:
       - traefik
 
   portainer:
-    image: portainer/portainer-ce:2.15.1-alpine
+    image: portainer/portainer-ce:2.16.0-alpine
     restart: unless-stopped
-    command: 
-      - --sslcert=/traefik/letsencrypt/certs/portainer.mgjules.dev/fullchain.pem
-      - --sslkey=/traefik/letsencrypt/certs/portainer.mgjules.dev/privkey.pem
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer:/data
       - ./traefik:/traefik
     labels:
       - traefik.enable=true
-      - traefik.tcp.routers.portainer.rule=HostSNI(`portainer.mgjules.dev`)
-      - traefik.tcp.routers.portainer.entrypoints=websecure
-      - traefik.tcp.routers.portainer.tls=true
-      - traefik.tcp.routers.portainer.tls.passthrough=true
-      - traefik.tcp.services.portainer.loadbalancer.server.port=9443
+      - traefik.http.routers.portainer.rule=Host(`portainer.mgjules.dev`)
+      - traefik.http.routers.portainer.entrypoints=websecure
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+      - traefik.http.services.portainer.loadbalancer.server.scheme=http
     depends_on:
       - traefik
-      - traefik-certs-dumper
 
   gatus:
     image: twinproduction/gatus:latest
