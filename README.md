@@ -14,7 +14,7 @@ This iteration has for primary goal to experiment with the idea of pre-rendering
 
 ## Development
 
-Create a `.env` file with a valid `EDGEDB_DSN` and an `AUTH_TOKEN` of your choice:
+Sample `.env`:
 ```shell
 PROD=false
 SERVER_PORT=13337
@@ -36,7 +36,7 @@ $ npm run dev
 
 ## Production
 
-Create a `.env` file with a valid `PROD`, `EDGEDB_DSN`, `DIRECTUS_URL`, `DIRECTUS_TOKEN`, and an `AUTH_TOKEN` of your choice:
+Sample `.env`:
 ```shell
 PROD=true
 SERVER_PORT=80
