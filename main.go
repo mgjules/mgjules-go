@@ -5,6 +5,7 @@ import (
 	"embed"
 	"log"
 
+	"github.com/bep/godartsass"
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/http"
@@ -37,7 +38,15 @@ func main() {
 
 	auth := auth.New(cfg.AuthToken)
 
-	projection, err := projection.New(cfg.Prod, repo, templates)
+	transpiler, err := godartsass.Start(godartsass.Options{
+		DartSassEmbeddedFilename: cfg.DartSassEmbeddedBinary,
+	})
+	if err != nil {
+		logger.L.Fatalf("failed to start transpiler: %v", err)
+	}
+	defer transpiler.Close()
+
+	projection, err := projection.New(cfg.Prod, repo, templates, transpiler)
 	if err != nil {
 		logger.L.Fatalf("failed to create projection: %v", err)
 	}
