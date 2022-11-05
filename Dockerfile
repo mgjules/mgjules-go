@@ -33,7 +33,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
-FROM --platform=$TARGETPLATFORM scratch
+FROM --platform=$TARGETPLATFORM alpine:latest
 
 # Add curl
 COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
