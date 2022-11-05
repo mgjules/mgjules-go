@@ -42,7 +42,7 @@ COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 # Add the dart-sass-embedded
-COPY --from=builder /tmp/dart-sass-embedded /usr/bin/dart-sass-embedded
+COPY --from=builder /tmp/dart-sass-embedded /bin/dart-sass-embedded
 
 # Add the binary
 COPY --from=builder /tmp/myspace /myspace
