@@ -1,13 +1,13 @@
 package projection
 
 import (
-	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 
+	"github.com/bep/godartsass"
 	"github.com/mgjules/mgjules-go/logger"
-	"github.com/wellington/go-libsass"
 )
 
 func (p *Projection) parseSCSS(file string) (string, error) {
@@ -27,15 +27,17 @@ func (p *Projection) parseSCSS(file string) (string, error) {
 		return "", fmt.Errorf("failed to open: %w", err)
 	}
 
-	buf := bytes.NewBuffer(nil)
-	comp, err := libsass.New(buf, scss)
+	source, err := ioutil.ReadAll(scss)
 	if err != nil {
-		return "", fmt.Errorf("failed to create libsass compiler: %w", err)
+		return "", fmt.Errorf("failed to read source fromr reader: %w", err)
 	}
 
-	if err := comp.Run(); err != nil {
+	res, err := p.transpiler.Execute(godartsass.Args{
+		Source: string(source),
+	})
+	if err != nil {
 		return "", fmt.Errorf("failed to compile: %w", err)
 	}
 
-	return buf.String(), nil
+	return res.CSS, nil
 }

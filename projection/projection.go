@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/bep/godartsass"
 	"github.com/flosch/pongo2/v6"
 	"github.com/mgjules/mgjules-go/entity"
 	"github.com/mgjules/mgjules-go/logger"
@@ -27,6 +28,7 @@ type Projection struct {
 	repo        repository.Repository
 	templates   embed.FS
 	templateSet *pongo2.TemplateSet
+	transpiler  *godartsass.Transpiler
 	cron        *cron.Cron
 
 	dataMu        sync.RWMutex // guards the data
@@ -48,13 +50,14 @@ type Projection struct {
 	projectedAt   time.Time
 }
 
-func New(prod bool, repo repository.Repository, templates embed.FS) (*Projection, error) {
+func New(prod bool, repo repository.Repository, templates embed.FS, transpiler *godartsass.Transpiler) (*Projection, error) {
 	p := &Projection{
 		prod:        prod,
 		repo:        repo,
 		cron:        cron.New(),
 		projections: make(map[string][]byte),
 		templates:   templates,
+		transpiler:  transpiler,
 	}
 
 	pool, err := ants.NewPool(1000)
