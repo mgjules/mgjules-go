@@ -9,9 +9,9 @@ RUN apk add --no-cache git curl upx ca-certificates
 # Get dart-sass-embedded
 ARG DART_SASS_EMBEDDED_UPSTREAM_VERSION=1.55.0
 ARG DART_SASS_EMBEDDED_TARGETARCH=$TARGETARCH
-RUN if [ "$TARGETARCH" = "amd64" ]; then DART_SASS_EMBEDDED_TARGETARCH=x64; fi
-RUN wget https://github.com/sass/dart-sass-embedded/releases/download/${DART_SASS_EMBEDDED_UPSTREAM_VERSION}/sass_embedded-${DART_SASS_EMBEDDED_UPSTREAM_VERSION}-${$TARGETOS}-${DART_SASS_EMBEDDED_TARGETARCH}.tar.gz /tmp/
-RUN tar -C /tmp/ -xzvf /tmp/sass_embedded-${DART_SASS_EMBEDDED_UPSTREAM_VERSION}-${$TARGETOS}-${DART_SASS_EMBEDDED_TARGETARCH}.tar.gz --strip-components=1  sass_embedded/dart-sass-embedded
+RUN if [ "$TARGETARCH" = "amd64" ]; then DART_SASS_EMBEDDED_TARGETARCH=x64; fi; \
+  wget https://github.com/sass/dart-sass-embedded/releases/download/${DART_SASS_EMBEDDED_UPSTREAM_VERSION}/sass_embedded-${DART_SASS_EMBEDDED_UPSTREAM_VERSION}-${$TARGETOS}-${DART_SASS_EMBEDDED_TARGETARCH}.tar.gz /tmp/ && \
+  tar -C /tmp/ -xzvf /tmp/sass_embedded-${DART_SASS_EMBEDDED_UPSTREAM_VERSION}-${$TARGETOS}-${DART_SASS_EMBEDDED_TARGETARCH}.tar.gz --strip-components=1  sass_embedded/dart-sass-embedded
 
 WORKDIR /src
 
