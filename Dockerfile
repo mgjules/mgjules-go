@@ -1,5 +1,7 @@
 FROM --platform=$BUILDPLATFORM golang:1.19-alpine AS builder
 
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 
@@ -31,7 +33,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
-FROM scratch
+FROM --platform=$TARGETPLATFORM scratch
 
 # Add curl
 COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
