@@ -18,7 +18,7 @@ COPY . ./
 # Build application for deployment
 RUN --mount=type=cache,target=/root/.cache/go-build \
   --mount=type=cache,target=/go/pkg \
-  CGO_ENABLED=1 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags=jsoniter -trimpath -ldflags '-s -w -linkmode external -extldflags "-static"' -o /tmp/myspace .
+  GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags=jsoniter -trimpath -ldflags '-s -w -linkmode external -extldflags "-static"' -o /tmp/myspace .
 
 # Compress binary
 RUN upx --best --lzma /tmp/myspace
