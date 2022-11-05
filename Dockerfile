@@ -1,9 +1,9 @@
-FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.19-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.19-alpine AS builder
 
-ARG TARGETPLATFORM=linux/amd64
-ARG BUILDPLATFORM=linux/amd64
-ARG TARGETOS=linux
-ARG TARGETARCH=amd64
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
 
 # Add git, curl and upx support
 RUN apk add --no-cache git curl upx ca-certificates 
@@ -33,7 +33,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
-FROM --platform=${TARGETPLATFORM:-linux/amd64} debian:buster-slim
+FROM --platform=$TARGETPLATFORM debian:buster-slim
 
 # Add curl
 COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
