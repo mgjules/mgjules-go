@@ -4,7 +4,7 @@ ARG TARGETOS
 ARG TARGETARCH
 
 # Add git, curl and upx support
-RUN apk add --no-cache git curl upx gcc g++ ca-certificates
+RUN apk add --no-cache git curl upx gcc g++ ca-certificates libsass-dev
 
 WORKDIR /src
 
@@ -18,7 +18,7 @@ COPY . ./
 # Build application for deployment
 RUN --mount=type=cache,target=/root/.cache/go-build \
   --mount=type=cache,target=/go/pkg \
-  GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags=jsoniter -trimpath -ldflags '-s -w -linkmode external -extldflags "-static"' -o /tmp/myspace .
+  CGO_ENABLED=1 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags=jsoniter -trimpath -ldflags '-s -w -linkmode external -extldflags "-static"' -o /tmp/myspace .
 
 # Compress binary
 RUN upx --best --lzma /tmp/myspace
