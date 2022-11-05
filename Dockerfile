@@ -49,4 +49,4 @@ COPY --from=builder /tmp/myspace /myspace
 
 EXPOSE 80/tcp
 
-CMD ["/myspace"]
+ENTRYPOINT ["/myspace"]
