@@ -33,13 +33,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 RUN upx --best --lzma /tmp/myspace
 
 # Create minimal image
-FROM --platform=$TARGETPLATFORM debian:buster-slim
-
-# Add curl
-COPY --from=tarampampam/curl:latest /bin/curl /bin/curl
-
-# Add in certs
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+FROM --platform=$TARGETPLATFORM gcr.io/distroless/base
 
 # Add the dart-sass-embedded
 COPY --from=builder /tmp/dart-sass-embedded /bin/dart-sass-embedded
