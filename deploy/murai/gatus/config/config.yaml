@@ -1,7 +1,7 @@
 alerting:
   telegram:
-    token: "3639814763:A0426bKETUlnLCy5aoZeE2zItTUONZRUFMy"
-    id: "5388275511"
+    token: "6060748494:6DxJU5DhwZpNNC39HSBAf9VBFJIZKwFPmYV"
+    id: "7015865515"
 
 default-endpoint: &defaults
   group: internal

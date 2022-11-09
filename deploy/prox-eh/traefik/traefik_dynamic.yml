@@ -1,0 +1,76 @@
+http:
+  routers:
+    dashboard:
+      middlewares:
+        - auth
+      rule: Host(`traefik.mgjules.dev`)
+      service: dashboard@internal
+      tls:
+        certResolver: certresolver
+
+    api:
+      middlewares:
+        - auth
+      rule: Host(`traefik.mgjules.dev`) && PathPrefix(`/api`)
+      service: api@internal
+      tls:
+        certResolver: certresolver
+
+    myspace:
+      entryPoints:
+        - websecure
+      rule: Host(`mgjules.dev`)
+      service: myspace
+      tls:
+        certResolver: certresolver
+
+    directus:
+      entryPoints:
+        - websecure
+      rule: Host(`directus.mgjules.dev`)
+      service: directus
+      tls:
+        certResolver: certresolver
+
+    gatus:
+      entryPoints:
+        - websecure
+      rule: Host(`status.mgjules.dev`)
+      service: gatus
+      tls:
+        certResolver: certresolver
+
+    portainer:
+      entryPoints:
+        - websecure
+      rule: Host(`portainer.mgjules.dev`)
+      service: portainer
+      tls:
+        certResolver: certresolver
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - mike:{SHA}S6ZS14HTJKY7DmsMkmQwN2vnsGU=
+
+  services:
+    myspace:
+      loadBalancer:
+        servers:
+          - url: http://murai.beluga-eel.ts.net:8001/
+
+    directus:
+      loadBalancer:
+        servers:
+          - url: http://murai.beluga-eel.ts.net:8002/
+
+    gatus:
+      loadBalancer:
+        servers:
+          - url: http://murai.beluga-eel.ts.net:8003/
+
+    portainer:
+      loadBalancer:
+        servers:
+          - url: http://murai.beluga-eel.ts.net:9000/

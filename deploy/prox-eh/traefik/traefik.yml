@@ -2,6 +2,9 @@ api:
   dashboard: true
 
 providers:
+  file:
+    watch: true
+    filename: /traefik_dynamic.yml
   docker:
     watch: true
     exposedByDefault: false
