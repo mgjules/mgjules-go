@@ -1,4 +1,4 @@
-package projection
+package projecter
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/mgjules/mgjules-go/mapstruct"
 )
 
-func (p *Projection) Build404() ([]byte, error) {
+func (p *Projecter) Build404() ([]byte, error) {
 	currentTab := entity.Tab{
 		Name:      "Not Found",
 		Icon:      "ooui:article-not-found-ltr",
@@ -19,7 +19,7 @@ func (p *Projection) Build404() ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 	}

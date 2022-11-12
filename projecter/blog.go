@@ -1,4 +1,4 @@
-package projection
+package projecter
 
 import (
 	"errors"
@@ -9,8 +9,8 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projection) BuildBlogIndex() ([]byte, error) {
-	link, found := lo.Find(p.links, func(link entity.Link) bool {
+func (p *Projecter) BuildBlogIndex() ([]byte, error) {
+	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
 		return link.Name == "Blog"
 	})
 	if !found {
@@ -26,7 +26,7 @@ func (p *Projection) BuildBlogIndex() ([]byte, error) {
 	tabs := []entity.Tab{
 		currentTab,
 	}
-	for _, post := range p.posts {
+	for _, post := range p.fetcher.Posts() {
 		tabs = append(tabs, entity.Tab{
 			Name:      post.Title,
 			Icon:      "ooui:article-ltr",
@@ -36,10 +36,10 @@ func (p *Projection) BuildBlogIndex() ([]byte, error) {
 	}
 
 	pCtx := map[string]any{
-		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
-		"posts":       mapstruct.FromSlice(p.posts),
+		"posts":       mapstruct.FromSlice(p.fetcher.Posts()),
 	}
 
 	out, err := p.render(pCtx, "Blog", "templates/blog/index.dhtml")
@@ -50,8 +50,8 @@ func (p *Projection) BuildBlogIndex() ([]byte, error) {
 	return out, nil
 }
 
-func (p *Projection) BuildBlogPost(post entity.Post) ([]byte, error) {
-	link, found := lo.Find(p.links, func(link entity.Link) bool {
+func (p *Projecter) BuildBlogPost(post entity.Post) ([]byte, error) {
+	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
 		return link.Name == "Blog"
 	})
 	if !found {
@@ -72,7 +72,7 @@ func (p *Projection) BuildBlogPost(post entity.Post) ([]byte, error) {
 			URL:       link.URL,
 		},
 	}
-	for _, post := range p.posts {
+	for _, post := range p.fetcher.Posts() {
 		tabs = append(tabs, entity.Tab{
 			Name:      post.Title,
 			Icon:      "ooui:article-ltr",
@@ -82,7 +82,7 @@ func (p *Projection) BuildBlogPost(post entity.Post) ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"post":        mapstruct.FromSingle(post),

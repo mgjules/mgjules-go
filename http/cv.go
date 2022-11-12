@@ -9,7 +9,7 @@ import (
 
 func (s *Server) CVHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		cv, found := s.projection.Get("cv", strings.ToLower(c.Param("section")))
+		cv, found := s.projecter.Get("cv", strings.ToLower(c.Param("section")))
 		if !found {
 			s.NotFoundHandler()(c)
 			return

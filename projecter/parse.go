@@ -1,4 +1,4 @@
-package projection
+package projecter
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/mgjules/mgjules-go/logger"
 )
 
-func (p *Projection) parseSCSS(file string) (string, error) {
+func (p *Projecter) parseSCSS(file string) (string, error) {
 	var (
 		scss io.Reader
 		err  error

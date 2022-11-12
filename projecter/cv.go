@@ -1,4 +1,4 @@
-package projection
+package projecter
 
 import (
 	"fmt"
@@ -8,9 +8,9 @@ import (
 	"github.com/mgjules/mgjules-go/mapstruct"
 )
 
-func (p *Projection) BuildCV(section entity.Section) ([]byte, error) {
+func (p *Projecter) BuildCV(section entity.Section) ([]byte, error) {
 	var tabs []entity.Tab
-	for _, section := range p.sections {
+	for _, section := range p.fetcher.Sections() {
 		tabs = append(tabs, entity.Tab{
 			Name:      section.Name,
 			Icon:      section.Icon,
@@ -32,26 +32,25 @@ func (p *Projection) BuildCV(section entity.Section) ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
-		"intro":       mapstruct.FromSingle(p.intro),
 		"cv_css":      cvCSS,
 	}
 
 	switch section.Name {
 	case "Experiences":
-		values["experiences"] = mapstruct.FromSlice(p.experiences)
+		values["experiences"] = mapstruct.FromSlice(p.fetcher.Experiences())
 	case "Projects":
-		values["projects"] = mapstruct.FromSlice(p.projects)
+		values["projects"] = mapstruct.FromSlice(p.fetcher.Projects())
 	case "Contributions":
-		values["contributions"] = mapstruct.FromSlice(p.contributions)
+		values["contributions"] = mapstruct.FromSlice(p.fetcher.Contributions())
 	case "Awards":
-		values["awards"] = mapstruct.FromSlice(p.awards)
+		values["awards"] = mapstruct.FromSlice(p.fetcher.Awards())
 	case "Interests":
-		values["interests"] = mapstruct.FromSlice(p.interests)
+		values["interests"] = mapstruct.FromSlice(p.fetcher.Interests())
 	case "Languages":
-		values["languages"] = mapstruct.FromSlice(p.languages)
+		values["languages"] = mapstruct.FromSlice(p.fetcher.Languages())
 	}
 
 	out, err := p.render(values, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml")

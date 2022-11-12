@@ -8,7 +8,7 @@ import (
 
 func (s *Server) IndexHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		index, found := s.projection.Get("index")
+		index, found := s.projecter.Get("index")
 		if !found {
 			s.NotFoundHandler()(c)
 			return

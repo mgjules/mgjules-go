@@ -1,4 +1,4 @@
-package projection
+package projecter
 
 import (
 	"errors"
@@ -9,8 +9,8 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projection) BuildIndex() ([]byte, error) {
-	link, found := lo.Find(p.links, func(link entity.Link) bool {
+func (p *Projecter) BuildIndex() ([]byte, error) {
+	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
 		return link.Name == "Home"
 	})
 	if !found {
@@ -33,10 +33,10 @@ func (p *Projection) BuildIndex() ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
-		"intro":       mapstruct.FromSingle(p.intro),
+		"intro":       mapstruct.FromSingle(p.fetcher.Intro()),
 		"index_css":   indexCSS,
 	}
 

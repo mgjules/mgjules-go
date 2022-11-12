@@ -13,19 +13,21 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/mgjules/mgjules-go/auth"
+	"github.com/mgjules/mgjules-go/fetcher"
 	"github.com/mgjules/mgjules-go/logger"
-	"github.com/mgjules/mgjules-go/projection"
+	"github.com/mgjules/mgjules-go/projecter"
 	"golang.org/x/crypto/acme/autocert"
 )
 
 type Server struct {
-	engine     *gin.Engine
-	host       string
-	port       int
-	tlsDomain  string
-	auth       *auth.Auth
-	projection *projection.Projection
-	static     fs.FS
+	engine    *gin.Engine
+	host      string
+	port      int
+	tlsDomain string
+	auth      *auth.Auth
+	fetcher   *fetcher.Fetcher
+	projecter *projecter.Projecter
+	static    fs.FS
 }
 
 func NewServer(prod bool,
@@ -33,7 +35,8 @@ func NewServer(prod bool,
 	port int,
 	tlsDomain string,
 	auth *auth.Auth,
-	projection *projection.Projection,
+	fetcher *fetcher.Fetcher,
+	projection *projecter.Projecter,
 	static embed.FS,
 ) *Server {
 	if prod {
@@ -48,12 +51,13 @@ func NewServer(prod bool,
 	engine.Use(ginzap.RecoveryWithZap(desugared, true))
 
 	s := &Server{
-		engine:     engine,
-		host:       host,
-		port:       port,
-		tlsDomain:  tlsDomain,
-		auth:       auth,
-		projection: projection,
+		engine:    engine,
+		host:      host,
+		port:      port,
+		tlsDomain: tlsDomain,
+		auth:      auth,
+		fetcher:   fetcher,
+		projecter: projection,
 	}
 
 	if prod {

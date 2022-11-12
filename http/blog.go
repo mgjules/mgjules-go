@@ -8,7 +8,7 @@ import (
 
 func (s *Server) BlogIndexHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		index, found := s.projection.Get("blog", "index")
+		index, found := s.projecter.Get("blog", "index")
 		if !found {
 			s.NotFoundHandler()(c)
 			return
@@ -20,7 +20,7 @@ func (s *Server) BlogIndexHandler() gin.HandlerFunc {
 
 func (s *Server) BlogPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		index, found := s.projection.Get("blog", c.Param("slug"))
+		index, found := s.projecter.Get("blog", c.Param("slug"))
 		if !found {
 			s.NotFoundHandler()(c)
 			return
