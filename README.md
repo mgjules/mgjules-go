@@ -4,7 +4,13 @@
 [![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/uptimes/7d/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
 [![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/response-times/7d/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
 
-Source code for my [personal website](https://mgjules.dev) hosted on a raspberry pi 3b+.
+Source code for my [personal website](https://mgjules.dev).
+
+## Disclaimer
+
+The website is hosted on a raspberry pi 3b+ in Mauritius Island (in the Indian Ocean) on poor fiber optic and tunneled through a tailnet to a gateway somewhere in Europe. So don't be surprised by the 200ms+ latency; it's sadly expected (ఠ్ఠnఠ్ఠ)
+
+Other than that if hosted properly in the cloud, that thing flies ─=≡Σ((( つ◕ل͜◕)つ
 
 ## Background
 
