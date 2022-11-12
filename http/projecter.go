@@ -8,7 +8,7 @@ import (
 
 func (s *Server) RebuildProjectionsHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		s.projecter.Build()
+		go s.projecter.Build()
 
 		c.JSON(http.StatusOK, gin.H{"status": "projections rebuilt successfully"})
 	}

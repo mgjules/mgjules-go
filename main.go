@@ -59,7 +59,7 @@ func main() {
 
 	fetcher := fetcher.New(repo, pool, cron.New())
 	fetcher.Start()
-	go fetcher.Fetch(ctx)
+	go fetcher.Fetch()
 	defer fetcher.Stop()
 
 	projecter, err := projecter.New(cfg.Prod, pool, fetcher, templates, transpiler)
