@@ -4,7 +4,7 @@
 [![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/uptimes/7d/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
 [![Uptime](https://status.mgjules.dev/api/v1/endpoints/core_myspace/response-times/7d/badge.svg)](https://status.mgjules.dev/endpoints/core_myspace)
 
-Source code for my [personal website](https://mgjules.dev).
+Source code for my [personal website](https://mgjules.dev) hosted on a raspberry pi 3b+.
 
 ## Background
 
