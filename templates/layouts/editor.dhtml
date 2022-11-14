@@ -109,12 +109,12 @@
             <iconify-icon icon="simple-icons:unocss" width="16" />
           </a>
           <a
-            href="https://www.edgedb.com/"
+            href="https://directus.io/"
             target="_blank"
-            title="EdgeDB"
+            title="Directus"
             class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
           >
-            <iconify-icon icon="mdi:alpha-e-box" width="16" />
+            <iconify-icon icon="simple-icons:directus" width="16" />
           </a>
           <a
             href="https://digitalocean.com/"
