@@ -6,11 +6,17 @@
 
 Source code for my [personal website](https://mgjules.dev).
 
+## Disclaimer
+
+The website is [hosted](https://github.com/mgjules/little-homie/tree/main/murai) on a Raspberry pi 3b+ in Mauritius Island (in the Indian Ocean) on poor fiber optic and tunneled through a tailnet to a gateway somewhere in Europe. So don't be surprised by the 200ms+ latency badge; it's sadly expected (ఠ్ఠnఠ్ఠ) because healthcheck is done at the gateway (?◔ ω ◔)
+
+Other than that if hosted properly in the cloud, that thing flies ─=≡Σ((( つ◕ل͜◕)つ
+
 ## Background
 
 This website has seen several iterations through the years and moved across many repositories.
 
-This iteration has for primary goal to experiment with the idea of pre-rendering the various views and serving them from memory. Obviously it is over-engineered but that's the whole point; to experiment without limits :wink:
+This iteration has for primary goal to experiment with the idea of pre-rendering the various views and serving them from memory. Obviously it is over-engineered but that's the whole point; to experiment without limits (｡•̀ᴗ-)✧
 
 ## Development
 
