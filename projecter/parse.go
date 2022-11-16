@@ -28,7 +28,7 @@ func (p *Projecter) parseSCSS(file string) (string, error) {
 	}
 	defer scss.Close()
 
-	buf := new(strings.Builder)
+	buf := &strings.Builder{}
 	if _, err := io.Copy(buf, scss); err != nil {
 		return "", fmt.Errorf("failed to read source from reader: %w", err)
 	}

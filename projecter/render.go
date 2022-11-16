@@ -46,8 +46,8 @@ func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tp
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
 
-	var b bytes.Buffer
-	w, err := gzip.NewWriterLevel(&b, gzip.BestCompression)
+	b := &bytes.Buffer{}
+	w, err := gzip.NewWriterLevel(b, gzip.BestCompression)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create new gzip writer: %w", err)
 	}
