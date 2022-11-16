@@ -57,12 +57,24 @@ func (p *Projecter) Build() {
 	p.projectedAt = time.Now()
 	p.projectionsMu.Unlock()
 
+	meta := p.fetcher.Meta()
+	links := p.fetcher.Links()
+	sections := p.fetcher.Sections()
+	introduction := p.fetcher.Introduction()
+	experiences := p.fetcher.Experiences()
+	projects := p.fetcher.Projects()
+	contributions := p.fetcher.Contributions()
+	awards := p.fetcher.Awards()
+	interests := p.fetcher.Interests()
+	languages := p.fetcher.Languages()
+	posts := p.fetcher.Posts()
+
 	wg.Add(1)
 	p.pool.Submit(func() {
 		defer wg.Done()
 
 		logger.L.Debug("Building index projection...")
-		index, err := p.BuildIndex()
+		index, err := p.BuildIndex(&meta, links, &introduction)
 		if err != nil {
 			logger.L.Errorf("failed to build index projection: %v", err)
 		} else {
@@ -72,7 +84,6 @@ func (p *Projecter) Build() {
 		}
 	})
 
-	sections := p.fetcher.Sections()
 	for _, section := range sections {
 		section := section
 
@@ -81,7 +92,18 @@ func (p *Projecter) Build() {
 			defer wg.Done()
 
 			logger.L.Debugf("Building cv '%s' projection...", section.Name)
-			cv, err := p.BuildCV(section)
+			cv, err := p.BuildCV(
+				&meta,
+				links,
+				sections,
+				&section,
+				experiences,
+				projects,
+				contributions,
+				awards,
+				interests,
+				languages,
+			)
 			if err != nil {
 				logger.L.Errorf("failed to build cv '%s' projection: %v", section.Name, err)
 			} else {
@@ -97,7 +119,7 @@ func (p *Projecter) Build() {
 		defer wg.Done()
 
 		logger.L.Debug("Building blog index projection...")
-		blogIndex, err := p.BuildBlogIndex()
+		blogIndex, err := p.BuildBlogIndex(&meta, links, posts)
 		if err != nil {
 			logger.L.Errorf("failed to build blog index projection: %v", err)
 		} else {
@@ -107,7 +129,6 @@ func (p *Projecter) Build() {
 		}
 	})
 
-	posts := p.fetcher.Posts()
 	for _, post := range posts {
 		post := post
 
@@ -116,7 +137,7 @@ func (p *Projecter) Build() {
 			defer wg.Done()
 
 			logger.L.Debugf("Building blog '%s' projection...", post.Slug)
-			blogPost, err := p.BuildBlogPost(post)
+			blogPost, err := p.BuildBlogPost(&meta, links, posts, &post)
 			if err != nil {
 				logger.L.Errorf("failed to build blog '%s' projection: %v", post.Slug, err)
 			} else {
@@ -132,7 +153,7 @@ func (p *Projecter) Build() {
 		defer wg.Done()
 
 		logger.L.Debug("Building 404 projection...")
-		notFound, err := p.Build404()
+		notFound, err := p.Build404(&meta, links)
 		if err != nil {
 			logger.L.Errorf("failed to build 404 projection: %v", err)
 		} else {

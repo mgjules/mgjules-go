@@ -8,9 +8,20 @@ import (
 	"github.com/mgjules/mgjules-go/mapstruct"
 )
 
-func (p *Projecter) BuildCV(section entity.Section) ([]byte, error) {
+func (p *Projecter) BuildCV(
+	meta *entity.Meta,
+	links []entity.Link,
+	sections []entity.Section,
+	section *entity.Section,
+	experiences []entity.Experience,
+	projects []entity.Project,
+	contributions []entity.Contribution,
+	awards []entity.Award,
+	interests []entity.Interest,
+	languages []entity.Language,
+) ([]byte, error) {
 	var tabs []entity.Tab
-	for _, section := range p.fetcher.Sections() {
+	for _, section := range sections {
 		tabs = append(tabs, entity.Tab{
 			Name:      section.Name,
 			Icon:      section.Icon,
@@ -32,7 +43,7 @@ func (p *Projecter) BuildCV(section entity.Section) ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"cv_css":      cvCSS,
@@ -40,20 +51,20 @@ func (p *Projecter) BuildCV(section entity.Section) ([]byte, error) {
 
 	switch section.Name {
 	case "Experiences":
-		values["experiences"] = mapstruct.FromSlice(p.fetcher.Experiences())
+		values["experiences"] = mapstruct.FromSlice(experiences)
 	case "Projects":
-		values["projects"] = mapstruct.FromSlice(p.fetcher.Projects())
+		values["projects"] = mapstruct.FromSlice(projects)
 	case "Contributions":
-		values["contributions"] = mapstruct.FromSlice(p.fetcher.Contributions())
+		values["contributions"] = mapstruct.FromSlice(contributions)
 	case "Awards":
-		values["awards"] = mapstruct.FromSlice(p.fetcher.Awards())
+		values["awards"] = mapstruct.FromSlice(awards)
 	case "Interests":
-		values["interests"] = mapstruct.FromSlice(p.fetcher.Interests())
+		values["interests"] = mapstruct.FromSlice(interests)
 	case "Languages":
-		values["languages"] = mapstruct.FromSlice(p.fetcher.Languages())
+		values["languages"] = mapstruct.FromSlice(languages)
 	}
 
-	out, err := p.render(values, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml")
+	out, err := p.render(meta, links, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

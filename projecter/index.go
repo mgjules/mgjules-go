@@ -9,8 +9,8 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projecter) BuildIndex() ([]byte, error) {
-	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
+func (p *Projecter) BuildIndex(meta *entity.Meta, links []entity.Link, introduction *entity.Introduction) ([]byte, error) {
+	link, found := lo.Find(links, func(link entity.Link) bool {
 		return link.Name == "Home"
 	})
 	if !found {
@@ -33,14 +33,14 @@ func (p *Projecter) BuildIndex() ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
-		"intro":       mapstruct.FromSingle(p.fetcher.Intro()),
+		"intro":       mapstruct.FromSingle(introduction),
 		"index_css":   indexCSS,
 	}
 
-	out, err := p.render(values, "Home", "templates/index.dhtml")
+	out, err := p.render(meta, links, "Home", "templates/index.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

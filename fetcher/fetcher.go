@@ -307,7 +307,7 @@ func (f *Fetcher) Links() []entity.Link {
 	return links
 }
 
-func (f *Fetcher) Intro() entity.Introduction {
+func (f *Fetcher) Introduction() entity.Introduction {
 	f.dataMu.RLock()
 	intro := DeepCopy(f.intro)
 	f.dataMu.RUnlock()

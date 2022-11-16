@@ -13,13 +13,13 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projecter) render(values map[string]any, routeName, tplFilename string) ([]byte, error) {
+func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tplFilename string, values map[string]any) ([]byte, error) {
 	tpl, err := p.templateSet.FromFile(tplFilename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load templates from file: %w", err)
 	}
 
-	links := lo.Map(p.fetcher.Links(), func(link entity.Link, _ int) entity.Link {
+	ll := lo.Map(links, func(link entity.Link, _ int) entity.Link {
 		if link.Name == routeName {
 			link.IsCurrent = true
 		}
@@ -33,8 +33,8 @@ func (p *Projecter) render(values map[string]any, routeName, tplFilename string)
 	}
 
 	values = mergemap.Merge(values, map[string]any{
-		"meta":         mapstruct.FromSingle(p.fetcher.Meta()),
-		"links":        mapstruct.FromSlice(links),
+		"meta":         mapstruct.FromSingle(meta),
+		"links":        mapstruct.FromSlice(ll),
 		"fetched_at":   p.fetcher.FetchedAt(),
 		"projected_at": p.projectedAt,
 		"editor_css":   editorCSS,

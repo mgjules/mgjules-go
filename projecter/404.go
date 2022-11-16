@@ -7,7 +7,7 @@ import (
 	"github.com/mgjules/mgjules-go/mapstruct"
 )
 
-func (p *Projecter) Build404() ([]byte, error) {
+func (p *Projecter) Build404(meta *entity.Meta, links []entity.Link) ([]byte, error) {
 	currentTab := entity.Tab{
 		Name:      "Not Found",
 		Icon:      "ooui:article-not-found-ltr",
@@ -19,12 +19,12 @@ func (p *Projecter) Build404() ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 	}
 
-	out, err := p.render(values, "", "templates/404.dhtml")
+	out, err := p.render(meta, links, "", "templates/404.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

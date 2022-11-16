@@ -9,8 +9,8 @@ import (
 	"github.com/samber/lo"
 )
 
-func (p *Projecter) BuildBlogIndex() ([]byte, error) {
-	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
+func (p *Projecter) BuildBlogIndex(meta *entity.Meta, links []entity.Link, posts []entity.Post) ([]byte, error) {
+	link, found := lo.Find(links, func(link entity.Link) bool {
 		return link.Name == "Blog"
 	})
 	if !found {
@@ -26,7 +26,7 @@ func (p *Projecter) BuildBlogIndex() ([]byte, error) {
 	tabs := []entity.Tab{
 		currentTab,
 	}
-	for _, post := range p.fetcher.Posts() {
+	for _, post := range posts {
 		tabs = append(tabs, entity.Tab{
 			Name:      post.Title,
 			Icon:      "ooui:article-ltr",
@@ -36,13 +36,13 @@ func (p *Projecter) BuildBlogIndex() ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
-		"posts":       mapstruct.FromSlice(p.fetcher.Posts()),
+		"posts":       mapstruct.FromSlice(posts),
 	}
 
-	out, err := p.render(values, "Blog", "templates/blog/index.dhtml")
+	out, err := p.render(meta, links, "Blog", "templates/blog/index.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
@@ -50,8 +50,8 @@ func (p *Projecter) BuildBlogIndex() ([]byte, error) {
 	return out, nil
 }
 
-func (p *Projecter) BuildBlogPost(post entity.Post) ([]byte, error) {
-	link, found := lo.Find(p.fetcher.Links(), func(link entity.Link) bool {
+func (p *Projecter) BuildBlogPost(meta *entity.Meta, links []entity.Link, posts []entity.Post, post *entity.Post) ([]byte, error) {
+	link, found := lo.Find(links, func(link entity.Link) bool {
 		return link.Name == "Blog"
 	})
 	if !found {
@@ -72,7 +72,7 @@ func (p *Projecter) BuildBlogPost(post entity.Post) ([]byte, error) {
 			URL:       link.URL,
 		},
 	}
-	for _, post := range p.fetcher.Posts() {
+	for _, post := range posts {
 		tabs = append(tabs, entity.Tab{
 			Name:      post.Title,
 			Icon:      "ooui:article-ltr",
@@ -82,13 +82,13 @@ func (p *Projecter) BuildBlogPost(post entity.Post) ([]byte, error) {
 	}
 
 	values := map[string]any{
-		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"title":       meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"post":        mapstruct.FromSingle(post),
 	}
 
-	out, err := p.render(values, "Blog", "templates/blog/post.dhtml")
+	out, err := p.render(meta, links, "Blog", "templates/blog/post.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
