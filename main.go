@@ -14,7 +14,6 @@ import (
 	"github.com/mgjules/mgjules-go/projecter"
 	"github.com/mgjules/mgjules-go/repository"
 	"github.com/panjf2000/ants/v2"
-	"github.com/robfig/cron/v3"
 )
 
 //go:generate npm run build
@@ -57,9 +56,8 @@ func main() {
 	}
 	defer pool.Release()
 
-	fetcher := fetcher.New(repo, pool, cron.New())
+	fetcher := fetcher.New(repo, pool)
 	fetcher.Start()
-	go fetcher.Fetch()
 	defer fetcher.Stop()
 
 	projecter, err := projecter.New(cfg.Prod, pool, fetcher, templates, transpiler)
@@ -67,6 +65,8 @@ func main() {
 		logger.L.Fatalf("failed to create projecter: %v", err)
 	}
 	fetcher.AddSubscriber(projecter.Build)
+
+	go fetcher.Fetch()
 
 	server := http.NewServer(cfg.Prod,
 		cfg.ServerHost,

@@ -39,11 +39,11 @@ type Fetcher struct {
 	subscribers   []func()
 }
 
-func New(repo repository.Repository, pool *ants.Pool, cron *cron.Cron) *Fetcher {
+func New(repo repository.Repository, pool *ants.Pool) *Fetcher {
 	f := &Fetcher{
 		repo: repo,
 		pool: pool,
-		cron: cron,
+		cron: cron.New(),
 	}
 
 	f.cron.AddFunc("@hourly", func() {
