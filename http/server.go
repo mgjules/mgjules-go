@@ -10,6 +10,7 @@ import (
 
 	"github.com/fvbock/endless"
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-contrib/pprof"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/mgjules/mgjules-go/auth"
@@ -21,6 +22,7 @@ import (
 
 type Server struct {
 	engine    *gin.Engine
+	prod      bool
 	host      string
 	port      int
 	tlsDomain string
@@ -30,7 +32,8 @@ type Server struct {
 	static    fs.FS
 }
 
-func NewServer(prod bool,
+func NewServer(
+	prod bool,
 	host string,
 	port int,
 	tlsDomain string,
@@ -52,6 +55,7 @@ func NewServer(prod bool,
 
 	s := &Server{
 		engine:    engine,
+		prod:      prod,
 		host:      host,
 		port:      port,
 		tlsDomain: tlsDomain,
@@ -88,6 +92,10 @@ func (s *Server) Start() error {
 }
 
 func (s *Server) AttachRoutes() {
+	if !s.prod {
+		pprof.Register(s.engine)
+	}
+
 	s.engine.GET("/", s.IndexHandler())
 	cv := s.engine.Group("/cv")
 	{
