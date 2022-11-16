@@ -35,14 +35,14 @@ func (p *Projecter) BuildBlogIndex() ([]byte, error) {
 		})
 	}
 
-	pCtx := map[string]any{
+	values := map[string]any{
 		"title":       p.fetcher.Meta().FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":        mapstruct.FromSlice(tabs),
 		"current_tab": mapstruct.FromSingle(currentTab),
 		"posts":       mapstruct.FromSlice(p.fetcher.Posts()),
 	}
 
-	out, err := p.render(pCtx, "Blog", "templates/blog/index.dhtml")
+	out, err := p.render(values, "Blog", "templates/blog/index.dhtml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
