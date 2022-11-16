@@ -3,8 +3,8 @@ package projecter
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/bep/godartsass"
 	"github.com/mgjules/mgjules-go/logger"
@@ -28,13 +28,13 @@ func (p *Projecter) parseSCSS(file string) (string, error) {
 	}
 	defer scss.Close()
 
-	source, err := ioutil.ReadAll(scss)
-	if err != nil {
-		return "", fmt.Errorf("failed to read source fromr reader: %w", err)
+	buf := new(strings.Builder)
+	if _, err := io.Copy(buf, scss); err != nil {
+		return "", fmt.Errorf("failed to read source from reader: %w", err)
 	}
 
 	res, err := p.transpiler.Execute(godartsass.Args{
-		Source: string(source),
+		Source: buf.String(),
 	})
 	if err != nil {
 		return "", fmt.Errorf("failed to compile: %w", err)
