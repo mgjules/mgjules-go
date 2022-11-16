@@ -12,7 +12,7 @@ import (
 
 func (p *Projecter) parseSCSS(file string) (string, error) {
 	var (
-		scss io.Reader
+		scss io.ReadCloser
 		err  error
 	)
 	if p.prod {
@@ -26,6 +26,7 @@ func (p *Projecter) parseSCSS(file string) (string, error) {
 	} else if err != nil {
 		return "", fmt.Errorf("failed to open: %w", err)
 	}
+	defer scss.Close()
 
 	source, err := ioutil.ReadAll(scss)
 	if err != nil {
