@@ -5,3 +5,5 @@
 *.http
 __debug_bin
 node_modules
+mgjules-go
+profile
