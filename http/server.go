@@ -80,7 +80,11 @@ func (s *Server) Start() error {
 
 	es := endless.NewServer(fmt.Sprintf("%s:%v", s.host, s.port), s.engine)
 	es.Server.ReadTimeout = 10 * time.Second
-	es.Server.WriteTimeout = 10 * time.Second
+	if s.prod {
+		es.Server.WriteTimeout = 10 * time.Second
+	} else {
+		es.Server.WriteTimeout = 60 * time.Second
+	}
 	es.Server.MaxHeaderBytes = 1 << 20
 
 	if s.tlsDomain != "" {
