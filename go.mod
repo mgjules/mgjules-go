@@ -7,7 +7,7 @@ require (
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/bep/godartsass v0.14.0
 	github.com/cenkalti/backoff/v4 v4.1.3
-	github.com/edgedb/edgedb-go v0.12.0
+	github.com/edgedb/edgedb-go v0.13.2
 	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
 	github.com/flosch/pongo2/v6 v6.0.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
@@ -49,10 +49,12 @@ require (
 	go.opentelemetry.io/otel v1.10.0 // indirect
 	go.opentelemetry.io/otel/trace v1.10.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
-	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
+	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/net v0.0.0-20220921203646-d300de134e69 // indirect
 	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
 	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
