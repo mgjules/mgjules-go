@@ -7,7 +7,7 @@ require (
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/bep/godartsass v0.16.0
 	github.com/cenkalti/backoff/v4 v4.1.3
-	github.com/edgedb/edgedb-go v0.13.3
+	github.com/edgedb/edgedb-go v0.13.4
 	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
 	github.com/flosch/pongo2/v6 v6.0.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
@@ -43,6 +43,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
+	github.com/sigurn/crc16 v0.0.0-20211026045750-20ab5afb07e3 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/xdg/scram v1.0.5 // indirect
 	github.com/xdg/stringprep v1.0.3 // indirect
