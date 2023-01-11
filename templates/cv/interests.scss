@@ -6,3 +6,9 @@
 .interest:hover .polygon-clip {
   clip-path: polygon(0 0, 45% 0, 55% 100%, 0 100%);
 }
+
+@media print {
+  .interest .polygon-clip {
+    clip-path: polygon(0 0, 45% 0, 55% 100%, 0 100%);
+  }
+}
