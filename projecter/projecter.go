@@ -118,6 +118,32 @@ func (p *Projecter) Build() {
 	p.pool.Submit(func() {
 		defer wg.Done()
 
+		logger.L.Debugf("Building cv print projection...")
+		cvPrint, err := p.BuildCVPrint(
+			&meta,
+			links,
+			sections,
+			&introduction,
+			experiences,
+			projects,
+			contributions,
+			awards,
+			interests,
+			languages,
+		)
+		if err != nil {
+			logger.L.Errorf("failed to build cv print projection: %v", err)
+		} else {
+			p.projectionsMu.Lock()
+			p.projections[buildKey("cv", "print")] = cvPrint
+			p.projectionsMu.Unlock()
+		}
+	})
+
+	wg.Add(1)
+	p.pool.Submit(func() {
+		defer wg.Done()
+
 		logger.L.Debug("Building blog index projection...")
 		blogIndex, err := p.BuildBlogIndex(&meta, links, posts)
 		if err != nil {

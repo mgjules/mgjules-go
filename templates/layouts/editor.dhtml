@@ -19,7 +19,6 @@
         <div></div>
       </div>
     </div>
-    <div class="hidden {% if current_tab.name != 'Home' %}print:block{% endif %} text-brand-secondary text-xl font-semibold">{{current_tab.name}}</div>
     <div class="flex flex-row">
       <div id="sidebar" class="sticky top-0 h-fit sidebar print:hidden">
         {% for link in links %}

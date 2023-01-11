@@ -103,6 +103,7 @@ func (s *Server) AttachRoutes() {
 	s.engine.GET("/", s.IndexHandler())
 	cv := s.engine.Group("/cv")
 	{
+		cv.GET("/print", s.CVPrintHandler())
 		cv.GET("/:section", s.CVHandler())
 	}
 	blog := s.engine.Group("/blog")

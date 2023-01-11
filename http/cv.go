@@ -18,3 +18,15 @@ func (s *Server) CVHandler() gin.HandlerFunc {
 		s.respond(c, http.StatusOK, cv)
 	}
 }
+
+func (s *Server) CVPrintHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		cv, found := s.projecter.Get("cv", "print")
+		if !found {
+			s.NotFoundHandler()(c)
+			return
+		}
+
+		s.respond(c, http.StatusOK, cv)
+	}
+}

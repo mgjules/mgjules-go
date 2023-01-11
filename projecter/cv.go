@@ -71,3 +71,68 @@ func (p *Projecter) BuildCV(
 
 	return out, nil
 }
+
+func (p *Projecter) BuildCVPrint(
+	meta *entity.Meta,
+	links []entity.Link,
+	sections []entity.Section,
+	introduction *entity.Introduction,
+	experiences []entity.Experience,
+	projects []entity.Project,
+	contributions []entity.Contribution,
+	awards []entity.Award,
+	interests []entity.Interest,
+	languages []entity.Language,
+) ([]byte, error) {
+	var tabs []entity.Tab
+	for _, section := range sections {
+		tabs = append(tabs, entity.Tab{
+			Name:      section.Name,
+			Icon:      section.Icon,
+			Extension: "cv",
+			URL:       "/cv/" + strings.ToLower(section.Name),
+		})
+	}
+
+	currentTab := entity.Tab{
+		Name:      "Print",
+		Icon:      "ic:baseline-local-printshop",
+		Extension: "cv",
+		URL:       "/cv/print",
+	}
+
+	indexCSS, err := p.parseSCSS("templates/index.scss")
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
+	}
+
+	values := map[string]any{
+		"title":         meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
+		"tabs":          mapstruct.FromSlice(tabs),
+		"current_tab":   mapstruct.FromSingle(currentTab),
+		"intro":         mapstruct.FromSingle(introduction),
+		"experiences":   mapstruct.FromSlice(experiences),
+		"projects":      mapstruct.FromSlice(projects),
+		"contributions": mapstruct.FromSlice(contributions),
+		"awards":        mapstruct.FromSlice(awards),
+		"interests":     mapstruct.FromSlice(interests),
+		"languages":     mapstruct.FromSlice(languages),
+		"index_css":     indexCSS,
+	}
+
+	for _, section := range sections {
+		cvCSS, err := p.parseSCSS("templates/cv/" + strings.ToLower(section.Name) + ".scss")
+		if err != nil {
+			continue
+		}
+
+		values[strings.ToLower(section.Name)+"_css"] = cvCSS
+	}
+
+	out, err := p.render(meta, links, "Curriculum Vitae", "templates/cv/print.dhtml", values)
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute template: %w", err)
+	}
+
+	return out, nil
+}
