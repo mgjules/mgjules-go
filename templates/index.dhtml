@@ -19,7 +19,7 @@
       </a>
     </div>
   </div>
-  <div class="relative w-40 h-40 shrink-0 sm:h-60">
+  <div class="relative w-40 h-40 shrink-0 sm:h-60 sm:w-60">
     <div
       class="w-full h-full transition-all clip-avatar bg-brand-foreground/70"
     ></div>
