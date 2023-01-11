@@ -1,9 +1,9 @@
 {% extends "templates/layouts/base.dhtml" %} {% block content %}
 <div class="flex justify-center p-4 print:p-0">
   <div
-    class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:rounded-none backdrop-blur-sm bg-brand-background/90"
+    class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:shadow-none print:rounded-none backdrop-blur-sm bg-brand-background/90"
   >
-    <div id="swup-progress-bar-container" class="relative h-fit">
+    <div id="swup-progress-bar-container" class="relative h-fit print:hidden">
       <div class="flex items-center justify-between w-full gap-4 p-3">
         <div class="flex gap-1.5">
           <div class="w-2.5 h-2.5 rounded-full bg-brand-tertiary"></div>
@@ -19,6 +19,7 @@
         <div></div>
       </div>
     </div>
+    <div class="hidden {% if current_tab.name != 'Home' %}print:block{% endif %} text-brand-secondary text-xl font-semibold">{{current_tab.name}}</div>
     <div class="flex flex-row">
       <div id="sidebar" class="sticky top-0 h-fit sidebar print:hidden">
         {% for link in links %}
@@ -39,7 +40,7 @@
       </div>
       <div class="w-full max-w-full overflow-hidden">
         {% if tabs || print %}
-        <div id="tabs" class="flex items-center justify-between gap-2">
+        <div id="tabs" class="flex items-center justify-between gap-2 print:hidden">
           <div
             id="left-tabs"
             class="swup-preserve-scroll transition-all flex -mb-[2px] items-center overflow-x-scroll min-h-8 shrink scrollbar"
@@ -87,7 +88,7 @@
       </div>
     </div>
     <div
-      class="w-full px-3 py-2 text-xs align-middle text-brand-tertiary print:rounded-none"
+      class="w-full px-3 py-2 text-xs align-middle text-brand-tertiary print:hidden"
     >
       <div class="flex justify-between gap-2">
         <div class="flex items-start gap-2.5">

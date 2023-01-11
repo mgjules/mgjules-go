@@ -2,6 +2,7 @@ package projecter
 
 import (
 	"regexp"
+	"strings"
 
 	"github.com/araddon/dateparse"
 	"github.com/extemporalgenome/slug"
@@ -27,7 +28,7 @@ func filterSlugify(in *pongo2.Value, param *pongo2.Value) (*pongo2.Value, *pongo
 var filterRemoveSchemeRe = regexp.MustCompile(`^https://`)
 
 func filterRemoveScheme(in *pongo2.Value, param *pongo2.Value) (*pongo2.Value, *pongo2.Error) {
-	return pongo2.AsSafeValue(filterRemoveSchemeRe.ReplaceAllString(in.String(), "")), nil
+	return pongo2.AsSafeValue(filterRemoveSchemeRe.ReplaceAllString(strings.TrimRight(in.String(), "/"), "")), nil
 }
 
 func filterFormatDate(in *pongo2.Value, param *pongo2.Value) (*pongo2.Value, *pongo2.Error) {

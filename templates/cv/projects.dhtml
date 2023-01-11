@@ -1,16 +1,16 @@
 {% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
 <ul
   role="list"
-  class="flex flex-col m-4 ml-0 list-none gap-y-10 print:block print:mt-4 print:columns-1"
+  class="flex flex-col m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0"
 >
   {% for project in projects %}
   <li
     id="{{project.name|slugify}}"
-    class="flex pl-0 my-0  group print:mt-4 print:first:mt-0 print:break-inside-avoid"
+    class="flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
   >
     <div class="flex items-center justify-between flex-1 rounded-r-md">
       <div class="flex-1">
-        <h3 class="my-0">
+        <h3 class="my-0 print:text-lg">
           <a
             href="{{project.link}}"
             target="_blank"
@@ -23,7 +23,7 @@
           </a>
         </h3>
         <div
-          class="mt-1 break-words markdown-inline">{{project.description|markdown}}</div>
+          class="mt-1 break-words markdown-inline print:text-brand-secondary">{{project.description|markdown}}</div>
         <div class="flex flex-wrap gap-2 mt-2">
           {% for technology in project.technologies %}
             {% if technology.link %}
@@ -41,14 +41,14 @@
     </div>
   </li>
   {% endfor %}
-  <li class="pl-0 my-0 print:mt-4">
-    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit btn"
-      >View more <span class="hidden print:inline"
-        >[ {{meta.github|removescheme}} ]
+  <li class="pl-0 my-0 print:mt-8">
+    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit btn print:gap-1"
+      >View more<span class="hidden print:flex"
+        >on <a href="{{meta.github}}" target="_blank">{{meta.github|removescheme}}</a>
       </span>
       <iconify-icon
         icon="uil:external-link-alt"
-        class="inline-block w-4.5 h-4.5"
+        class="inline-block w-4.5 h-4.5 print:hidden"
         width="18"
       />
     </a>
