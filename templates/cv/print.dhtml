@@ -264,7 +264,7 @@ group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 pri
 
 <div class="flex gap-8 mt-4">
   <a href="https://linkedin.com/in/mgjules" target="_blank">linkedin.com/in/mgjules</a>
-  <a href="mailto://hi@mgjules.dev" target="_blank">hi@mgjules.dev</a>
+  <a href="mailto:hi@mgjules.dev" target="_blank">hi@mgjules.dev</a>
 </div>
 
 <style>
