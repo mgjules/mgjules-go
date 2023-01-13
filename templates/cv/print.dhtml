@@ -1,6 +1,6 @@
 {% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
 <div
-  class="gap-8 m-4 sm:flex-row sm:justify-around sm:my-8 print:m-0"
+  class="m-0"
 >
     <h1 class="my-0 font-light text-brand-secondary">
       Michaël Giovanni <span class="font-semibold">Jules</span>
@@ -10,11 +10,11 @@
     </div>
 </div>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Experiences</h2>
+<h2 class="text-brand-secondary mt-8">Experiences</h2>
 
-<ul role="list" class="grid grid-cols-1 m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0">
+<ul role="list" class="m-4 ml-0 list-none gap-y-10 block px-0 mb-0">
   {% for experience in experiences %}
-  <li id="{{experience.company|slugify}}" class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
+  <li id="{{experience.company|slugify}}" class="pl-0 my-0 group print:break-inside-avoid mt-8 first:mt-0">
     <div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
       <h3 class="my-0">
         <a href="{{ experience.link }}" target="_blank" class="font-medium no-underline">{{experience.company}}
@@ -56,16 +56,16 @@
   {% endfor %}
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Latest Personal Projects</h2>
+<h2 class="text-brand-secondary mt-8">Latest Personal Projects</h2>
 
 <ul
   role="list"
-  class="flex flex-col m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0"
+  class="list-none block px-0 mb-0"
 >
   {% for project in projects %}
   <li
     id="{{project.name|slugify}}"
-    class="flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
+    class="flex pl-0 my-0 group mt-8 first:mt-0 break-inside-avoid"
   >
     <div class="flex items-center justify-between flex-1 rounded-r-md">
       <div class="flex-1">
@@ -101,22 +101,22 @@
   </li>
   {% endfor %}
   <li class="pl-0 my-0 print:mt-6">
-    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit print:gap-1"
+    <a href="{{meta.github}}?tab=repositories" target="_blank" class="flex items-center gap-2 w-fit print:gap-1"
       >View more ( {{meta.github|removescheme}} )
     </a>
   </li>
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Latest Contributions</h2>
+<h2 class="text-brand-secondary mt-8">Latest Contributions</h2>
 
 <ul
   role="list"
-  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:columns-1 print:px-0 print:mb-0"
+  class="m-4 ml-0 list-none block columns-1 px-0 mb-0"
 >
   {% for contribution in contributions %}
   <li
     id="{{contribution.event|add:" "|add:contribution.title|slugify}}"
-    class="flex flex-col pl-0 my-0 group print:mt-8 print:first:mt-0 print:break-inside-avoid"
+    class="flex flex-col pl-0 my-0 group mt-8 first:mt-0 print:break-inside-avoid"
   >
     <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
       <h3 class="my-0">
@@ -150,15 +150,15 @@
   </li>
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Awards</h2>
+<h2 class="text-brand-secondary mt-8">Awards</h2>
 
 <ul
-  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:columns-2 print:px-0 print:mb-0"
+  class="m-4 ml-0 list-none block columns-2 px-0 mb-0"
 >
   {% for award in awards %}
   <li
     id="{{award.event|add:" "|add:award.formattedDate|slugify}}"
-    class="flex flex-col pl-0 my-0  group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
+    class="flex flex-col pl-0 my-0  group mt-8 first:mt-0 print:first:mt-0 print:break-inside-avoid"
   >
     <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
       <h3 class="my-0">
@@ -188,17 +188,17 @@
   {% endfor %}
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Interests</h2>
+<h2 class="text-brand-secondary mt-8">Interests</h2>
 
 <ul
   role="list"
-  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:mt-4 print:columns-2 print:px-0 print:mb-0"
+  class="m-4 ml-0 list-none block mt-4 columns-2 px-0 mb-0"
 >
   {% for interest in interests %}
   <li
     id="{{interest.name|slugify}}"
     class="relative w-full overflow-hidden box-content border shadow-md bg-brand-foreground/10 border-brand-foreground/30
-group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 print:shadow-none print:bg-transparent"
+group interest print:break-inside-avoid max-h-20 mt-8 first:mt-0 print:shadow-none print:bg-transparent"
   >
     <img
       class="relative z-10 object-cover w-full polygon-clip"
@@ -212,16 +212,16 @@ group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 pri
   {% endfor %}
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Languages</h2>
+<h2 class="text-brand-secondary mt-8">Languages</h2>
 
 <ul
   role="list"
-  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:columns-2 print:px-0 print:mb-0"
+  class="m-4 ml-0 block columns-2 px-0 mb-0"
 >
   {% for language in languages %}
   <li
     id="{{language.name|slugify}}"
-    class=" flex items-center gap-4 pl-0 my-0 group print:mt-8 print:first:mt-0 print:break-inside-avoid"
+    class=" flex items-center gap-4 pl-0 my-0 group mt-8 first:mt-0 print:break-inside-avoid"
   >
     <div class="flex-shrink-0 overflow-hidden transition-all border w-11 h-11 border-white/50">
       <iconify-icon icon="{{language.icon}}" width="42" height="42" />
@@ -234,7 +234,7 @@ group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 pri
   {% endfor %}
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Contacts</h2>
+<h2 class="text-brand-secondary mt-8">Contacts</h2>
 
 <div class="flex gap-8 mt-4">
   <a href="https://linkedin.com/in/mgjules" target="_blank">linkedin.com/in/mgjules</a>
