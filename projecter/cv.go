@@ -106,6 +106,14 @@ func (p *Projecter) BuildCVPrint(
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
 	}
 
+	if len(projects) > 5 {
+		projects = projects[:5]
+	}
+
+	if len(contributions) > 5 {
+		contributions = contributions[:5]
+	}
+
 	values := map[string]any{
 		"title":         meta.FullName + " - " + currentTab.Name + "." + currentTab.Extension,
 		"tabs":          mapstruct.FromSlice(tabs),

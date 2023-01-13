@@ -56,7 +56,7 @@
   {% endfor %}
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Projects</h2>
+<h2 class="hidden print:block text-brand-secondary mt-8">Latest Personal Projects</h2>
 
 <ul
   role="list"
@@ -100,21 +100,14 @@
     </div>
   </li>
   {% endfor %}
-  <li class="pl-0 my-0 print:mt-8">
-    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit btn print:gap-1"
-      >View more<span class="hidden print:flex"
-        >on <a href="{{meta.github}}" target="_blank">{{meta.github|removescheme}}</a>
-      </span>
-      <iconify-icon
-        icon="uil:external-link-alt"
-        class="inline-block w-4.5 h-4.5 print:hidden"
-        width="18"
-      />
+  <li class="pl-0 my-0 print:mt-6">
+    <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit print:gap-1"
+      >View more ( {{meta.github|removescheme}} )
     </a>
   </li>
 </ul>
 
-<h2 class="hidden print:block text-brand-secondary mt-8">Contributions</h2>
+<h2 class="hidden print:block text-brand-secondary mt-8">Latest Contributions</h2>
 
 <ul
   role="list"
@@ -150,6 +143,11 @@
     <div class="mt-1 print:text-brand-secondary">{{contribution.title}}</div>
   </li>
   {% endfor %}
+  <li class="pl-0 my-0 print:mt-6">
+    <a href="{{meta.base_url}}/cv/contributions" target="_blank" class="flex items-center gap-2 w-fit print:gap-1"
+      >View more ( {{meta.base_url|removescheme}} )
+    </a>
+  </li>
 </ul>
 
 <h2 class="hidden print:block text-brand-secondary mt-8">Awards</h2>
