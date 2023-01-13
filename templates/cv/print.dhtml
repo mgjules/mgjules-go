@@ -139,7 +139,7 @@
         {{contribution.to|formatdate|default:"present"}}
       </div>
     </div>
-    <div class="mt-1 text-sm text-brand-secondary">{{contribution.role|title}}</div>
+    <div class="mt-1 text-sm">{{contribution.role|title}}</div>
     <div class="mt-1 print:text-brand-secondary">{{contribution.title}}</div>
   </li>
   {% endfor %}
