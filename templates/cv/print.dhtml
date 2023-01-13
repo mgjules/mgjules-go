@@ -145,7 +145,7 @@
   {% endfor %}
   <li class="pl-0 my-0 print:mt-6">
     <a href="{{meta.base_url}}/cv/contributions" target="_blank" class="flex items-center gap-2 w-fit print:gap-1"
-      >View more ( {{meta.base_url|removescheme}} )
+      >View more ( {{meta.base_url|removescheme}}/cv/contributions )
     </a>
   </li>
 </ul>
