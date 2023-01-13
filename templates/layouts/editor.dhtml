@@ -1,7 +1,7 @@
 {% extends "templates/layouts/base.dhtml" %} {% block content %}
 <div class="flex justify-center p-4 print:p-0">
   <div
-    class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:shadow-none print:rounded-none backdrop-blur-sm bg-brand-background/90"
+    class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:shadow-none print:rounded-none backdrop-blur-sm bg-brand-background/90 print:bg-white print:backdrop-none"
   >
     <div id="swup-progress-bar-container" class="relative h-fit print:hidden">
       <div class="flex items-center justify-between w-full gap-4 p-3">
@@ -80,7 +80,7 @@
         {% endif %}
         <div
           id="swup"
-          class="w-full max-w-full text-base prose-sm prose swup-transition-fade-top prose-cyan prose-invert text-brand-primary"
+          class="w-full max-w-full text-base prose-sm prose prose-cyan swup-transition-fade-top text-brand-primary"
         >
           {% block editor_content %}No editor content :({% endblock %}
         </div>

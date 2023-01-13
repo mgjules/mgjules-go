@@ -1,46 +1,22 @@
 {% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
 <div
-  class="flex flex-col-reverse items-center gap-8 m-4 sm:flex-row sm:justify-around sm:my-12 print:flex-row-reverse print:justify-around print:m-0"
+  class="gap-8 m-4 sm:flex-row sm:justify-around sm:my-8 print:m-0"
 >
-  <div class="flex flex-col items-center sm:items-start max-w-128 print:items-start">
-    <h1 class="my-0 font-light text-center text-brand-secondary sm:text-left print:text-left print:text-xl">
-      Wild <span class="font-semibold text-brand-accent">BACKEND ENGINEER</span>
-      appeared!
+    <h1 class="my-0 font-light text-brand-secondary">
+      Michaël Giovanni <span class="font-semibold">Jules</span>
     </h1>
-    <div class="mt-4 text-base text-center sm:text-left markdown-inline print:text-left print:text-brand-secondary">
-      {{intro.introduction|markdown}}
+    <div class="mt-2 text-base print:text-brand-secondary">
+      A Gopher who creates little minions; the industry calls them microservices.
     </div>
-    <div class="mt-4 print:hidden">
-      <a
-        href="{{links.1.alternate_url|default:links.1.url}}"
-        class="btn"
-        data-swup-preload
-        >Learn more
-      </a>
-    </div>
-  </div>
-  <div class="relative w-40 h-40 shrink-0 sm:h-60 sm:w-60">
-    <div
-      class="w-full h-full transition-all clip-avatar bg-brand-foreground/70"
-    ></div>
-    <div
-      class="absolute bottom-0 w-full h-full transition-all clip-box bg-brand-foreground/50"
-    ></div>
-    <img
-      class="absolute bottom-0 transition-all clip-avatar contrast-125 brightness-95"
-      src="{{intro.avatar}}"
-      alt="Avatar"
-    />
-  </div>
 </div>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Experiences</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Experiences</h2>
 
 <ul role="list" class="grid grid-cols-1 m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0">
   {% for experience in experiences %}
   <li id="{{experience.company|slugify}}" class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
     <div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
-      <h3 class="my-0 print:text-lg">
+      <h3 class="my-0">
         <a href="{{ experience.link }}" target="_blank" class="font-medium no-underline">{{experience.company}}
           <span class="hidden text-sm print:inline">
             ( {{experience.link|removescheme}} )
@@ -80,7 +56,7 @@
   {% endfor %}
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Projects</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Projects</h2>
 
 <ul
   role="list"
@@ -93,7 +69,7 @@
   >
     <div class="flex items-center justify-between flex-1 rounded-r-md">
       <div class="flex-1">
-        <h3 class="my-0 print:text-lg">
+        <h3 class="my-0">
           <a
             href="{{project.link}}"
             target="_blank"
@@ -138,7 +114,7 @@
   </li>
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Contributions</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Contributions</h2>
 
 <ul
   role="list"
@@ -150,7 +126,7 @@
     class="flex flex-col pl-0 my-0 group print:mt-8 print:first:mt-0 print:break-inside-avoid"
   >
     <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
-      <h3 class="my-0 print:text-lg">
+      <h3 class="my-0">
         <a
           href="{{contribution.link}}"
           target="_blank"
@@ -176,7 +152,7 @@
   {% endfor %}
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Awards</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Awards</h2>
 
 <ul
   class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:columns-2 print:px-0 print:mb-0"
@@ -187,7 +163,7 @@
     class="flex flex-col pl-0 my-0  group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
   >
     <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
-      <h3 class="my-0 print:text-lg">
+      <h3 class="my-0">
         <a
           href="{{award.link}}"
           target="_blank"
@@ -214,7 +190,7 @@
   {% endfor %}
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Interests</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Interests</h2>
 
 <ul
   role="list"
@@ -224,21 +200,21 @@
   <li
     id="{{interest.name|slugify}}"
     class="relative w-full overflow-hidden box-content border shadow-md bg-brand-foreground/10 border-brand-foreground/30
-group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 print:shadow-none"
+group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 print:shadow-none print:bg-transparent"
   >
     <img
       class="relative z-10 object-cover w-full polygon-clip"
       src="{{interest.image}}"
       alt="{{interest.name}} Image"
     />
-    <h3 class="absolute my-0 transition-all -translate-y-1/2 z-5 opacity-0 group-hover:opacity-100 group-hover:z-20 print:opacity-100 print:z-20 print:drop-shadow-none print:text-lg print:font-medium print:right-2 top-1/2 right-4 drop-shadow-md select-none">
+    <h3 class="absolute my-0 transition-all -translate-y-1/2 z-5 opacity-0 group-hover:opacity-100 group-hover:z-20 print:opacity-100 print:z-20 print:drop-shadow-none print:text-lg print:font-medium print:right-2 print:text-brand-secondary top-1/2 right-4 drop-shadow-md select-none">
       {{interest.name}}
     </h3>
   </li>
   {% endfor %}
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Languages</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Languages</h2>
 
 <ul
   role="list"
@@ -260,11 +236,11 @@ group interest print:break-inside-avoid max-h-20 print:mt-8 print:first:mt-0 pri
   {% endfor %}
 </ul>
 
-<div class="hidden print:block text-brand-secondary text-xl font-semibold mt-8">Contacts</div>
+<h2 class="hidden print:block text-brand-secondary mt-8">Contacts</h2>
 
 <div class="flex gap-8 mt-4">
   <a href="https://linkedin.com/in/mgjules" target="_blank">linkedin.com/in/mgjules</a>
-  <a href="mailto:hi@mgjules.dev" target="_blank">hi@mgjules.dev</a>
+  <a href="mailto:hi@mgjules.dev">hi@mgjules.dev</a>
 </div>
 
 <style>
