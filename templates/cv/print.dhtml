@@ -12,7 +12,7 @@
 
 <h2 class="text-brand-secondary mt-8">Experiences</h2>
 
-<ul role="list" class="m-4 ml-0 list-none gap-y-10 block px-0 mb-0">
+<ul role="list" class="m-4 mx-0 list-none gap-y-10 block px-0 mb-0">
   {% for experience in experiences %}
   <li id="{{experience.company|slugify}}" class="pl-0 my-0 group print:break-inside-avoid mt-8 first:mt-0">
     <div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
@@ -111,7 +111,7 @@
 
 <ul
   role="list"
-  class="m-4 ml-0 list-none block columns-1 px-0 mb-0"
+  class="m-4 mx-0 list-none block columns-1 px-0 mb-0"
 >
   {% for contribution in contributions %}
   <li
@@ -153,12 +153,12 @@
 <h2 class="text-brand-secondary mt-8">Awards</h2>
 
 <ul
-  class="m-4 ml-0 list-none block columns-2 px-0 mb-0"
+  class="m-4 mx-0 list-none block columns-2 px-0 mb-0 gap-x-8"
 >
   {% for award in awards %}
   <li
     id="{{award.event|add:" "|add:award.formattedDate|slugify}}"
-    class="flex flex-col pl-0 my-0  group mt-8 first:mt-0 print:first:mt-0 print:break-inside-avoid"
+    class="flex flex-col pl-0 my-0 group mt-8 first:mt-0 print:first:mt-0 print:break-inside-avoid"
   >
     <div class="flex flex-col sm:justify-between sm:items-center sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
       <h3 class="my-0">
@@ -192,13 +192,13 @@
 
 <ul
   role="list"
-  class="m-4 ml-0 list-none block mt-4 columns-2 px-0 mb-0"
+  class="m-4 mx-0 list-none block mt-4 columns-2 px-0 mb-0 gap-x-8"
 >
   {% for interest in interests %}
   <li
     id="{{interest.name|slugify}}"
-    class="relative w-full overflow-hidden box-content border shadow-md bg-brand-foreground/10 border-brand-foreground/30
-group interest print:break-inside-avoid max-h-20 mt-8 first:mt-0 print:shadow-none print:bg-transparent"
+    class="relative w-full overflow-hidden box-border border shadow-md bg-brand-foreground/10 border-brand-foreground/30
+group interest print:break-inside-avoid max-h-20 mt-6 first:mt-0 print:shadow-none print:bg-transparent"
   >
     <img
       class="relative z-10 object-cover w-full polygon-clip"
@@ -216,7 +216,7 @@ group interest print:break-inside-avoid max-h-20 mt-8 first:mt-0 print:shadow-no
 
 <ul
   role="list"
-  class="m-4 ml-0 block columns-2 px-0 mb-0"
+  class="m-4 mx-0 block columns-2 px-0 mb-0"
 >
   {% for language in languages %}
   <li
