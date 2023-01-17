@@ -8,6 +8,11 @@
     <div class="mt-2 text-base print:text-brand-secondary">
       A Gopher who creates little minions; the industry calls them microservices.
     </div>
+    <div class="flex gap-8 mt-2">
+      <a href="{{meta.github}}" target="_blank">{{meta.github|removescheme}}</a>
+      <a href="https://linkedin.com/in/mgjules" target="_blank">linkedin.com/in/mgjules</a>
+      <a href="mailto:hi@mgjules.dev">hi@mgjules.dev</a>
+    </div>
 </div>
 
 <h2 class="text-brand-secondary mt-8">Experiences</h2>
@@ -216,7 +221,7 @@ group interest print:break-inside-avoid max-h-20 mt-6 first:mt-0 print:shadow-no
 
 <ul
   role="list"
-  class="m-4 mx-0 block columns-2 px-0 mb-0"
+  class="m-4 mx-0 block columns-2 px-0 mb-0 gap-x-8"
 >
   {% for language in languages %}
   <li
@@ -228,18 +233,11 @@ group interest print:break-inside-avoid max-h-20 mt-6 first:mt-0 print:shadow-no
     </div>
     <div>
       <h3 class="my-0 print:text-brand-secondary print:text-lg print:font-medium">{{language.name}}</h3>
-      <div class="mt-0 print:text-brand-secondary">{{language.level}}</div>
+      <div class="mt-0">{{language.level}}</div>
     </div>
   </li>
   {% endfor %}
 </ul>
-
-<h2 class="text-brand-secondary mt-8">Contacts</h2>
-
-<div class="flex gap-8 mt-4">
-  <a href="https://linkedin.com/in/mgjules" target="_blank">linkedin.com/in/mgjules</a>
-  <a href="mailto:hi@mgjules.dev">hi@mgjules.dev</a>
-</div>
 
 <style>
   {{index_css|safe}}
