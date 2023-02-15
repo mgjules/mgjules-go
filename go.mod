@@ -7,7 +7,7 @@ require (
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/bep/godartsass v0.16.0
 	github.com/cenkalti/backoff/v4 v4.2.0
-	github.com/edgedb/edgedb-go v0.13.4
+	github.com/edgedb/edgedb-go v0.13.5
 	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
 	github.com/flosch/pongo2/v6 v6.0.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
