@@ -24,7 +24,7 @@ require (
 	github.com/peterbourgon/mergemap v0.0.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/russross/blackfriday/v2 v2.1.0
-	github.com/samber/lo v1.37.0
+	github.com/samber/lo v1.38.1
 	go.uber.org/multierr v1.10.0
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.6.0
