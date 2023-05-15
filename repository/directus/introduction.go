@@ -18,7 +18,7 @@ func (i Introduction) ToEntity(directusURL string) entity.Introduction {
 	return entity.Introduction{
 		ID:           i.ID,
 		Introduction: i.Introduction,
-		Avatar:       directusURL + "/assets/" + i.Avatar + "/avatar.webp?key=intro",
+		Avatar:       directusURL + "/assets/" + i.Avatar + "/avatar.webp?key=introduction",
 	}
 }
 
