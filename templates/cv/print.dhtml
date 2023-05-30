@@ -6,8 +6,8 @@
       <h1 class="my-0 font-light text-brand-secondary">
         Michaël Giovanni <span class="font-semibold">Jules</span>
       </h1>
-      <div class="mt-2 text-base print:text-brand-secondary">
-        A Gopher who creates little minions; the industry calls them microservices.
+      <div class="mt-2 text-base print:text-brand-secondary">      
+        Experienced Senior Software Engineer with 10+ years in Backend development and 5+ years specializing in Go. Proven expertise in architecting high-performance software solutions and optimizing system efficiency. Skilled in leading projects, collaborating with cross-functional teams, and driving innovation. Committed to continuous learning and staying updated with industry trends.
       </div>
       <div class="flex gap-8 mt-2">
         <a href="{{meta.github}}" target="_blank">{{meta.github|removescheme}}</a>
