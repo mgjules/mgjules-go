@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
-	github.com/bep/godartsass v0.16.0
+	github.com/bep/godartsass v1.2.0
 	github.com/cenkalti/backoff/v4 v4.2.1
 	github.com/edgedb/edgedb-go v0.13.6
 	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
