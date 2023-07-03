@@ -20,7 +20,7 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/nathan-osman/pongo2-embed-loader v1.0.1
-	github.com/panjf2000/ants/v2 v2.7.4
+	github.com/panjf2000/ants/v2 v2.8.0
 	github.com/peterbourgon/mergemap v0.0.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/russross/blackfriday/v2 v2.1.0
