@@ -16,7 +16,7 @@ require (
 	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/jinzhu/copier v0.3.5
+	github.com/jinzhu/copier v0.4.0
 	github.com/json-iterator/go v1.1.12
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/nathan-osman/pongo2-embed-loader v1.0.1
