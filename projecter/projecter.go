@@ -1,12 +1,14 @@
 package projecter
 
 import (
-	"embed"
+	"fmt"
+	"io/fs"
+	"os"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/bep/godartsass"
+	"github.com/bep/godartsass/v2"
 	"github.com/flosch/pongo2/v6"
 	"github.com/mgjules/mgjules-go/fetcher"
 	"github.com/mgjules/mgjules-go/logger"
@@ -22,7 +24,7 @@ type Projecter struct {
 	prod        bool
 	pool        *ants.Pool
 	fetcher     *fetcher.Fetcher
-	templates   embed.FS
+	templates   fs.FS
 	templateSet *pongo2.TemplateSet
 	transpiler  *godartsass.Transpiler
 
@@ -31,21 +33,33 @@ type Projecter struct {
 	projectedAt   time.Time
 }
 
-func New(prod bool, pool *ants.Pool, fetcher *fetcher.Fetcher, templates embed.FS, transpiler *godartsass.Transpiler) (*Projecter, error) {
+func New(
+	prod bool,
+	theme string,
+	pool *ants.Pool,
+	fetcher *fetcher.Fetcher,
+	templates fs.FS,
+	transpiler *godartsass.Transpiler,
+) (*Projecter, error) {
 	p := &Projecter{
 		prod:        prod,
 		pool:        pool,
 		fetcher:     fetcher,
 		projections: make(map[string][]byte),
-		templates:   templates,
 		transpiler:  transpiler,
 	}
 
 	if p.prod {
-		p.templateSet = pongo2.NewSet("", &loader.Loader{Content: templates})
+		templates, err := fs.Sub(templates, "templates/"+theme)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get sub fs: %w", err)
+		}
+		p.templates = templates
 	} else {
-		p.templateSet = pongo2.NewSet("", pongo2.MustNewLocalFileSystemLoader("./"))
+		p.templates = os.DirFS("./templates/" + theme)
 	}
+
+	p.templateSet = pongo2.NewSet("", &loader.Loader{Content: p.templates})
 
 	return p, nil
 }

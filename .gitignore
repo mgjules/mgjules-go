@@ -7,3 +7,4 @@ __debug_bin
 node_modules
 mgjules-go
 profile
+tmp/*

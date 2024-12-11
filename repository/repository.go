@@ -8,6 +8,7 @@ import (
 	"github.com/mgjules/mgjules-go/entity"
 	"github.com/mgjules/mgjules-go/repository/directus"
 	"github.com/mgjules/mgjules-go/repository/edgedb"
+	"github.com/mgjules/mgjules-go/repository/static"
 )
 
 type Repository interface {
@@ -55,6 +56,8 @@ func New(ctx context.Context, cfg *config.Config) (Repository, error) {
 		repo, err = edgedb.New(ctx, cfg.EdgeDBDSN)
 	} else if cfg.DirectusURL != "" {
 		repo = directus.New(ctx, cfg.Prod, cfg.DirectusURL, cfg.DirectusToken)
+	} else if cfg.Static {
+		repo = static.New()
 	} else {
 		err = errors.New("no valid configuration for repository found")
 	}

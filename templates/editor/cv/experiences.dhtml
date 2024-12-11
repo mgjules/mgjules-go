@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
 <ul role="list" class="grid grid-cols-1 m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0">
   {% for experience in experiences %}
   <li id="{{experience.company|slugify}}" class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">

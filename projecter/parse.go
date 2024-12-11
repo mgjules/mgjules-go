@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/bep/godartsass"
+	"github.com/bep/godartsass/v2"
 	"github.com/mgjules/mgjules-go/logger"
 )
 
@@ -15,11 +15,8 @@ func (p *Projecter) parseSCSS(file string) (string, error) {
 		scss io.ReadCloser
 		err  error
 	)
-	if p.prod {
-		scss, err = p.templates.Open(file)
-	} else {
-		scss, err = os.Open(file)
-	}
+
+	scss, err = p.templates.Open(file)
 	if os.IsNotExist(err) {
 		logger.L.Debugf("file '%s' not found", file)
 		return "", nil

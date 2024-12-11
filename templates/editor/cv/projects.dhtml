@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
 <ul
   role="list"
   class="flex flex-col m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0"
@@ -43,15 +43,7 @@
   {% endfor %}
   <li class="pl-0 my-0 print:mt-8">
     <a href="{{meta.github}}" target="_blank" class="flex items-center gap-2 w-fit btn print:gap-1"
-      >View more<span class="hidden print:flex"
-        >on <a href="{{meta.github}}" target="_blank">{{meta.github|removescheme}}</a>
-      </span>
-      <iconify-icon
-        icon="uil:external-link-alt"
-        class="inline-block w-4.5 h-4.5 print:hidden"
-        width="18"
-      />
-    </a>
+      >View more</a>
   </li>
 </ul>
 {% endblock %}

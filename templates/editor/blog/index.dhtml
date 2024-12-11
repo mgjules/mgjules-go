@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
 <div class="m-4">
   <div class="flex flex-col gap-4">
     {% for post in posts %}

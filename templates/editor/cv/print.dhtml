@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
 <div class="m-4 print:m-0">
   <div
     class="m-0"

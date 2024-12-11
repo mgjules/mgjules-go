@@ -42,7 +42,7 @@ func (p *Projecter) BuildBlogIndex(meta *entity.Meta, links []entity.Link, posts
 		"posts":       mapstruct.FromSlice(posts),
 	}
 
-	out, err := p.render(meta, links, "Blog", "templates/blog/index.dhtml", values)
+	out, err := p.render(meta, links, "Blog", "blog/index.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
@@ -88,7 +88,7 @@ func (p *Projecter) BuildBlogPost(meta *entity.Meta, links []entity.Link, posts 
 		"post":        mapstruct.FromSingle(post),
 	}
 
-	out, err := p.render(meta, links, "Blog", "templates/blog/post.dhtml", values)
+	out, err := p.render(meta, links, "Blog", "blog/post.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

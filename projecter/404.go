@@ -24,7 +24,7 @@ func (p *Projecter) Build404(meta *entity.Meta, links []entity.Link) ([]byte, er
 		"current_tab": mapstruct.FromSingle(currentTab),
 	}
 
-	out, err := p.render(meta, links, "", "templates/404.dhtml", values)
+	out, err := p.render(meta, links, "", "404.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

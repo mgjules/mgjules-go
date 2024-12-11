@@ -14,11 +14,6 @@ import (
 )
 
 func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tplFilename string, values map[string]any) ([]byte, error) {
-	tpl, err := p.templateSet.FromFile(tplFilename)
-	if err != nil {
-		return nil, fmt.Errorf("failed to load templates from file: %w", err)
-	}
-
 	ll := lo.Map(links, func(link entity.Link, _ int) entity.Link {
 		if link.Name == routeName {
 			link.IsCurrent = true
@@ -27,7 +22,7 @@ func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tp
 		return link
 	})
 
-	editorCSS, err := p.parseSCSS("templates/layouts/editor.scss")
+	editorCSS, err := p.parseSCSS("layouts/editor.scss")
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
 	}
@@ -41,7 +36,7 @@ func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tp
 		"current_year": time.Now().Year(),
 	})
 
-	out, err := tpl.ExecuteBytes(pongo2.Context(values))
+	out, err := p.templateSet.RenderTemplateFile(tplFilename, pongo2.Context(values))
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
@@ -52,7 +47,7 @@ func (p *Projecter) render(meta *entity.Meta, links []entity.Link, routeName, tp
 		return nil, fmt.Errorf("failed to create new gzip writer: %w", err)
 	}
 
-	w.Write(out)
+	w.Write([]byte(out))
 	w.Close()
 
 	return b.Bytes(), nil

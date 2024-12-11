@@ -27,9 +27,9 @@ func (p *Projecter) BuildIndex(meta *entity.Meta, links []entity.Link, introduct
 		currentTab,
 	}
 
-	indexCSS, err := p.parseSCSS("templates/index.scss")
+	indexCSS, err := p.parseSCSS("index.scss")
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
+		return nil, fmt.Errorf("failed to parse index.scss: %w", err)
 	}
 
 	values := map[string]any{
@@ -40,7 +40,7 @@ func (p *Projecter) BuildIndex(meta *entity.Meta, links []entity.Link, introduct
 		"index_css":   indexCSS,
 	}
 
-	out, err := p.render(meta, links, "Home", "templates/index.dhtml", values)
+	out, err := p.render(meta, links, "Home", "index.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}

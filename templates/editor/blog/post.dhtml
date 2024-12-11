@@ -1,4 +1,4 @@
-{% extends "templates/layouts/editor.dhtml" %} {% block editor_content %}
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
 <div class="relative">
   <div class="absolute bottom-0 left-0 w-full">
     <div class="flex">

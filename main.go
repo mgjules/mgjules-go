@@ -5,7 +5,7 @@ import (
 	"embed"
 	"log"
 
-	"github.com/bep/godartsass"
+	"github.com/bep/godartsass/v2"
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/fetcher"
@@ -60,7 +60,7 @@ func main() {
 	fetcher.Start()
 	defer fetcher.Stop()
 
-	projecter, err := projecter.New(cfg.Prod, pool, fetcher, templates, transpiler)
+	projecter, err := projecter.New(cfg.Prod, cfg.Theme, pool, fetcher, templates, transpiler)
 	if err != nil {
 		logger.L.Fatalf("failed to create projecter: %v", err)
 	}

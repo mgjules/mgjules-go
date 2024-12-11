@@ -1,11 +1,11 @@
 module github.com/mgjules/mgjules-go
 
-go 1.19
+go 1.22
 
 require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
-	github.com/bep/godartsass v1.2.0
+	github.com/bep/godartsass/v2 v2.3.2
 	github.com/cenkalti/backoff/v4 v4.2.1
 	github.com/edgedb/edgedb-go v0.14.0
 	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0
@@ -62,6 +62,6 @@ require (
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

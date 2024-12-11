@@ -37,9 +37,9 @@ func (p *Projecter) BuildCV(
 		URL:       "/cv/" + strings.ToLower(section.Name),
 	}
 
-	cvCSS, err := p.parseSCSS("templates/cv/" + strings.ToLower(section.Name) + ".scss")
+	cvCSS, err := p.parseSCSS("cv/" + strings.ToLower(section.Name) + ".scss")
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
+		return nil, fmt.Errorf("failed to parse %s.scss: %w", strings.ToLower(section.Name), err)
 	}
 
 	values := map[string]any{
@@ -64,7 +64,7 @@ func (p *Projecter) BuildCV(
 		values["languages"] = mapstruct.FromSlice(languages)
 	}
 
-	out, err := p.render(meta, links, "Curriculum Vitae", "templates/cv/"+strings.ToLower(section.Name)+".dhtml", values)
+	out, err := p.render(meta, links, "Curriculum Vitae", "cv/"+strings.ToLower(section.Name)+".dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
@@ -101,9 +101,9 @@ func (p *Projecter) BuildCVPrint(
 		URL:       "/cv/print",
 	}
 
-	indexCSS, err := p.parseSCSS("templates/index.scss")
+	indexCSS, err := p.parseSCSS("index.scss")
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse editor.scss: %w", err)
+		return nil, fmt.Errorf("failed to parse index.scss: %w", err)
 	}
 
 	if len(projects) > 5 {
@@ -129,7 +129,7 @@ func (p *Projecter) BuildCVPrint(
 	}
 
 	for _, section := range sections {
-		cvCSS, err := p.parseSCSS("templates/cv/" + strings.ToLower(section.Name) + ".scss")
+		cvCSS, err := p.parseSCSS("cv/" + strings.ToLower(section.Name) + ".scss")
 		if err != nil {
 			continue
 		}
@@ -137,7 +137,7 @@ func (p *Projecter) BuildCVPrint(
 		values[strings.ToLower(section.Name)+"_css"] = cvCSS
 	}
 
-	out, err := p.render(meta, links, "Curriculum Vitae", "templates/cv/print.dhtml", values)
+	out, err := p.render(meta, links, "Curriculum Vitae", "cv/print.dhtml", values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
