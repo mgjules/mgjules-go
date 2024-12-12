@@ -1,0 +1,9 @@
+package minimal
+
+import "github.com/mgjules/mgjules-go/entity"
+
+templ Index(meta entity.Meta, links []entity.Link) {
+	@Base(meta, links) {
+		<div>index content</div>
+	}
+}

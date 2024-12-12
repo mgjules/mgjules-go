@@ -1,0 +1,70 @@
+package minimal
+
+import (
+	"github.com/mgjules/mgjules-go/entity"
+	"github.com/samber/lo"
+	"strings"
+)
+
+func getCurrentLink(links []entity.Link) entity.Link {
+	link, found := lo.Find(links, func(l entity.Link) bool {
+		return l.IsCurrent
+	})
+	if found {
+		return entity.Link{}
+	}
+
+	return link
+}
+
+func getTitle(meta entity.Meta, links []entity.Link) string {
+	link := getCurrentLink(links)
+	return meta.FullName + " - " + link.Name
+
+}
+
+templ Base(meta entity.Meta, links []entity.Link) {
+	{{ title := getTitle(meta, links) }}
+	<html lang={ strings.ToLower(meta.Lang) }>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width"/>
+			<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+			<meta name="description" content={ meta.Description }/>
+			<meta name="keywords" content={ strings.Join(meta.Keywords, ",") }/>
+			<meta name="author" content={ meta.FullName }/>
+			<meta name="copyright" content={ meta.FullName }/>
+			<meta name="robots" content="follow"/>
+			<meta property="og:title" content={ title }/>
+			<meta property="og:type" content="profile"/>
+			<meta property="og:description" content={ meta.Description }/>
+			<meta property="og:image" content={ meta.Avatar }/>
+			<meta property="og:url" content={ meta.BaseURL }/>
+			<meta name="twitter:card" content="summary_large_image"/>
+			<meta property="og:site_name" content={ title }/>
+			<meta
+				name="twitter:image:alt"
+				content="{meta.FullName} Profile Picture"
+			/>
+			<meta name="profile:first_name" content={ meta.FirstName }/>
+			<meta name="profile:last_name" content={ meta.LastName }/>
+			<meta name="profile:username" content={ meta.Username }/>
+			<meta name="profile:gender" content={ meta.Gender }/>
+			<link rel="preload" href="/fonts/open-sans-regular.woff2" as="font" type="font/woff2" crossorigin/>
+			<link rel="preload" href="/fonts/fira-mono-regular.woff2" as="font" type="font/woff2" crossorigin/>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"/>
+			<link rel="stylesheet" href="/css/style.css"/>
+			<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.1/dist/iconify-icon.min.js" async></script>
+			<title>Test</title>
+		</head>
+		<body class="font-sans antialiased scroll-smooth bg-brand-background/90 print:bg-white print:backdrop-none">
+			<div class="flex justify-center p-4 print:p-0">
+				<div
+					class="w-full max-w-5xl text-brand-primary print:max-w-full"
+				>
+					{ children... }
+				</div>
+			</div>
+		</body>
+	</html>
+}

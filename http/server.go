@@ -45,6 +45,15 @@ func NewServer(
 	if prod {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	if auth == nil {
+		panic("auth cannot be nil")
+	}
+	if fetcher == nil {
+		panic("fetcher cannot be nil")
+	}
+	if projection == nil {
+		panic("projection cannot be nil")
+	}
 
 	engine := gin.New()
 

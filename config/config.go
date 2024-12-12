@@ -18,9 +18,6 @@ type Config struct {
 	// Authentication
 	AuthToken string `envconfig:"AUTH_TOKEN" required:"true"`
 
-	// Theme
-	Theme string `envconfig:"THEME" default:"editor"`
-
 	// Static
 	Static bool `envconfig:"STATIC"`
 

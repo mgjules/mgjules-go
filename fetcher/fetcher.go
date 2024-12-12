@@ -40,6 +40,13 @@ type Fetcher struct {
 }
 
 func New(repo repository.Repository, pool *ants.Pool) *Fetcher {
+	if repo == nil {
+		panic("repo cannot be nil")
+	}
+	if pool == nil {
+		panic("pool cannot be nil")
+	}
+
 	f := &Fetcher{
 		repo: repo,
 		pool: pool,

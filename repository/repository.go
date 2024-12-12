@@ -46,7 +46,7 @@ type Repository interface {
 	GetPosts(ctx context.Context) ([]entity.Post, error)
 }
 
-func New(ctx context.Context, cfg *config.Config) (Repository, error) {
+func New(ctx context.Context, cfg *config.Config) Repository {
 	var (
 		repo Repository
 		err  error
@@ -61,6 +61,9 @@ func New(ctx context.Context, cfg *config.Config) (Repository, error) {
 	} else {
 		err = errors.New("no valid configuration for repository found")
 	}
+	if err != nil {
+		panic(err)
+	}
 
-	return repo, err
+	return repo
 }
