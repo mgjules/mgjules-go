@@ -6,24 +6,7 @@ import (
 	"strings"
 )
 
-func getCurrentLink(links []entity.Link) entity.Link {
-	link, found := lo.Find(links, func(l entity.Link) bool {
-		return l.IsCurrent
-	})
-	if found {
-		return entity.Link{}
-	}
-
-	return link
-}
-
-func getTitle(meta entity.Meta, links []entity.Link) string {
-	link := getCurrentLink(links)
-	return meta.FullName + " - " + link.Name
-
-}
-
-templ Base(meta entity.Meta, links []entity.Link) {
+templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 	{{ title := getTitle(meta, links) }}
 	<html lang={ strings.ToLower(meta.Lang) }>
 		<head>
@@ -44,27 +27,82 @@ templ Base(meta entity.Meta, links []entity.Link) {
 			<meta property="og:site_name" content={ title }/>
 			<meta
 				name="twitter:image:alt"
-				content="{meta.FullName} Profile Picture"
+				content={ meta.FullName + " Profile Picture" }
 			/>
 			<meta name="profile:first_name" content={ meta.FirstName }/>
 			<meta name="profile:last_name" content={ meta.LastName }/>
 			<meta name="profile:username" content={ meta.Username }/>
 			<meta name="profile:gender" content={ meta.Gender }/>
-			<link rel="preload" href="/fonts/open-sans-regular.woff2" as="font" type="font/woff2" crossorigin/>
-			<link rel="preload" href="/fonts/fira-mono-regular.woff2" as="font" type="font/woff2" crossorigin/>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"/>
 			<link rel="stylesheet" href="/css/style.css"/>
 			<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.1/dist/iconify-icon.min.js" async></script>
-			<title>Test</title>
+			<title>{ title }</title>
 		</head>
 		<body class="font-sans antialiased scroll-smooth bg-brand-background/90 print:bg-white print:backdrop-none">
-			<div class="flex justify-center p-4 print:p-0">
+			<div class="flex justify-center px-4 py-4 lg:py-8 print:p-0">
 				<div
-					class="w-full max-w-5xl text-brand-primary print:max-w-full"
+					class="w-full max-w-5xl text-brand-primary print:max-w-full print:text-black"
 				>
-					{ children... }
+					<header>
+						<h1 class="text-4xl font-light">
+							{ meta.FirstName } <span class="font-semibold">{ meta.LastName }</span>
+						</h1>
+						<div class="mt-2">
+							<h2 class="text-lg text-brand-secondary">{ intro.Introduction }</h2>
+						</div>
+						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2">
+							for _, link := range links {
+								{{ url, _ := lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL) }}
+								<a
+									href={ templ.URL(url) }
+									class={
+										templ.KV("text-brand-accent", !link.IsCurrent),
+										templ.KV("text-brand-primary", link.IsCurrent),
+										templ.KV("print:hidden", !link.NewWindow),
+										"hover:text-brand-primary", "flex gap-x-1 items-center",
+									}
+									target={ lo.Ternary(link.NewWindow, "_blank", "") }
+								>
+									<iconify-icon
+										icon={ link.Icon }
+										class="inline-block w-5 h-5"
+										width="20"
+									></iconify-icon>
+									<span class="print:hidden">{ link.Name }</span>
+									<span class="hidden print:inline">{ removeScheme(url) }</span>
+								</a>
+							}
+						</nav>
+					</header>
+					<div class="mt-10">
+						{ children... }
+					</div>
+					<footer class="mt-10 print:hidden">
+						<span class="text-xs text-brand-secondary">Built using Go, Templ & TailwindCSS</span>
+					</footer>
 				</div>
 			</div>
 		</body>
 	</html>
+}
+
+func getCurrentLink(links []entity.Link) entity.Link {
+	link, found := lo.Find(links, func(l entity.Link) bool {
+		return l.IsCurrent
+	})
+	if found {
+		return entity.Link{}
+	}
+
+	return link
+}
+
+func getTitle(meta entity.Meta, links []entity.Link) string {
+	link := getCurrentLink(links)
+	if link.Name == "" {
+		return meta.FullName
+	}
+
+	return meta.FullName + " - " + link.Name
+
 }

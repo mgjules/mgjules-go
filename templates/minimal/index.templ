@@ -1,9 +1,148 @@
 package minimal
 
-import "github.com/mgjules/mgjules-go/entity"
+import (
+	"github.com/mgjules/mgjules-go/entity"
+	"github.com/russross/blackfriday/v2"
+	"github.com/samber/lo"
+	"regexp"
+	"strings"
+)
 
-templ Index(meta entity.Meta, links []entity.Link) {
-	@Base(meta, links) {
-		<div>index content</div>
+templ Index(
+	meta entity.Meta,
+	links []entity.Link,
+	intro entity.Introduction,
+	sections []entity.Section,
+	experiences []entity.Experience,
+	projects []entity.Project,
+) {
+	@Base(meta, links, intro) {
+		<div class="flex flex-col gap-y-10">
+			for _, section := range sections {
+				<div>
+					<h3 class="text-2xl">{ section.Name }</h3>
+					switch section.ID {
+						case "experiences":
+							@experiencesSection(experiences)
+						case "projects":
+							@projectsSection(meta, projects)
+					}
+				</div>
+			}
+		</div>
 	}
+}
+
+templ experiencesSection(experiences []entity.Experience) {
+	<ul role="list" class="grid grid-cols-1 m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0">
+		for _,experience := range experiences {
+			<li id={ experience.ID } class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
+				<div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
+					<h4 class="my-0 text-xl print:text-lg">
+						<a href={ templ.URL(experience.Link) } target="_blank" class="font-medium text-brand-accent hover:text-brand-primary">
+							{ experience.Company }
+							<span class="hidden text-sm print:inline">
+								( { removeScheme(experience.Link) } )
+							</span>
+						</a>
+					</h4>
+					<div class="flex items-center gap-2 mt-1 text-sm shrink-0 text-brand-secondary sm:mt-0 print:mt-0">
+						if !experience.From.Equal(lo.FromPtr(experience.To)) {
+							{ experience.From.Format("Jan 2006") }
+							<iconify-icon icon="simple-line-icons:arrow-right" class="w-3 h-3" width="12" height="12"></iconify-icon>
+						}
+						if experience.To != nil {
+							{  lo.FromPtr(experience.To).Format("Jan 2006") }
+						} else {
+							present
+						}
+					</div>
+				</div>
+				<div class="mt-1 text-sm text-brand-secondary">{ experience.Position }</div>
+				<div class="flex flex-wrap gap-2 mt-2 print:text-brand-secondary">
+					for _, technology := range experience.Technologies {
+						if technology.Link != "" {
+							<a href={ templ.URL(technology.Link) } target="_blank" class="pill pill-link">
+								{ technology.Name }
+							</a>
+						} else {
+							<span class="pill">
+								{ technology.Name }
+							</span>
+						}
+					}
+				</div>
+				<ul role="list" class="mt-3 mb-0 print:text-brand-secondary">
+					for _, task := range experience.Tasks {
+						<li class="mt-1 mb-0 text-base markdown-inline">
+							@templ.Raw(markdown(task))
+						</li>
+					}
+				</ul>
+			</li>
+		}
+	</ul>
+}
+
+templ projectsSection(meta entity.Meta, projects []entity.Project) {
+	<ul
+		role="list"
+		class="flex flex-col m-4 ml-0 list-none gap-y-10 print:block print:px-0 print:mb-0"
+	>
+		for _,project := range projects {
+			<li
+				id={ project.ID }
+				class="flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
+			>
+				<div class="flex items-center justify-between flex-1 rounded-r-md">
+					<div class="flex-1">
+						<h4 class="my-0 text-xl print:text-lg">
+							<a
+								href={ templ.URL(project.Link) }
+								target="_blank"
+								class="font-medium text-brand-accent hover:text-brand-primary"
+							>
+								{ project.Name }
+								<span class="hidden text-sm print:inline">
+									( { removeScheme(project.Link) } )
+								</span>
+							</a>
+						</h4>
+						<div
+							class="mt-1 break-words markdown-inline print:text-brand-secondary"
+						>
+							@templ.Raw(markdown(project.Description))
+						</div>
+						<div class="flex flex-wrap gap-2 mt-2">
+							for _, technology := range project.Technologies {
+								if technology.Link != "" {
+									<a href={ templ.URL(technology.Link) } target="_blank" class="pill pill-link">
+										{ technology.Name }
+									</a>
+								} else {
+									<span class="pill">
+										{ technology.Name }
+									</span>
+								}
+							}
+						</div>
+					</div>
+				</div>
+			</li>
+		}
+		<li class="pl-0 my-0 print:mt-8">
+			<a href={ templ.URL(meta.Github) } target="_blank" class="flex items-center gap-2 w-fit btn print:hidden">View more</a>
+			<span class="text-sm text-brand-secondary hidden print:block">( View more on { removeScheme(meta.Github) } )</span>
+		</li>
+	</ul>
+}
+
+var removeSchemeRe = regexp.MustCompile(`^https://`)
+
+func removeScheme(url string) string {
+	return removeSchemeRe.ReplaceAllString(strings.TrimRight(url, "/"), "")
+}
+
+func markdown(content string) string {
+	return string(blackfriday.Run([]byte(content)))
 }

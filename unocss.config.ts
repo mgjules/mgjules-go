@@ -1,5 +1,5 @@
 // vite.config.ts
-import { defineConfig, presetUno, presetTypography } from "unocss";
+import { defineConfig, presetUno, presetWebFonts } from "unocss";
 import transformerDirective from "@unocss/transformer-directives";
 import { theme } from "@unocss/preset-mini";
 
@@ -8,7 +8,7 @@ export default defineConfig({
     entry: [
       {
         patterns: [
-          "./templates/**/*.dhtml",
+          // "./templates/**/*.dhtml",
           "./templates/**/*.templ",
           "./templates/**/*.scss",
         ],
@@ -17,13 +17,13 @@ export default defineConfig({
     ],
   },
   safelist: [
-    ...["text-xl", "font-semibold", "font-light", "sm:mt-2", "text-red"],
+    // ...["text-xl", "font-semibold", "font-light", "sm:mt-2", "text-red"],
   ],
   shortcuts: {
     pill: "w-fit border border-brand-secondary/50 py-1 px-2 text-xs text-brand-primary/90 shadow-md select-none print:border-brand-secondary print:text-brand-secondary print:shadow-none",
     "pill-link":
       "decoration-none hover:text-brand-accent hover:shadow-sm hover:border-brand-accent",
-    btn: "inline-block px-3 py-2 transition-all decoration-none border border-brand-accent text-brand-primary shadow-md hover:text-brand-accent hover:shadow-sm print:shadow-none print:border-none print:p-0",
+    btn: "inline-block px-2 py-1 transition-all decoration-none border border-brand-accent text-brand-primary shadow-md hover:text-brand-accent hover:shadow-sm print:shadow-none print:border-none print:p-0",
   },
   theme: {
     colors: {
@@ -39,20 +39,12 @@ export default defineConfig({
   },
   presets: [
     presetUno(),
-    presetTypography({
-      cssExtend: {
-        "h1,h2,h3,h4,h5,h6": {
-          color: theme.colors?.gray[300],
-        },
-        "a,code": {
-          color: theme.colors?.cyan[500],
-        },
-        "a:hover": {
-          color: theme.colors?.cyan[400],
-        },
+    presetWebFonts({
+      fonts: {
+        sans: "Roboto",
+        mono: ["Fira Code", "Fira Mono:400,700"],
       },
     }),
   ],
   transformers: [transformerDirective()],
 });
-

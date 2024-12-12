@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/samber/lo"
 )
 
 func (db *Static) GetLinks(ctx context.Context) ([]entity.Link, error) {
@@ -15,20 +14,20 @@ func (db *Static) GetLinks(ctx context.Context) ([]entity.Link, error) {
 			Icon: "material-symbols:waving-hand-sharp",
 		},
 		{
-			Name:         "Curriculum Vitae",
-			URL:          "/cv",
-			AlternateURL: lo.ToPtr("/cv/experiences"),
-			Icon:         "material-symbols:lab-profile-sharp",
-		},
-		{
 			Name: "Blog",
 			URL:  "/blog",
 			Icon: "material-symbols:newspaper-sharp",
 		},
 		{
-			Name:      "Github",
+			Name:      "Github (mgjules)",
 			URL:       "https://github.com/mgjules",
 			Icon:      "mdi:github",
+			NewWindow: true,
+		},
+		{
+			Name:      "LinkedIn (mgjules)",
+			URL:       "https://linkedin.com/in/mgjules",
+			Icon:      "mdi:linkedin",
 			NewWindow: true,
 		},
 	}, nil

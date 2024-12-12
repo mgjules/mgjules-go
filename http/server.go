@@ -110,16 +110,12 @@ func (s *Server) AttachRoutes() {
 	}
 
 	s.engine.GET("/", s.IndexHandler())
-	cv := s.engine.Group("/cv")
 	{
-		cv.GET("/print", s.CVPrintHandler())
-		cv.GET("/:section", s.CVHandler())
-	}
-	blog := s.engine.Group("/blog")
-	{
+		blog := s.engine.Group("/blog")
 		blog.GET("/", s.BlogIndexHandler())
 		blog.GET("/:slug", s.BlogPostHandler())
 	}
+
 	s.engine.NoRoute(s.NotFoundHandler())
 
 	s.engine.StaticFileFS("/favicon.ico", "static/favicon.ico", http.FS(s.static))
@@ -130,9 +126,7 @@ func (s *Server) AttachRoutes() {
 	} else {
 		cssR := s.engine.Group("/css")
 		cssR.Use(gzip.Gzip(gzip.BestCompression))
-		{
-			cssR.StaticFS("/", http.FS(css))
-		}
+		cssR.StaticFS("/", http.FS(css))
 	}
 
 	img, err := fs.Sub(s.static, "static/img")
@@ -141,9 +135,7 @@ func (s *Server) AttachRoutes() {
 	} else {
 		imgR := s.engine.Group("/img")
 		imgR.Use(gzip.Gzip(gzip.BestCompression))
-		{
-			imgR.StaticFS("/", http.FS(img))
-		}
+		imgR.StaticFS("/", http.FS(img))
 	}
 
 	fonts, err := fs.Sub(s.static, "static/fonts")
@@ -152,9 +144,7 @@ func (s *Server) AttachRoutes() {
 	} else {
 		fontR := s.engine.Group("/fonts")
 		fontR.Use(gzip.Gzip(gzip.BestCompression))
-		{
-			fontR.StaticFS("/", http.FS(fonts))
-		}
+		fontR.StaticFS("/", http.FS(fonts))
 	}
 
 	authenticated := s.engine.Group("/_")

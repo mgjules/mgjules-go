@@ -50,10 +50,10 @@ func New(
 func (p *Projecter) Build() {
 	meta := p.fetcher.Meta()
 	links := p.fetcher.Links()
-	// sections := p.fetcher.Sections()
-	// introduction := p.fetcher.Introduction()
-	// experiences := p.fetcher.Experiences()
-	// projects := p.fetcher.Projects()
+	intro := p.fetcher.Introduction()
+	sections := p.fetcher.Sections()
+	experiences := p.fetcher.Experiences()
+	projects := p.fetcher.Projects()
 	// contributions := p.fetcher.Contributions()
 	// awards := p.fetcher.Awards()
 	// interests := p.fetcher.Interests()
@@ -69,7 +69,8 @@ func (p *Projecter) Build() {
 	}
 	defer w.Close()
 
-	p.render(ctx, w, b, buildKey("index"), minimal.Index(meta, links))
+	p.render(ctx, w, b, buildKey("index"), minimal.Index(meta, links, intro, sections, experiences, projects))
+	p.render(ctx, w, b, buildKey("404"), minimal.NotFound(meta, links, intro))
 }
 
 func (p *Projecter) Get(keys ...string) ([]byte, bool) {
@@ -96,7 +97,7 @@ func (p *Projecter) render(
 	comp templ.Component,
 ) {
 	if err := comp.Render(ctx, w); err != nil {
-		logger.L.Errorf("failed to create projection index: %v", err)
+		logger.L.Errorf("failed to create %q component: %v", key, err)
 	} else {
 		w.Flush()
 		p.mu.Lock()

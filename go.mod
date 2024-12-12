@@ -19,6 +19,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/panjf2000/ants/v2 v2.8.1
 	github.com/robfig/cron/v3 v3.0.1
+	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/samber/lo v1.38.1
 	go.uber.org/multierr v1.11.0
 	go.uber.org/zap v1.27.0

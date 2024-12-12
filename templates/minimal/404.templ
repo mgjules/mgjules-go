@@ -1,0 +1,11 @@
+package minimal
+
+import "github.com/mgjules/mgjules-go/entity"
+
+templ NotFound(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
+	@Base(meta, links, intro) {
+		<div>
+			Not Found
+		</div>
+	}
+}

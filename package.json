@@ -7,6 +7,7 @@
     "build": "unocss -m"
   },
   "devDependencies": {
+    "@unocss/preset-web-fonts": "^0.65.1",
     "unocss": "latest"
   }
 }
