@@ -93,8 +93,8 @@ func (s *Server) Start() error {
 
 func (s *Server) initRoutes() {
 	s.mux.HandleFunc("GET /{$}", s.IndexHandler())
-	s.mux.HandleFunc("/blog", s.BlogIndexHandler())
-	s.mux.HandleFunc("/blog/{slug}", s.BlogPostHandler())
+	s.mux.HandleFunc("GET /blog", s.BlogIndexHandler())
+	s.mux.HandleFunc("GET /blog/{slug}", s.BlogPostHandler())
 
 	s.mux.Handle("/", http.StripPrefix("/", http.FileServerFS(s.static)))
 }
