@@ -1,6 +1,5 @@
 // vite.config.ts
 import { defineConfig, presetUno, presetWebFonts } from "unocss";
-import transformerDirective from "@unocss/transformer-directives";
 import { theme } from "@unocss/preset-mini";
 
 export default defineConfig({
@@ -9,16 +8,13 @@ export default defineConfig({
       {
         patterns: [
           // "./templates/**/*.dhtml",
+          // "./templates/**/*.scss",
           "./templates/**/*.templ",
-          "./templates/**/*.scss",
         ],
         outFile: "./static/css/style.css",
       },
     ],
   },
-  safelist: [
-    // ...["text-xl", "font-semibold", "font-light", "sm:mt-2", "text-red"],
-  ],
   shortcuts: {
     pill: "w-fit border border-brand-secondary/50 py-1 px-2 text-xs text-brand-primary/90 shadow-md select-none print:border-brand-secondary print:text-brand-secondary print:shadow-none",
     "pill-link":
@@ -46,5 +42,4 @@ export default defineConfig({
       },
     }),
   ],
-  transformers: [transformerDirective()],
 });

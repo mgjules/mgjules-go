@@ -10,7 +10,6 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/russross/blackfriday/v2"
 	"github.com/samber/lo"
 	"regexp"
 	"strings"
@@ -44,6 +43,7 @@ func Index(
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		setCurrentLink(links, "home")
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -61,14 +61,14 @@ func Index(
 				return templ_7745c5c3_Err
 			}
 			for _, section := range sections {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h3 class=\"text-2xl\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h3 class=\"text-xl\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(section.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/index.templ`, Line: 23, Col: 40}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/index.templ`, Line: 23, Col: 39}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -148,7 +148,7 @@ func experiencesSection(experiences []entity.Experience) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0\"><div class=\"flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row\"><h4 class=\"my-0 text-xl print:text-lg\"><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0\"><div class=\"flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row\"><h4 class=\"my-0 text-lg print:text-lg\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -353,7 +353,7 @@ func projectsSection(meta entity.Meta, projects []entity.Project) templ.Componen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid\"><div class=\"flex items-center justify-between flex-1 rounded-r-md\"><div class=\"flex-1\"><h4 class=\"my-0 text-xl print:text-lg\"><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid\"><div class=\"flex items-center justify-between flex-1 rounded-r-md\"><div class=\"flex-1\"><h4 class=\"my-0 text-lg print:text-lg\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -487,10 +487,6 @@ var removeSchemeRe = regexp.MustCompile(`^https://`)
 
 func removeScheme(url string) string {
 	return removeSchemeRe.ReplaceAllString(strings.TrimRight(url, "/"), "")
-}
-
-func markdown(content string) string {
-	return string(blackfriday.Run([]byte(content)))
 }
 
 var _ = templruntime.GeneratedTemplate

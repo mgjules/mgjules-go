@@ -2,7 +2,6 @@ package minimal
 
 import (
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/russross/blackfriday/v2"
 	"github.com/samber/lo"
 	"regexp"
 	"strings"
@@ -16,11 +15,12 @@ templ Index(
 	experiences []entity.Experience,
 	projects []entity.Project,
 ) {
+	{{ setCurrentLink(links, "home") }}
 	@Base(meta, links, intro) {
 		<div class="flex flex-col gap-y-10">
 			for _, section := range sections {
 				<div>
-					<h3 class="text-2xl">{ section.Name }</h3>
+					<h3 class="text-xl">{ section.Name }</h3>
 					switch section.ID {
 						case "experiences":
 							@experiencesSection(experiences)
@@ -38,7 +38,7 @@ templ experiencesSection(experiences []entity.Experience) {
 		for _,experience := range experiences {
 			<li id={ experience.ID } class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
 				<div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
-					<h4 class="my-0 text-xl print:text-lg">
+					<h4 class="my-0 text-lg print:text-lg">
 						<a href={ templ.URL(experience.Link) } target="_blank" class="font-medium text-brand-accent hover:text-brand-primary">
 							{ experience.Company }
 							<span class="hidden text-sm print:inline">
@@ -96,7 +96,7 @@ templ projectsSection(meta entity.Meta, projects []entity.Project) {
 			>
 				<div class="flex items-center justify-between flex-1 rounded-r-md">
 					<div class="flex-1">
-						<h4 class="my-0 text-xl print:text-lg">
+						<h4 class="my-0 text-lg print:text-lg">
 							<a
 								href={ templ.URL(project.Link) }
 								target="_blank"
@@ -141,8 +141,4 @@ var removeSchemeRe = regexp.MustCompile(`^https://`)
 
 func removeScheme(url string) string {
 	return removeSchemeRe.ReplaceAllString(strings.TrimRight(url, "/"), "")
-}
-
-func markdown(content string) string {
-	return string(blackfriday.Run([]byte(content)))
 }

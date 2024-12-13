@@ -16,7 +16,7 @@ func (db *Static) GetExperiences(ctx context.Context) ([]entity.Experience, erro
 			Link:         "https://livestorm.co",
 			Technologies: getTechnologies("Go"),
 			Tasks: []string{
-				`Something *markdown*`, "Task 2",
+				`Something *markdown* [Test Link](https://test.link)`, "Task 2",
 			},
 		},
 		{

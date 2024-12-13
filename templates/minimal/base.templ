@@ -2,6 +2,7 @@ package minimal
 
 import (
 	"github.com/mgjules/mgjules-go/entity"
+	"github.com/russross/blackfriday/v2"
 	"github.com/samber/lo"
 	"strings"
 )
@@ -44,33 +45,51 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 					class="w-full max-w-5xl text-brand-primary print:max-w-full print:text-black"
 				>
 					<header>
-						<h1 class="text-4xl font-light">
+						<h1 class="text-xl font-light">
 							{ meta.FirstName } <span class="font-semibold">{ meta.LastName }</span>
 						</h1>
 						<div class="mt-2">
-							<h2 class="text-lg text-brand-secondary">{ intro.Introduction }</h2>
+							<h2 class="text-brand-secondary">
+								@templ.Raw(markdown(intro.Introduction))
+							</h2>
 						</div>
 						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2">
 							for _, link := range links {
 								{{ url, _ := lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL) }}
-								<a
-									href={ templ.URL(url) }
-									class={
-										templ.KV("text-brand-accent", !link.IsCurrent),
-										templ.KV("text-brand-primary", link.IsCurrent),
-										templ.KV("print:hidden", !link.NewWindow),
-										"hover:text-brand-primary", "flex gap-x-1 items-center",
-									}
-									target={ lo.Ternary(link.NewWindow, "_blank", "") }
-								>
-									<iconify-icon
-										icon={ link.Icon }
-										class="inline-block w-5 h-5"
-										width="20"
-									></iconify-icon>
-									<span class="print:hidden">{ link.Name }</span>
-									<span class="hidden print:inline">{ removeScheme(url) }</span>
-								</a>
+								if !link.IsCurrent {
+									<a
+										href={ templ.URL(url) }
+										class={
+											templ.KV("print:hidden", !link.NewWindow),
+											"text-brand-accent hover:text-brand-primary flex gap-x-1 items-center",
+										}
+										target={ lo.Ternary(link.NewWindow, "_blank", "") }
+									>
+										<iconify-icon
+											icon={ link.Icon }
+											class="inline-block w-5 h-5"
+											width="20"
+										></iconify-icon>
+										<span class="print:hidden">{ link.Name }</span>
+										<span class="hidden print:inline">{ removeScheme(url) }</span>
+									</a>
+								} else {
+									<span
+										class={
+											templ.KV("print:hidden", !link.NewWindow),
+											"flex gap-x-1 items-center",
+										}
+										target={ lo.Ternary(link.NewWindow, "_blank", "") }
+									>
+										<iconify-icon
+											icon={ link.Icon }
+											class="inline-block w-5 h-5"
+											width="20"
+										></iconify-icon>
+										<span class="print:hidden">{ link.Name }</span>
+										<span class="hidden print:inline">{ removeScheme(url) }</span>
+									</span>
+								}
 							}
 						</nav>
 					</header>
@@ -84,6 +103,16 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 			</div>
 		</body>
 	</html>
+}
+
+func setCurrentLink(links []entity.Link, id string) {
+	for i := range links {
+		if links[i].ID != id {
+			links[i].IsCurrent = false
+			continue
+		}
+		links[i].IsCurrent = true
+	}
 }
 
 func getCurrentLink(links []entity.Link) entity.Link {
@@ -105,4 +134,8 @@ func getTitle(meta entity.Meta, links []entity.Link) string {
 
 	return meta.FullName + " - " + link.Name
 
+}
+
+func markdown(content string) string {
+	return string(blackfriday.Run([]byte(content)))
 }
