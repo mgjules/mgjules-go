@@ -1,0 +1,21 @@
+{% extends "layouts/editor.dhtml" %} {% block editor_content %}
+<ul
+  role="list"
+  class="grid grid-cols-1 m-4 ml-0 list-none gap-x-12 gap-y-10 sm:grid-cols-2 print:block print:columns-2 print:px-0 print:mb-0"
+>
+  {% for language in languages %}
+  <li
+    id="{{language.name|slugify}}"
+    class=" flex items-center gap-4 pl-0 my-0 group print:mt-8 print:first:mt-0 print:break-inside-avoid"
+  >
+    <div class="flex-shrink-0 overflow-hidden transition-all border w-11 h-11 border-white/50">
+      <iconify-icon icon="{{language.icon}}" width="42" height="42" />
+    </div>
+    <div>
+      <h3 class="my-0 print:text-brand-secondary print:text-lg print:font-medium">{{language.name}}</h3>
+      <div class="mt-0 print:text-brand-secondary">{{language.level}}</div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

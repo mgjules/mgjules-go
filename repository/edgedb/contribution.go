@@ -3,12 +3,12 @@ package edgedb
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/araddon/dateparse"
 	"github.com/edgedb/edgedb-go"
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/mgjules/mgjules-go/logger"
 )
 
 type Contribution struct {
@@ -24,13 +24,13 @@ type Contribution struct {
 func (c Contribution) ToEntity() entity.Contribution {
 	from, err := dateparse.ParseAny(c.From.String())
 	if err != nil {
-		logger.L.Debugf("failed to parse `from` for `%s`: %v", c.ID, err)
+		slog.Debug("failed to parse `from`", "id", c.ID, "error", err)
 	}
 
 	var to *time.Time
 	if val, ok := c.To.Get(); ok {
 		if parsed, err := dateparse.ParseAny(val.String()); err != nil {
-			logger.L.Debugf("failed to parse `to` for `%s`: %v", c.ID, err)
+			slog.Debug("failed to parse `to`", "id", c.ID, "error", err)
 		} else {
 			to = &parsed
 		}

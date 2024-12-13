@@ -2,16 +2,16 @@ package fetcher
 
 import (
 	"context"
+	"errors"
+	"log/slog"
 	"sync"
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/repository"
 	"github.com/panjf2000/ants/v2"
 	"github.com/robfig/cron/v3"
-	"go.uber.org/multierr"
 )
 
 const maxFreshFetchAttempts = 2
@@ -40,6 +40,13 @@ type Fetcher struct {
 }
 
 func New(repo repository.Repository, pool *ants.Pool) *Fetcher {
+	if repo == nil {
+		panic("repo cannot be nil")
+	}
+	if pool == nil {
+		panic("pool cannot be nil")
+	}
+
 	f := &Fetcher{
 		repo: repo,
 		pool: pool,
@@ -90,11 +97,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching meta data...")
+			slog.Debug("Fetching meta data...")
 			meta, err := f.repo.GetMeta(ctx, "bd99e066-440b-11ed-924c-9fd15527df84")
 			if err != nil {
-				logger.L.Errorf("failed to get meta: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get meta", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.meta = meta
@@ -106,11 +113,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching links data...")
+			slog.Debug("Fetching links data...")
 			links, err := f.repo.GetLinks(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get links: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get links", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.links = links
@@ -122,11 +129,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching introduction data...")
+			slog.Debug("Fetching introduction data...")
 			intro, err := f.repo.GetIntroduction(ctx, "a4296eac-441b-11ed-924c-830c8fd1144c")
 			if err != nil {
-				logger.L.Errorf("failed to get introduction: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get introduction", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.intro = intro
@@ -138,11 +145,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching section data...")
+			slog.Debug("Fetching section data...")
 			sections, err := f.repo.GetSections(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get sections: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get sections", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.sections = sections
@@ -154,11 +161,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching experience data...")
+			slog.Debug("Fetching experience data...")
 			experiences, err := f.repo.GetExperiences(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get experiences: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get experiences", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.experiences = experiences
@@ -170,11 +177,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching project data...")
+			slog.Debug("Fetching project data...")
 			projects, err := f.repo.GetProjects(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get projects: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get projects", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.projects = projects
@@ -186,11 +193,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching contribution data...")
+			slog.Debug("Fetching contribution data...")
 			contributions, err := f.repo.GetContributions(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get contributions: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get contributions", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.contributions = contributions
@@ -202,11 +209,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching award data...")
+			slog.Debug("Fetching award data...")
 			awards, err := f.repo.GetAwards(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get awards: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get awards", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.awards = awards
@@ -218,11 +225,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching interest data...")
+			slog.Debug("Fetching interest data...")
 			interests, err := f.repo.GetInterests(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get interests: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get interests", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.interests = interests
@@ -234,11 +241,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching language data...")
+			slog.Debug("Fetching language data...")
 			languages, err := f.repo.GetLanguages(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get languages: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get languages", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.languages = languages
@@ -250,11 +257,11 @@ func (f *Fetcher) Fetch() {
 		f.pool.Submit(func() {
 			defer wg.Done()
 
-			logger.L.Debug("Fetching post data...")
+			slog.Debug("Fetching post data...")
 			posts, err := f.repo.GetPosts(ctx)
 			if err != nil {
-				logger.L.Errorf("failed to get posts: %v", err)
-				errs = multierr.Append(errs, err)
+				slog.Error("failed to get posts", "error", err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.posts = posts
@@ -280,7 +287,7 @@ func (f *Fetcher) Fetch() {
 
 	err := backoff.Retry(operation, bkf)
 	if err != nil {
-		logger.L.Errorf("failed to fetched data: %v", err)
+		slog.Error("failed to fetched data", "error", err)
 		return
 	}
 

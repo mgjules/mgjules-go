@@ -18,6 +18,9 @@ type Config struct {
 	// Authentication
 	AuthToken string `envconfig:"AUTH_TOKEN" required:"true"`
 
+	// Static
+	Static bool `envconfig:"STATIC"`
+
 	// EdgeDB (deprecated)
 	EdgeDBDSN string `envconfig:"EDGEDB_DSN"`
 
@@ -26,7 +29,7 @@ type Config struct {
 	DirectusToken string `envconfig:"DIRECTUS_TOKEN"`
 
 	// Dartsass
-	DartSassEmbeddedBinary string `envconfig:"DART_SASS_EMBEDDED_BINARY" default:"dart-sass-embedded"`
+	DartSassEmbeddedBinary string `envconfig:"DART_SASS_EMBEDDED_BINARY" default:"sass"`
 }
 
 func Parse() (*Config, error) {

@@ -3,11 +3,11 @@ package edgedb
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/araddon/dateparse"
 	"github.com/edgedb/edgedb-go"
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/mgjules/mgjules-go/logger"
 )
 
 type Award struct {
@@ -23,7 +23,7 @@ type Award struct {
 func (a Award) ToEntity() entity.Award {
 	date, err := dateparse.ParseAny(a.Date.String())
 	if err != nil {
-		logger.L.Debugf("failed to parse `date` for `%s`: %v", a.ID, err)
+		slog.Debug("failed to parse `date`", "id", a.ID, "error", err)
 	}
 
 	return entity.Award{

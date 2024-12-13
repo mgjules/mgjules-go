@@ -2,19 +2,17 @@ package http
 
 import (
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) NotFoundHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
+func (s *Server) NotFoundHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		notFound, found := s.projecter.Get("404")
 		if !found {
-			// If we get there, we are in big trouble lol
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "the 404 page itself is not found. Awkward :s"})
+			// If we get there, we are in big trouble lol.
+			renderJSON(w, http.StatusInternalServerError, map[string]string{"error": "oh no! we don't have a 404 page."})
 			return
 		}
 
-		s.respond(c, http.StatusNotFound, notFound)
+		renderHTML(w, notFound)
 	}
 }

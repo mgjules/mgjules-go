@@ -2,30 +2,30 @@ package http
 
 import (
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) BlogIndexHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
+func (s *Server) BlogIndexHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		index, found := s.projecter.Get("blog", "index")
 		if !found {
-			s.NotFoundHandler()(c)
+			s.NotFoundHandler()(w, r)
 			return
 		}
 
-		s.respond(c, http.StatusOK, index)
+		w.WriteHeader(http.StatusOK)
+		w.Write(index)
 	}
 }
 
-func (s *Server) BlogPostHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		index, found := s.projecter.Get("blog", c.Param("slug"))
+func (s *Server) BlogPostHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		post, found := s.projecter.Get("blog", r.PathValue("slug"))
 		if !found {
-			s.NotFoundHandler()(c)
+			s.NotFoundHandler()(w, r)
 			return
 		}
 
-		s.respond(c, http.StatusOK, index)
+		w.WriteHeader(http.StatusOK)
+		w.Write(post)
 	}
 }

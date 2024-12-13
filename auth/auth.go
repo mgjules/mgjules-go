@@ -5,6 +5,10 @@ type Auth struct {
 }
 
 func New(token string) *Auth {
+	if token == "" {
+		panic("token cannot be empty")
+	}
+
 	return &Auth{token: token}
 }
 

@@ -1,0 +1,144 @@
+{% extends "layouts/base.dhtml" %} {% block content %}
+<div class="flex justify-center p-4 print:p-0">
+  <div
+    class="w-full max-w-5xl shadow-xl text-brand-primary print:max-w-full print:shadow-none print:rounded-none backdrop-blur-sm bg-brand-background/90 print:bg-white print:backdrop-none"
+  >
+    <div id="swup-progress-bar-container" class="relative h-fit print:hidden">
+      <div class="flex items-center justify-between w-full gap-4 p-3">
+        <div class="flex gap-1.5">
+          <div class="w-2.5 h-2.5 rounded-full bg-brand-tertiary"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-brand-tertiary"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-brand-tertiary"></div>
+        </div>
+        <div
+          id="title"
+          class="text-sm truncate transition-all text-brand-tertiary"
+        >
+          {{current_tab.name}}.{{current_tab.extension}} - {{meta.username}}
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div id="sidebar" class="sticky top-0 h-fit sidebar print:hidden">
+        {% for link in links %}
+        <a
+          href="{{ link.alternate_url|default:link.url }}"
+          title="{{link.name}}"
+          target="{% if link.new_window %}_blank{% else %}_self{% endif %}"
+          class="{% if link.is_current %}text-brand-primary border-brand-accent bg-gradient-to-r from-brand-accent/10 via-brand-accent/5 to-transparent {% else %}text-brand-tertiary border-transparent {% endif %}hover:text-brand-primary transition-all flex items-center justify-center shrink-0 box-border border-l-2 p-4"
+          {{link.new_window|yesno:",data-swup-preload"}}
+        >
+          <iconify-icon
+            icon="{{link.icon}}"
+            class="inline-block w-5 h-5"
+            width="20"
+          />
+        </a>
+        {% endfor %}
+      </div>
+      <div class="w-full max-w-full overflow-hidden">
+        {% if tabs || print %}
+        <div id="tabs" class="flex items-center justify-between gap-2 print:hidden">
+          <div
+            id="left-tabs"
+            class="swup-preserve-scroll transition-all flex -mb-[2px] items-center overflow-x-scroll min-h-8 shrink scrollbar"
+          >
+            {% for tab in tabs %}
+            <a
+              href="{{tab.url|default:'#'}}"
+              class="{% if current_tab.name == tab.name %}text-brand-primary bg-brand-foreground/60 border-b-brand-primary/20 {% else %}text-brand-tertiary hover:text-brand-secondary {% endif %}tab flex border-b border-b-transparent items-center justify-center gap-2 shrink-0 px-4 leading-7 border-r border-r-gray-900/60 transition-all text-sm hover:bg-brand-foreground hover:cursor-pointer"
+              {{tab.url|yesno:"data-swup-preload,"}}
+            >
+              <iconify-icon
+                icon="{{tab.icon}}"
+                class="w-4 h-4"
+                width="14"
+                height="14"
+              ></iconify-icon>
+              <span>{{tab.name}}.{{tab.extension}}</span>
+            </a>
+            {% endfor %}
+          </div>
+          {% if print %}
+          <div class="flex items-center gap-1 mr-1 shrink-0 print:hidden">
+            <a
+              href="#"
+              title="Print"
+              onclick="window.print()"
+              class="flex items-center py-0.5 px-1 transition-all hover:bg-gray-300/20 rounded-sm"
+            >
+              <iconify-icon
+                icon="ic:baseline-local-printshop"
+                class="w-3 text-gray-300"
+                width="12"
+              />
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div
+          id="swup"
+          class="w-full max-w-full text-base prose-sm prose prose-cyan swup-transition-fade-top text-brand-primary"
+        >
+          {% block editor_content %}No editor content :({% endblock %}
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full px-3 py-2 text-xs align-middle text-brand-tertiary print:hidden"
+    >
+      <div class="flex justify-between gap-2">
+        <div class="flex items-start gap-2.5">
+          <div class="hidden sm:block">Built with</div>
+          <a
+            href="https://go.dev/"
+            target="_blank"
+            title="Go"
+            class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
+          >
+            <iconify-icon icon="simple-icons:go" width="16" />
+          </a>
+          <a
+            href="https://uno.antfu.me/"
+            target="_blank"
+            title="UnoCSS"
+            class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
+          >
+            <iconify-icon icon="simple-icons:unocss" width="16" />
+          </a>
+          <a
+            href="https://directus.io/"
+            target="_blank"
+            title="Directus"
+            class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
+          >
+            <iconify-icon icon="simple-icons:directus" width="16" />
+          </a>
+          <a
+            href="https://digitalocean.com/"
+            target="_blank"
+            title="DigitalOcean"
+            class="w-4 h-4 transition-all hover:text-brand-primary hover:cursor-pointer"
+          >
+            <iconify-icon icon="simple-icons:digitalocean" width="16" />
+          </a>
+        </div>
+        <div class="flex items-start gap-1 truncate">
+          <iconify-icon
+            icon="ph:copyright"
+            class="w-4 h-4 shrink-0"
+            width="16"
+          ></iconify-icon>
+          <div class="truncate">{{current_year}} {{meta.full_name}}. All rights reserved.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  {{editor_css|safe}}
+</style>
+{% endblock %}

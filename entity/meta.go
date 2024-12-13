@@ -10,6 +10,7 @@ type Meta struct {
 	FullName    string   `json:"full_name"`
 	Keywords    []string `json:"keywords"`
 	Github      string   `json:"github"`
+	LinkedIn    string   `json:"linked_in"`
 	Username    string   `json:"username"`
 	Gender      string   `json:"gender"`
 	Avatar      string   `json:"avatar"`

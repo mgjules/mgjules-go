@@ -3,12 +3,12 @@ package edgedb
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/araddon/dateparse"
 	"github.com/edgedb/edgedb-go"
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/mgjules/mgjules-go/logger"
 )
 
 type Post struct {
@@ -32,7 +32,7 @@ func (p Post) ToEntity() entity.Post {
 	var createdAt time.Time
 	if val, ok := p.CreatedAt.Get(); ok {
 		if parsed, err := dateparse.ParseAny(val.String()); err != nil {
-			logger.L.Debugf("failed to parse `created_at` for `%s`: %v", p.ID, err)
+			slog.Debug("failed to parse `created_at`", "id", p.ID, "error", err)
 		} else {
 			createdAt = parsed
 		}

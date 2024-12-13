@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "unocss -m -w",
-    "build": "unocss -m"
+    "dev": "unocss -m -w --preflights",
+    "build": "unocss -m --preflights"
   },
   "devDependencies": {
     "unocss": "latest"

@@ -3,12 +3,12 @@ package directus
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/url"
 	"time"
 
 	"github.com/araddon/dateparse"
 	"github.com/mgjules/mgjules-go/entity"
-	"github.com/mgjules/mgjules-go/logger"
 )
 
 type Experience struct {
@@ -29,13 +29,13 @@ type Experience struct {
 func (e Experience) ToEntity() entity.Experience {
 	from, err := dateparse.ParseAny(e.From)
 	if err != nil {
-		logger.L.Debugf("failed to parse `from` for `%s`: %v", e.ID, err)
+		slog.Debug("failed to parse `from`", "id", e.ID, "error", err)
 	}
 
 	var to *time.Time
 	if e.To != nil {
 		if parsed, err := dateparse.ParseAny(*e.To); err != nil {
-			logger.L.Debugf("failed to parse `to` for `%s`: %v", e.ID, err)
+			slog.Debug("failed to parse `to`", "id", e.ID, "error", err)
 		} else {
 			to = &parsed
 		}

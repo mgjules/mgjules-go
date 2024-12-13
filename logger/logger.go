@@ -1,32 +1,23 @@
 package logger
 
 import (
-	"fmt"
-
-	"go.uber.org/zap"
+	"log/slog"
+	"os"
 )
 
-var L *zap.SugaredLogger
-
-func Init(prod bool) error {
-	if L != nil {
-		return nil
-	}
-
-	var (
-		logger *zap.Logger
-		err    error
-	)
+func Init(prod bool) {
+	var handler slog.Handler
 	if prod {
-		logger, err = zap.NewProduction()
+		handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+			AddSource: true,
+			Level:     slog.LevelWarn,
+		})
 	} else {
-		logger, err = zap.NewDevelopment()
-	}
-	if err != nil {
-		return fmt.Errorf("failed to initialize logger: %w", err)
+		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			AddSource: true,
+			Level:     slog.LevelDebug,
+		})
 	}
 
-	L = logger.Sugar()
-
-	return nil
+	slog.SetDefault(slog.New(handler))
 }

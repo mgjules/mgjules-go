@@ -1,0 +1,189 @@
+package minimal
+
+import (
+	"github.com/mgjules/mgjules-go/entity"
+	"github.com/russross/blackfriday/v2"
+	"github.com/samber/lo"
+	"io"
+	"strings"
+)
+
+templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
+	{{ title := getTitle(meta, links) }}
+	<html lang={ strings.ToLower(meta.Lang) }>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width"/>
+			<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+			<meta name="description" content={ meta.Description }/>
+			<meta name="keywords" content={ strings.Join(meta.Keywords, ",") }/>
+			<meta name="author" content={ meta.FullName }/>
+			<meta name="copyright" content={ meta.FullName }/>
+			<meta name="robots" content="follow"/>
+			<meta property="og:title" content={ title }/>
+			<meta property="og:type" content="profile"/>
+			<meta property="og:description" content={ meta.Description }/>
+			<meta property="og:image" content={ meta.Avatar }/>
+			<meta property="og:url" content={ meta.BaseURL }/>
+			<meta name="twitter:card" content="summary_large_image"/>
+			<meta property="og:site_name" content={ title }/>
+			<meta
+				name="twitter:image:alt"
+				content={ meta.FullName + " Profile Picture" }
+			/>
+			<meta name="profile:first_name" content={ meta.FirstName }/>
+			<meta name="profile:last_name" content={ meta.LastName }/>
+			<meta name="profile:username" content={ meta.Username }/>
+			<meta name="profile:gender" content={ meta.Gender }/>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"/>
+			<link rel="stylesheet" href="/css/style.css"/>
+			<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.1/dist/iconify-icon.min.js" async></script>
+			<title>{ title }</title>
+		</head>
+		<body class="font-sans antialiased scroll-smooth bg-brand-background/90 print:bg-white print:backdrop-none">
+			<div class="flex justify-center px-4 py-4 lg:py-8 print:p-0">
+				<div
+					class="w-full max-w-5xl space-y-10 text-brand-primary print:max-w-full print:text-black"
+				>
+					<header>
+						<h1 class="text-xl font-light">
+							{ meta.FirstName } <span class="font-semibold">{ meta.LastName }</span>
+						</h1>
+						<div class="mt-2">
+							<h2 class="text-brand-secondary">
+								@templ.Raw(markdown(intro.Introduction))
+							</h2>
+						</div>
+						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2 wrapped-dash">
+							for _, link := range links {
+								{{ url := getLinkURL(meta, link) }}
+								if !link.IsCurrent {
+									<a
+										href={ templ.URL(url) }
+										class={
+											templ.KV("print:hidden", !link.NewWindow),
+											"flex gap-x-1 items-center link",
+										}
+										target={ lo.Ternary(link.NewWindow, "_blank", "") }
+									>
+										<iconify-icon
+											icon={ link.Icon }
+											class="inline-block w-5 h-5"
+											width="20"
+										></iconify-icon>
+										<span class="print:hidden">{ link.Name }</span>
+										<span class="hidden print:inline">{ removeScheme(url) }</span>
+									</a>
+								} else {
+									<span
+										class={
+											templ.KV("print:hidden", !link.NewWindow),
+											"flex gap-x-1 items-center",
+										}
+										target={ lo.Ternary(link.NewWindow, "_blank", "") }
+									>
+										<iconify-icon
+											icon={ link.Icon }
+											class="inline-block w-5 h-5"
+											width="20"
+										></iconify-icon>
+										<span class="print:hidden">{ link.Name }</span>
+										<span class="hidden print:inline">{ removeScheme(url) }</span>
+									</span>
+								}
+							}
+						</nav>
+					</header>
+					<div>
+						{ children... }
+					</div>
+					<footer class="print:hidden wrapped-dash">
+						<span class="text-xs text-brand-secondary">Built using Go, Templ & TailwindCSS</span>
+					</footer>
+				</div>
+			</div>
+		</body>
+	</html>
+}
+
+func getLinkURL(meta entity.Meta, link entity.Link) string {
+	switch link.ID {
+	case "github":
+		return meta.Github
+	case "linkedin":
+		return meta.LinkedIn
+	default:
+		url, _ := lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL)
+		return url
+	}
+}
+
+func setCurrentLink(links []entity.Link, id string) {
+	for i := range links {
+		if links[i].ID != id {
+			links[i].IsCurrent = false
+			continue
+		}
+		links[i].IsCurrent = true
+	}
+}
+
+func getCurrentLink(links []entity.Link) entity.Link {
+	link, found := lo.Find(links, func(l entity.Link) bool {
+		return l.IsCurrent
+	})
+	if found {
+		return entity.Link{}
+	}
+
+	return link
+}
+
+func getTitle(meta entity.Meta, links []entity.Link) string {
+	link := getCurrentLink(links)
+	if link.Name == "" {
+		return meta.FullName
+	}
+
+	return meta.FullName + " - " + link.Name
+
+}
+
+type customRenderer struct {
+	defR *blackfriday.HTMLRenderer
+}
+
+func (r *customRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+	switch node.Type {
+	case blackfriday.Link:
+		if entering {
+			w.Write([]byte(`<a href="` + string(node.LinkData.Destination) + `" class="link" target="_blank">`))
+		} else {
+			w.Write([]byte(`</a>`))
+		}
+		return blackfriday.GoToNext
+	default:
+		return r.defR.RenderNode(w, node, entering)
+	}
+}
+
+func (r *customRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {
+	r.defR.RenderHeader(w, ast)
+}
+
+func (r *customRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {
+	r.defR.RenderFooter(w, ast)
+}
+
+func markdown(content string) string {
+	return string(
+		blackfriday.Run(
+			[]byte(content),
+			blackfriday.WithRenderer(
+				&customRenderer{defR: blackfriday.NewHTMLRenderer(
+					blackfriday.HTMLRendererParameters{Flags: blackfriday.CommonHTMLFlags},
+				)},
+			),
+		),
+	)
+}

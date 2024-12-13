@@ -5,7 +5,6 @@ import (
 	"embed"
 	"log"
 
-	"github.com/bep/godartsass"
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/config"
 	"github.com/mgjules/mgjules-go/fetcher"
@@ -18,16 +17,13 @@ import (
 
 //go:generate npm run build
 
-//go:embed templates
-var templates embed.FS
-
-//go:embed static
+//go:embed static/*
 var static embed.FS
 
 func main() {
 	cfg, err := config.Parse()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to parse config: %v", err)
 	}
 
 	logger.Init(cfg.Prod)
@@ -35,24 +31,11 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	repo, err := repository.New(ctx, cfg)
-	if err != nil {
-		logger.L.Fatalf("failed to create repository: %v", err)
-	}
+	repo := repository.New(ctx, cfg)
 
-	auth := auth.New(cfg.AuthToken)
-
-	transpiler, err := godartsass.Start(godartsass.Options{
-		DartSassEmbeddedFilename: cfg.DartSassEmbeddedBinary,
-	})
+	pool, err := ants.NewPool(100)
 	if err != nil {
-		logger.L.Fatalf("failed to start transpiler: %v", err)
-	}
-	defer transpiler.Close()
-
-	pool, err := ants.NewPool(1000)
-	if err != nil {
-		logger.L.Fatalf("failed to create pool: %v", err)
+		log.Fatalf("failed to create pool: %v", err)
 	}
 	defer pool.Release()
 
@@ -60,13 +43,12 @@ func main() {
 	fetcher.Start()
 	defer fetcher.Stop()
 
-	projecter, err := projecter.New(cfg.Prod, pool, fetcher, templates, transpiler)
-	if err != nil {
-		logger.L.Fatalf("failed to create projecter: %v", err)
-	}
+	projecter := projecter.New(cfg.Prod, pool, fetcher)
 	fetcher.AddSubscriber(projecter.Build)
 
-	go fetcher.Fetch()
+	pool.Submit(fetcher.Fetch)
+
+	auth := auth.New(cfg.AuthToken)
 
 	server := http.NewServer(cfg.Prod,
 		cfg.ServerHost,
@@ -78,6 +60,6 @@ func main() {
 		static,
 	)
 	if err = server.Start(); err != nil {
-		logger.L.Fatalf("failed to start server: %v", err)
+		log.Fatalf("failed to start server: %v", err)
 	}
 }
