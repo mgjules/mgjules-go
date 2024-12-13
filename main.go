@@ -17,7 +17,7 @@ import (
 
 //go:generate npm run build
 
-//go:embed static
+//go:embed static/*
 var static embed.FS
 
 func main() {
