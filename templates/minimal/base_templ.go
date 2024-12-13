@@ -233,14 +233,14 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css\"><link rel=\"stylesheet\" href=\"/css/style.css\"><script src=\"https://cdn.jsdelivr.net/npm/iconify-icon@1.0.1/dist/iconify-icon.min.js\" async></script><title>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css\"><link rel=\"stylesheet\" href=\"/css/style.css\"><style type=\"text/css\">\n      .markdown-inline > p {\n        margin: 0;\n        line-height: inherit;\n        display: inline;\n      }\n      </style><script src=\"https://cdn.jsdelivr.net/npm/iconify-icon@1.0.1/dist/iconify-icon.min.js\" async></script><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 41, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 48, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -253,7 +253,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(meta.FirstName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 50, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 57, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -266,7 +266,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(meta.LastName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 50, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 57, Col: 69}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -324,7 +324,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var23 string
 				templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(lo.Ternary(link.NewWindow, "_blank", ""))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 67, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 74, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 				if templ_7745c5c3_Err != nil {
@@ -337,7 +337,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var24 string
 				templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(link.Icon)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 70, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 77, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 				if templ_7745c5c3_Err != nil {
@@ -350,7 +350,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var25 string
 				templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(link.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 74, Col: 48}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 81, Col: 48}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 				if templ_7745c5c3_Err != nil {
@@ -363,7 +363,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var26 string
 				templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(removeScheme(url))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 75, Col: 63}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 82, Col: 63}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 				if templ_7745c5c3_Err != nil {
@@ -402,7 +402,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var29 string
 				templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(lo.Ternary(link.NewWindow, "_blank", ""))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 83, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 90, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 				if templ_7745c5c3_Err != nil {
@@ -415,7 +415,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var30 string
 				templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(link.Icon)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 86, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 93, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 				if templ_7745c5c3_Err != nil {
@@ -428,7 +428,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var31 string
 				templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(link.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 90, Col: 48}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 97, Col: 48}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 				if templ_7745c5c3_Err != nil {
@@ -441,7 +441,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 				var templ_7745c5c3_Var32 string
 				templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(removeScheme(url))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 91, Col: 63}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/minimal/base.templ`, Line: 98, Col: 63}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 				if templ_7745c5c3_Err != nil {

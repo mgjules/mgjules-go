@@ -283,7 +283,7 @@ func experiencesSection(meta entity.Meta, experiences []entity.Experience) templ
 					}
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul role=\"list\" class=\"mt-3 mb-0 print:text-brand-secondary\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul role=\"list\" class=\"mt-3 mb-0 pl-4 list-disc list-outside print:text-brand-secondary\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
