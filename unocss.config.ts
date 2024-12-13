@@ -20,6 +20,7 @@ export default defineConfig({
     "pill-link":
       "decoration-none hover:text-brand-accent hover:shadow-sm hover:border-brand-accent",
     btn: "inline-block px-2 py-1 transition-all decoration-none border border-brand-accent text-brand-primary shadow-md hover:text-brand-accent hover:shadow-sm print:shadow-none print:border-none print:p-0",
+    "wrapped-dash": "py-2 border-dashed border-y border-brand-tertiary",
   },
   theme: {
     colors: {

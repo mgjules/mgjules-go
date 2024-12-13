@@ -53,7 +53,7 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 								@templ.Raw(markdown(intro.Introduction))
 							</h2>
 						</div>
-						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2">
+						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2 wrapped-dash">
 							for _, link := range links {
 								{{ url, _ := lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL) }}
 								if !link.IsCurrent {
@@ -96,7 +96,7 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 					<div class="mt-10">
 						{ children... }
 					</div>
-					<footer class="mt-10 print:hidden">
+					<footer class="mt-10 print:hidden wrapped-dash">
 						<span class="text-xs text-brand-secondary">Built using Go, Templ & TailwindCSS</span>
 					</footer>
 				</div>

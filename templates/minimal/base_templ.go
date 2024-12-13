@@ -279,7 +279,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2></div><nav class=\"mt-4 flex flex-wrap gap-x-8 gap-y-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2></div><nav class=\"mt-4 flex flex-wrap gap-x-8 gap-y-2 wrapped-dash\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -460,7 +460,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><footer class=\"mt-10 print:hidden\"><span class=\"text-xs text-brand-secondary\">Built using Go, Templ & TailwindCSS</span></footer></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><footer class=\"mt-10 print:hidden wrapped-dash\"><span class=\"text-xs text-brand-secondary\">Built using Go, Templ & TailwindCSS</span></footer></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
