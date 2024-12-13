@@ -50,7 +50,8 @@ func main() {
 
 	auth := auth.New(cfg.AuthToken)
 
-	server := http.NewServer(cfg.Prod,
+	server := http.NewServer(
+		cfg.Prod,
 		cfg.ServerHost,
 		cfg.ServerPort,
 		cfg.ServerTLSDomain,

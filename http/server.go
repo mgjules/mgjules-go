@@ -60,6 +60,10 @@ func NewServer(
 	}
 
 	if prod {
+		static, err := fs.Sub(static, "static")
+		if err != nil {
+			panic("failed to get subtree: " + err.Error())
+		}
 		s.static = static
 	} else {
 		s.static = os.DirFS("./static")
