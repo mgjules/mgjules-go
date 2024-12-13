@@ -289,7 +289,7 @@ func Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) temp
 			if !link.IsCurrent {
 				var templ_7745c5c3_Var20 = []any{
 					templ.KV("print:hidden", !link.NewWindow),
-					"text-brand-accent hover:text-brand-primary flex gap-x-1 items-center",
+					"flex gap-x-1 items-center link",
 				}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 				if templ_7745c5c3_Err != nil {

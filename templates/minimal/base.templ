@@ -62,7 +62,7 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 										href={ templ.URL(url) }
 										class={
 											templ.KV("print:hidden", !link.NewWindow),
-											"text-brand-accent hover:text-brand-primary flex gap-x-1 items-center",
+											"flex gap-x-1 items-center link",
 										}
 										target={ lo.Ternary(link.NewWindow, "_blank", "") }
 									>

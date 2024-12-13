@@ -39,7 +39,7 @@ templ experiencesSection(experiences []entity.Experience) {
 			<li id={ experience.ID } class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
 				<div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
 					<h4 class="my-0 text-lg print:text-lg">
-						<a href={ templ.URL(experience.Link) } target="_blank" class="font-medium text-brand-accent hover:text-brand-primary">
+						<a href={ templ.URL(experience.Link) } target="_blank" class="link">
 							{ experience.Company }
 							<span class="hidden text-sm print:inline">
 								( { removeScheme(experience.Link) } )
@@ -100,7 +100,7 @@ templ projectsSection(meta entity.Meta, projects []entity.Project) {
 							<a
 								href={ templ.URL(project.Link) }
 								target="_blank"
-								class="font-medium text-brand-accent hover:text-brand-primary"
+								class="link"
 							>
 								{ project.Name }
 								<span class="hidden text-sm print:inline">
