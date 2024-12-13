@@ -56,7 +56,17 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 						</div>
 						<nav class="mt-4 flex flex-wrap gap-x-8 gap-y-2 wrapped-dash">
 							for _, link := range links {
-								{{ url, _ := lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL) }}
+								{{
+	var url string
+	switch link.ID {
+	case "github":
+		url = meta.Github
+	case "linkedin":
+		url = meta.LinkedIn
+	default:
+		url, _ = lo.Coalesce(lo.FromPtr(link.AlternateURL), link.URL)
+	}
+								}}
 								if !link.IsCurrent {
 									<a
 										href={ templ.URL(url) }

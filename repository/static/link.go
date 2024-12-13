@@ -22,15 +22,13 @@ func (db *Static) GetLinks(ctx context.Context) ([]entity.Link, error) {
 		},
 		{
 			ID:        "github",
-			Name:      "Github (mgjules)",
-			URL:       "https://github.com/mgjules",
+			Name:      "Github",
 			Icon:      "mdi:github",
 			NewWindow: true,
 		},
 		{
 			ID:        "linkedin",
-			Name:      "LinkedIn (mgjules)",
-			URL:       "https://linkedin.com/in/mgjules",
+			Name:      "LinkedIn",
 			Icon:      "mdi:linkedin",
 			NewWindow: true,
 		},

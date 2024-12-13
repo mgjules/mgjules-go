@@ -23,7 +23,7 @@ templ Index(
 					<h3 class="text-xl">{ section.Name }</h3>
 					switch section.ID {
 						case "experiences":
-							@experiencesSection(experiences)
+							@experiencesSection(meta, experiences)
 						case "projects":
 							@projectsSection(meta, projects)
 					}
@@ -33,10 +33,10 @@ templ Index(
 	}
 }
 
-templ experiencesSection(experiences []entity.Experience) {
+templ experiencesSection(meta entity.Meta, experiences []entity.Experience) {
 	<ul role="list" class="grid grid-cols-1 m-4 ml-0 list-none space-y-6 print:block print:px-0 print:mb-0">
 		for _,experience := range experiences {
-			<li id={ experience.ID } class="pl-0 my-0 group print:break-inside-avoid print:mt-8 print:first:mt-0">
+			<li id={ experience.ID } class="group print:break-inside-avoid">
 				<div class="flex flex-col sm:justify-between sm:flex-row gap-x-2 print:justify-between print:items-center print:flex-row">
 					<h4 class="my-0 text-lg print:text-lg">
 						<a href={ templ.URL(experience.Link) } target="_blank" class="link">
@@ -81,6 +81,10 @@ templ experiencesSection(experiences []entity.Experience) {
 				</ul>
 			</li>
 		}
+		<li class="pl-0 my-0 print:mt-8">
+			<a href={ templ.URL(meta.LinkedIn) } target="_blank" class="flex items-center gap-2 w-fit btn print:hidden">View more</a>
+			<span class="text-sm text-brand-secondary hidden print:block">( View more on { removeScheme(meta.LinkedIn) } )</span>
+		</li>
 	</ul>
 }
 
@@ -92,7 +96,7 @@ templ projectsSection(meta entity.Meta, projects []entity.Project) {
 		for _,project := range projects {
 			<li
 				id={ project.ID }
-				class="flex pl-0 my-0 group print:mt-8 print:first:mt-0 print:first:mt-0 print:break-inside-avoid"
+				class="flex my-0 group print:break-inside-avoid"
 			>
 				<div class="flex items-center justify-between flex-1 rounded-r-md">
 					<div class="flex-1">
