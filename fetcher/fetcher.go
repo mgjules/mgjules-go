@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"sync"
 	"time"
@@ -11,7 +12,6 @@ import (
 	"github.com/mgjules/mgjules-go/repository"
 	"github.com/panjf2000/ants/v2"
 	"github.com/robfig/cron/v3"
-	"go.uber.org/multierr"
 )
 
 const maxFreshFetchAttempts = 2
@@ -101,7 +101,7 @@ func (f *Fetcher) Fetch() {
 			meta, err := f.repo.GetMeta(ctx, "bd99e066-440b-11ed-924c-9fd15527df84")
 			if err != nil {
 				slog.Error("failed to get meta", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.meta = meta
@@ -117,7 +117,7 @@ func (f *Fetcher) Fetch() {
 			links, err := f.repo.GetLinks(ctx)
 			if err != nil {
 				slog.Error("failed to get links", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.links = links
@@ -133,7 +133,7 @@ func (f *Fetcher) Fetch() {
 			intro, err := f.repo.GetIntroduction(ctx, "a4296eac-441b-11ed-924c-830c8fd1144c")
 			if err != nil {
 				slog.Error("failed to get introduction", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.intro = intro
@@ -149,7 +149,7 @@ func (f *Fetcher) Fetch() {
 			sections, err := f.repo.GetSections(ctx)
 			if err != nil {
 				slog.Error("failed to get sections", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.sections = sections
@@ -165,7 +165,7 @@ func (f *Fetcher) Fetch() {
 			experiences, err := f.repo.GetExperiences(ctx)
 			if err != nil {
 				slog.Error("failed to get experiences", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.experiences = experiences
@@ -181,7 +181,7 @@ func (f *Fetcher) Fetch() {
 			projects, err := f.repo.GetProjects(ctx)
 			if err != nil {
 				slog.Error("failed to get projects", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.projects = projects
@@ -197,7 +197,7 @@ func (f *Fetcher) Fetch() {
 			contributions, err := f.repo.GetContributions(ctx)
 			if err != nil {
 				slog.Error("failed to get contributions", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.contributions = contributions
@@ -213,7 +213,7 @@ func (f *Fetcher) Fetch() {
 			awards, err := f.repo.GetAwards(ctx)
 			if err != nil {
 				slog.Error("failed to get awards", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.awards = awards
@@ -229,7 +229,7 @@ func (f *Fetcher) Fetch() {
 			interests, err := f.repo.GetInterests(ctx)
 			if err != nil {
 				slog.Error("failed to get interests", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.interests = interests
@@ -245,7 +245,7 @@ func (f *Fetcher) Fetch() {
 			languages, err := f.repo.GetLanguages(ctx)
 			if err != nil {
 				slog.Error("failed to get languages", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.languages = languages
@@ -261,7 +261,7 @@ func (f *Fetcher) Fetch() {
 			posts, err := f.repo.GetPosts(ctx)
 			if err != nil {
 				slog.Error("failed to get posts", "error", err)
-				errs = multierr.Append(errs, err)
+				errs = errors.Join(errs, err)
 			} else {
 				f.dataMu.Lock()
 				f.posts = posts
