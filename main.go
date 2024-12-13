@@ -23,7 +23,7 @@ var static embed.FS
 func main() {
 	cfg, err := config.Parse()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to parse config: %v", err)
 	}
 
 	logger.Init(cfg.Prod)
@@ -35,7 +35,7 @@ func main() {
 
 	pool, err := ants.NewPool(100)
 	if err != nil {
-		logger.L.Fatalf("failed to create pool: %v", err)
+		log.Fatalf("failed to create pool: %v", err)
 	}
 	defer pool.Release()
 
@@ -60,6 +60,6 @@ func main() {
 		static,
 	)
 	if err = server.Start(); err != nil {
-		logger.L.Fatalf("failed to start server: %v", err)
+		log.Fatalf("failed to start server: %v", err)
 	}
 }

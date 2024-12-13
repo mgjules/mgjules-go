@@ -2,9 +2,8 @@ package http
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
-
-	"github.com/mgjules/mgjules-go/logger"
 )
 
 func renderJSON(w http.ResponseWriter, status int, v any) {
@@ -17,7 +16,7 @@ func renderJSON(w http.ResponseWriter, status int, v any) {
 
 	b, err := json.Marshal(v)
 	if err != nil {
-		logger.L.Errorf("failed to create a valid response: %v", err)
+		slog.Error("failed to create a valid response", "error", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "could not create a valid response`))
 		return

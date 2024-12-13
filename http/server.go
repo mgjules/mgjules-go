@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"os"
 	"time"
@@ -11,7 +12,6 @@ import (
 	"github.com/fvbock/endless"
 	"github.com/mgjules/mgjules-go/auth"
 	"github.com/mgjules/mgjules-go/fetcher"
-	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/projecter"
 	"golang.org/x/crypto/acme/autocert"
 )
@@ -71,9 +71,10 @@ func NewServer(
 }
 
 func (s *Server) Start() error {
-	logger.L.Infof("server listening on %s:%d...", s.host, s.port)
+	hostport := fmt.Sprintf("%s:%v", s.host, s.port)
+	slog.Info("server listening on", "host:port", hostport)
 
-	es := endless.NewServer(fmt.Sprintf("%s:%v", s.host, s.port), s.mux)
+	es := endless.NewServer(hostport, s.mux)
 	es.ReadTimeout = 10 * time.Second
 	if s.prod {
 		es.WriteTimeout = 10 * time.Second

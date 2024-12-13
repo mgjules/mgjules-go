@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
+	"log/slog"
 	"strings"
 	"sync"
 
 	"github.com/a-h/templ"
 	"github.com/mgjules/mgjules-go/fetcher"
-	"github.com/mgjules/mgjules-go/logger"
 	"github.com/mgjules/mgjules-go/templates/minimal"
 	"github.com/panjf2000/ants/v2"
 )
@@ -64,7 +64,7 @@ func (p *Projecter) Build() {
 	b := &bytes.Buffer{}
 	w, err := gzip.NewWriterLevel(b, gzip.BestCompression)
 	if err != nil {
-		logger.L.Errorf("failed to create new gzip writer: %w", err)
+		slog.Error("failed to create new gzip writer", "error", err)
 		return
 	}
 	defer w.Close()
@@ -97,7 +97,7 @@ func (p *Projecter) render(
 	comp templ.Component,
 ) {
 	if err := comp.Render(ctx, w); err != nil {
-		logger.L.Errorf("failed to create %q component: %v", key, err)
+		slog.Error("failed to create %q component", "key", key, "error", err)
 	} else {
 		w.Flush()
 		p.mu.Lock()

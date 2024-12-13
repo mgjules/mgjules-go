@@ -18,7 +18,6 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/samber/lo v1.38.1
 	go.uber.org/multierr v1.11.0
-	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.26.0
 )
 
