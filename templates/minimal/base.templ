@@ -4,6 +4,7 @@ import (
 	"github.com/mgjules/mgjules-go/entity"
 	"github.com/russross/blackfriday/v2"
 	"github.com/samber/lo"
+	"io"
 	"strings"
 )
 
@@ -42,7 +43,7 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 		<body class="font-sans antialiased scroll-smooth bg-brand-background/90 print:bg-white print:backdrop-none">
 			<div class="flex justify-center px-4 py-4 lg:py-8 print:p-0">
 				<div
-					class="w-full max-w-5xl text-brand-primary print:max-w-full print:text-black"
+					class="w-full max-w-5xl space-y-10 text-brand-primary print:max-w-full print:text-black"
 				>
 					<header>
 						<h1 class="text-xl font-light">
@@ -93,10 +94,10 @@ templ Base(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 							}
 						</nav>
 					</header>
-					<div class="mt-10">
+					<div>
 						{ children... }
 					</div>
-					<footer class="mt-10 print:hidden wrapped-dash">
+					<footer class="print:hidden wrapped-dash">
 						<span class="text-xs text-brand-secondary">Built using Go, Templ & TailwindCSS</span>
 					</footer>
 				</div>
@@ -136,6 +137,41 @@ func getTitle(meta entity.Meta, links []entity.Link) string {
 
 }
 
+type customRenderer struct {
+	defR *blackfriday.HTMLRenderer
+}
+
+func (r *customRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+	switch node.Type {
+	case blackfriday.Link:
+		if entering {
+			w.Write([]byte(`<a href="` + string(node.LinkData.Destination) + `" class="link" target="_blank">`))
+		} else {
+			w.Write([]byte(`</a>`))
+		}
+		return blackfriday.GoToNext
+	default:
+		return r.defR.RenderNode(w, node, entering)
+	}
+}
+
+func (r *customRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {
+	r.defR.RenderHeader(w, ast)
+}
+
+func (r *customRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {
+	r.defR.RenderFooter(w, ast)
+}
+
 func markdown(content string) string {
-	return string(blackfriday.Run([]byte(content)))
+	return string(
+		blackfriday.Run(
+			[]byte(content),
+			blackfriday.WithRenderer(
+				&customRenderer{defR: blackfriday.NewHTMLRenderer(
+					blackfriday.HTMLRendererParameters{Flags: blackfriday.CommonHTMLFlags},
+				)},
+			),
+		),
+	)
 }
