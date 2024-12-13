@@ -10,7 +10,7 @@ func Init(prod bool) {
 	if prod {
 		handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 			AddSource: true,
-			Level:     slog.LevelWarn,
+			Level:     slog.LevelInfo,
 		})
 	} else {
 		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
