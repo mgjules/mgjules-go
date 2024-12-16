@@ -85,7 +85,7 @@ func (s *Server) Start() error {
 }
 
 func (s *Server) initRoutes() {
-	s.mux.HandleFunc("GET /", s.RootHandler())
+	s.mux.HandleFunc("GET /", s.rootHandler())
 	// s.mux.HandleFunc("GET /blog", s.BlogIndexHandler())
 	// s.mux.HandleFunc("GET /blog/{slug}", s.BlogPostHandler())
 
