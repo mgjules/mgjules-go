@@ -8,7 +8,7 @@ package minimal
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/mgjules/mgjules-go/entity"
+import "github.com/mgjules/mgjules-go/internal/entity"
 
 func NotFound(meta entity.Meta, links []entity.Link, intro entity.Introduction) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {

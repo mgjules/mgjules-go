@@ -1,6 +1,6 @@
 package minimal
 
-import "github.com/mgjules/mgjules-go/entity"
+import "github.com/mgjules/mgjules-go/internal/entity"
 
 templ NotFound(meta entity.Meta, links []entity.Link, intro entity.Introduction) {
 	{{ setCurrentLink(links, "not_found") }}

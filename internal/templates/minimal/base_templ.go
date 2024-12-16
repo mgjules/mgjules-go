@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/mgjules/mgjules-go/entity"
+	"github.com/mgjules/mgjules-go/internal/entity"
 	"github.com/russross/blackfriday/v2"
 	"github.com/samber/lo"
 	"io"
