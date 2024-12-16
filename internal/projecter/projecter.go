@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"context"
 	"log/slog"
+	"slices"
 	"strings"
 	"sync"
 
@@ -15,7 +16,7 @@ import (
 )
 
 const (
-	seperator string = ":"
+	seperator string = "/"
 )
 
 type Projecter struct {
@@ -48,6 +49,9 @@ func New(
 }
 
 func (p *Projecter) Build() {
+	slog.Debug("Building projections...")
+	defer slog.Debug("Built projections successfully")
+
 	meta := p.fetcher.Meta()
 	links := p.fetcher.Links()
 	intro := p.fetcher.Introduction()
@@ -58,7 +62,7 @@ func (p *Projecter) Build() {
 	// awards := p.fetcher.Awards()
 	// interests := p.fetcher.Interests()
 	// languages := p.fetcher.Languages()
-	// posts := p.fetcher.Posts()
+	posts := p.fetcher.Posts()
 
 	ctx := context.Background()
 	b := &bytes.Buffer{}
@@ -70,6 +74,10 @@ func (p *Projecter) Build() {
 	defer w.Close()
 
 	p.render(ctx, w, b, buildKey("index"), minimal.Index(meta, links, intro, sections, experiences, projects))
+	p.render(ctx, w, b, buildKey("blog"), minimal.BlogIndex(meta, links, intro, posts))
+	for _, post := range posts {
+		p.render(ctx, w, b, buildKey("blog", post.Slug), minimal.BlogPost(meta, links, intro, post))
+	}
 	p.render(ctx, w, b, buildKey("404"), minimal.NotFound(meta, links, intro))
 }
 
@@ -99,11 +107,12 @@ func (p *Projecter) render(
 	if err := comp.Render(ctx, w); err != nil {
 		slog.Error("failed to create %q component", "key", key, "error", err)
 	} else {
-		w.Flush()
 		p.mu.Lock()
-		p.projections[key] = b.Bytes()
-		p.mu.Unlock()
+		w.Flush()
+		p.projections[key] = slices.Clone(b.Bytes())
+		b.Reset()
 		w.Reset(b)
+		p.mu.Unlock()
 	}
 }
 

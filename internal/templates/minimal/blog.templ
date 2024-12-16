@@ -1,0 +1,85 @@
+package minimal
+
+import "github.com/mgjules/mgjules-go/internal/entity"
+
+templ BlogIndex(
+	meta entity.Meta,
+	links []entity.Link,
+	intro entity.Introduction,
+	posts []entity.Post,
+) {
+	{{ setCurrentLink(links, "blog") }}
+	@Base(meta, links, intro) {
+		<div class="flex flex-col space-y-8">
+			for _, post := range posts {
+				<div class="flex gap-4">
+					<div class="flex flex-col items-center shrink-0">
+						<div class="text-4xl text-brand-primary">
+							{ post.CreatedAt.Format("02") }
+						</div>
+						<div class="text-lg text-brand-secondary">
+							{ post.CreatedAt.Format("02 Jan 2006") }
+						</div>
+					</div>
+					<div class="flex-1">
+						<a
+							href={ templ.URL("/blog/" + post.Slug) }
+							class="text-xl link"
+						>
+							{ post.Title }
+						</a>
+						<div class="mt-1 line-clamp-2">
+							@templ.Raw(markdown(post.Summary))
+						</div>
+						<div class="flex gap-2 mt-2">
+							for _, tag:= range post.Tags {
+								<span class="pill">{ tag.Name }</span>
+							}
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+}
+
+templ BlogPost(
+	meta entity.Meta,
+	links []entity.Link,
+	intro entity.Introduction,
+	post entity.Post,
+) {
+	{{ setCurrentLink(links, "blog") }}
+	@Base(meta, links, intro) {
+		<div class="flex flex-col space-y-4">
+			<div>
+				<h3 class="text-xl">{ post.Title }</h3>
+				<div class="mt-1 text-sm text-brand-secondary">
+					<span class="text-brand-primary">
+						{ post.CreatedAt.Format("02 Jan 2006") }
+					</span>
+				</div>
+			</div>
+			<img
+				src={ post.CoverImage }
+				alt="Cover Image"
+				class="object-cover w-full aspect-video max-h-72"
+			/>
+			if post.Summary != "" {
+				<div class="text-brand-secondary">{ post.Summary }</div>
+			}
+			<div>
+				@templ.Raw(markdown(post.Content))
+			</div>
+			<div>
+				if len(post.Tags) != 0 {
+					<div class="flex flex-wrap gap-2 mt-2 sm:mt-0">
+						for _, tag := range post.Tags {
+							<span class="pill">{ tag.Name }</span>
+						}
+					</div>
+				}
+			</div>
+		</div>
+	}
+}

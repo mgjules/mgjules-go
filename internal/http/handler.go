@@ -1,6 +1,7 @@
 package http
 
 import (
+	"io/fs"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -13,6 +14,11 @@ func (s *Server) rootHandler() http.HandlerFunc {
 		if !found {
 			b, found = s.projecter.Get(filepath.Join(path, "index"))
 			if !found {
+				if _, err := fs.Stat(s.static, path); err != nil {
+					s.notFoundHandler().ServeHTTP(w, r)
+					return
+				}
+
 				http.ServeFileFS(w, r, s.static, path)
 				return
 			}
