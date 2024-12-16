@@ -9,7 +9,7 @@ export default defineConfig({
         patterns: [
           // "./templates/**/*.dhtml",
           // "./templates/**/*.scss",
-          "./templates/**/*.templ",
+          "./internal/templates/**/*.templ",
         ],
         outFile: "./internal/static/css/style.css",
       },
