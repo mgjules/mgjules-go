@@ -11,7 +11,7 @@ export default defineConfig({
           // "./templates/**/*.scss",
           "./templates/**/*.templ",
         ],
-        outFile: "./static/css/style.css",
+        outFile: "./internal/static/css/style.css",
       },
     ],
   },
