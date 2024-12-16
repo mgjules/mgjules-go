@@ -6,7 +6,7 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetLinks(ctx context.Context) ([]entity.Link, error) {
+func (db *static) GetLinks(ctx context.Context) ([]entity.Link, error) {
 	return []entity.Link{
 		{
 			ID:   "home",

@@ -6,7 +6,7 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
+func (db *static) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
 	return &entity.Introduction{
 		ID: id,
 		Introduction: `Highly accomplished Senior Software Engineer with over 10 years of experience in 

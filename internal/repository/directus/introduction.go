@@ -22,7 +22,7 @@ func (i Introduction) ToEntity(directusURL string) entity.Introduction {
 	}
 }
 
-func (db *Directus) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
+func (db *directus) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
 	var result Result[Introduction]
 	resp, err := db.client.R().
 		SetContext(ctx).

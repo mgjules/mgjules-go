@@ -22,7 +22,7 @@ func (s Section) ToEntity() entity.Section {
 	}
 }
 
-func (db *EdgeDB) GetSections(ctx context.Context) ([]entity.Section, error) {
+func (db *edgeDB) GetSections(ctx context.Context) ([]entity.Section, error) {
 	var results []Section
 	err := db.client.Query(ctx, `
 		select CVSection {

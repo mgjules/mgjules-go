@@ -37,7 +37,7 @@ func (a Award) ToEntity() entity.Award {
 	}
 }
 
-func (db *Directus) GetAwards(ctx context.Context) ([]entity.Award, error) {
+func (db *directus) GetAwards(ctx context.Context) ([]entity.Award, error) {
 	var result Result[[]Award]
 	resp, err := db.client.R().
 		SetContext(ctx).

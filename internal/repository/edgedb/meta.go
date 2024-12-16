@@ -40,7 +40,7 @@ func (m Meta) ToEntity() entity.Meta {
 	}
 }
 
-func (db *EdgeDB) GetMeta(ctx context.Context, id string) (*entity.Meta, error) {
+func (db *edgeDB) GetMeta(ctx context.Context, id string) (*entity.Meta, error) {
 	uuid, err := edgedb.ParseUUID(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse id: %w", err)

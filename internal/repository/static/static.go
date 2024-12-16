@@ -1,7 +1,11 @@
 package static
 
-type Static struct{}
+type static struct{}
 
-func New() *Static {
-	return &Static{}
+func New() *static {
+	return &static{}
+}
+
+func (*static) Cleanup() error {
+	return nil
 }

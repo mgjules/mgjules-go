@@ -6,7 +6,7 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetProjects(ctx context.Context) ([]entity.Project, error) {
+func (db *static) GetProjects(ctx context.Context) ([]entity.Project, error) {
 	return []entity.Project{
 		{
 			ID:           "harvit",

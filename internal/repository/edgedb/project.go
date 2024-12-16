@@ -31,7 +31,7 @@ func (p Project) ToEntity() entity.Project {
 	}
 }
 
-func (db *EdgeDB) GetProjects(ctx context.Context) ([]entity.Project, error) {
+func (db *edgeDB) GetProjects(ctx context.Context) ([]entity.Project, error) {
 	var results []Project
 	err := db.client.Query(ctx, `
 		select CVProject {

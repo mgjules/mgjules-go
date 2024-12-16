@@ -37,7 +37,7 @@ func (a Award) ToEntity() entity.Award {
 	}
 }
 
-func (db *EdgeDB) GetAwards(ctx context.Context) ([]entity.Award, error) {
+func (db *edgeDB) GetAwards(ctx context.Context) ([]entity.Award, error) {
 	var results []Award
 	err := db.client.Query(ctx, `
 		select CVAward {

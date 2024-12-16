@@ -28,6 +28,7 @@ func main() {
 	defer cancel()
 
 	repo := repository.New(ctx, cfg)
+	defer repo.Cleanup()
 
 	pool, err := ants.NewPool(100)
 	if err != nil {

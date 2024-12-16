@@ -22,7 +22,7 @@ func (i Introduction) ToEntity() entity.Introduction {
 	}
 }
 
-func (db *EdgeDB) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
+func (db *edgeDB) GetIntroduction(ctx context.Context, id string) (*entity.Introduction, error) {
 	uuid, err := edgedb.ParseUUID(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse id: %w", err)

@@ -33,7 +33,7 @@ func (p Project) ToEntity() entity.Project {
 	}
 }
 
-func (db *Directus) GetProjects(ctx context.Context) ([]entity.Project, error) {
+func (db *directus) GetProjects(ctx context.Context) ([]entity.Project, error) {
 	var result Result[[]Project]
 	resp, err := db.client.R().
 		SetContext(ctx).

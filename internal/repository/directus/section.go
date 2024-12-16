@@ -22,7 +22,7 @@ func (s Section) ToEntity() entity.Section {
 	}
 }
 
-func (db *Directus) GetSections(ctx context.Context) ([]entity.Section, error) {
+func (db *directus) GetSections(ctx context.Context) ([]entity.Section, error) {
 	var result Result[[]Section]
 	resp, err := db.client.R().
 		SetContext(ctx).

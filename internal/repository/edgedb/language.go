@@ -24,7 +24,7 @@ func (l Language) ToEntity() entity.Language {
 	}
 }
 
-func (db *EdgeDB) GetLanguages(ctx context.Context) ([]entity.Language, error) {
+func (db *edgeDB) GetLanguages(ctx context.Context) ([]entity.Language, error) {
 	var results []Language
 	err := db.client.Query(ctx, `
 		select CVLanguage {

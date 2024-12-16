@@ -8,7 +8,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func (db *Static) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
+func (db *static) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
 	return []entity.Experience{
 		{
 			ID:           "livestorm",

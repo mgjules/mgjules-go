@@ -33,7 +33,7 @@ func (l Link) ToEntity() entity.Link {
 	}
 }
 
-func (db *EdgeDB) GetLinks(ctx context.Context) ([]entity.Link, error) {
+func (db *edgeDB) GetLinks(ctx context.Context) ([]entity.Link, error) {
 	var results []Link
 	err := db.client.Query(ctx, `
 		select SiteLink {

@@ -44,6 +44,8 @@ type Repository interface {
 
 	// Post
 	GetPosts(ctx context.Context) ([]entity.Post, error)
+
+	Cleanup() error
 }
 
 func New(ctx context.Context, cfg *config.Config) Repository {

@@ -7,12 +7,12 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type Directus struct {
+type directus struct {
 	directusURL string
 	client      *resty.Client
 }
 
-func New(ctx context.Context, isProd bool, url, token string) *Directus {
+func New(ctx context.Context, isProd bool, url, token string) *directus {
 	client := resty.New()
 
 	if !isProd {
@@ -23,8 +23,12 @@ func New(ctx context.Context, isProd bool, url, token string) *Directus {
 	client.SetBaseURL(url)
 	client.SetTimeout(30 * time.Second)
 
-	return &Directus{
+	return &directus{
 		directusURL: url,
 		client:      client,
 	}
+}
+
+func (*directus) Cleanup() error {
+	return nil
 }

@@ -54,7 +54,7 @@ func (e Experience) ToEntity() entity.Experience {
 	}
 }
 
-func (db *EdgeDB) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
+func (db *edgeDB) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
 	var results []Experience
 	err := db.client.Query(ctx, `
 		select CVExperience {

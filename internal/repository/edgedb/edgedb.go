@@ -7,19 +7,19 @@ import (
 	"github.com/edgedb/edgedb-go"
 )
 
-type EdgeDB struct {
+type edgeDB struct {
 	client *edgedb.Client
 }
 
-func New(ctx context.Context, dsn string) (*EdgeDB, error) {
+func New(ctx context.Context, dsn string) (*edgeDB, error) {
 	client, err := edgedb.CreateClientDSN(ctx, dsn, edgedb.Options{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to create edge db repository: %w", err)
 	}
 
-	return &EdgeDB{client: client}, nil
+	return &edgeDB{client: client}, nil
 }
 
-func (db *EdgeDB) Cleanup() error {
+func (db *edgeDB) Cleanup() error {
 	return db.client.Close()
 }

@@ -22,7 +22,7 @@ func (i Interest) ToEntity() entity.Interest {
 	}
 }
 
-func (db *EdgeDB) GetInterests(ctx context.Context) ([]entity.Interest, error) {
+func (db *edgeDB) GetInterests(ctx context.Context) ([]entity.Interest, error) {
 	var results []Interest
 	err := db.client.Query(ctx, `
 		select CVInterest {

@@ -6,7 +6,7 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetSections(ctx context.Context) ([]entity.Section, error) {
+func (db *static) GetSections(ctx context.Context) ([]entity.Section, error) {
 	return []entity.Section{
 		{
 			ID:   "experiences",

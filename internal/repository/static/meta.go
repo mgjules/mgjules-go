@@ -6,7 +6,7 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetMeta(ctx context.Context, id string) (*entity.Meta, error) {
+func (db *static) GetMeta(ctx context.Context, id string) (*entity.Meta, error) {
 	return &entity.Meta{
 		BaseURL:     "https://mgjules.dev",
 		Lang:        "en",

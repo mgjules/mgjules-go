@@ -6,6 +6,6 @@ import (
 	"github.com/mgjules/mgjules-go/internal/entity"
 )
 
-func (db *Static) GetContributions(ctx context.Context) ([]entity.Contribution, error) {
+func (db *static) GetContributions(ctx context.Context) ([]entity.Contribution, error) {
 	return nil, nil
 }

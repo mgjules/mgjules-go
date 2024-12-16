@@ -51,7 +51,7 @@ func (p Post) ToEntity() entity.Post {
 	}
 }
 
-func (db *EdgeDB) GetPosts(ctx context.Context) ([]entity.Post, error) {
+func (db *edgeDB) GetPosts(ctx context.Context) ([]entity.Post, error) {
 	var results []Post
 	err := db.client.Query(ctx, `
 		select BlogPost {

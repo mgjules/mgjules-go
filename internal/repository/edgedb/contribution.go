@@ -47,7 +47,7 @@ func (c Contribution) ToEntity() entity.Contribution {
 	}
 }
 
-func (db *EdgeDB) GetContributions(ctx context.Context) ([]entity.Contribution, error) {
+func (db *edgeDB) GetContributions(ctx context.Context) ([]entity.Contribution, error) {
 	var results []Contribution
 	err := db.client.Query(ctx, `
 		select CVContribution {

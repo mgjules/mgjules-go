@@ -63,7 +63,7 @@ func (e Experience) ToEntity() entity.Experience {
 	}
 }
 
-func (db *Directus) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
+func (db *directus) GetExperiences(ctx context.Context) ([]entity.Experience, error) {
 	var result Result[[]Experience]
 	resp, err := db.client.R().
 		SetContext(ctx).

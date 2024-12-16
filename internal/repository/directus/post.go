@@ -46,7 +46,7 @@ func (p Post) ToEntity(directusURL string) entity.Post {
 	}
 }
 
-func (db *Directus) GetPosts(ctx context.Context) ([]entity.Post, error) {
+func (db *directus) GetPosts(ctx context.Context) ([]entity.Post, error) {
 	var result Result[[]Post]
 	resp, err := db.client.R().
 		SetContext(ctx).
