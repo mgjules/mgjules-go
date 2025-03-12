@@ -30,7 +30,7 @@ func (db *static) GetExperiences(ctx context.Context) ([]entity.Experience, erro
 			Position: "Senior Software Engineer",
 			From:     time.Date(2022, 8, 1, 0, 0, 0, 0, time.UTC),
 			To:       lo.ToPtr(time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC)),
-			Link:     "https://livestorm.co",
+			Link:     "https://www.atellio.com",
 			Technologies: getTechnologies("Go", "Rest", "gRPC", "Swagger", "PostgreSQL", "InfluxDB", "Meilisearch", "Traefik", "Docker Swarm", "Datadog",
 				"CircleCI", "S3"),
 			Tasks: []string{
