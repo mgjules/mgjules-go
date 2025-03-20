@@ -2,7 +2,7 @@
 
 [![Go version](https://img.shields.io/github/go-mod/go-version/mgjules/mgjules-go.svg)](https://pkg.go.dev/github.com/mgjules/mgjules-go)
 
-Source code for my [personal website](https://mgjules.dev).
+Source code for my [personal website](https://michael.jules.mu).
 
 ## Background
 
