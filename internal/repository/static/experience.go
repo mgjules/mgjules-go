@@ -13,7 +13,7 @@ func (db *static) GetExperiences(ctx context.Context) ([]entity.Experience, erro
 		{
 			ID:           "livestorm",
 			Company:      "Livestorm",
-			Position:     "Senior Software Engineer",
+			Position:     "Senior Software Engineer L3",
 			From:         time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC),
 			Link:         "https://livestorm.co",
 			Technologies: getTechnologies("Go", "Ruby", "Bazel", "Rest", "gRPC", "Kafka", "Kubernetes", "Docker", "Datadog", "AWS", "PostgreSQL"),
