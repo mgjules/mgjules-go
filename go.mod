@@ -10,7 +10,7 @@ require (
 	github.com/edgedb/edgedb-go v0.14.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/jinzhu/copier v0.3.5
+	github.com/jinzhu/copier v0.4.0
 	github.com/json-iterator/go v1.1.12
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/panjf2000/ants/v2 v2.8.1
