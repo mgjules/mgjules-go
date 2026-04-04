@@ -28,8 +28,6 @@ type Config struct {
 	DirectusURL   string `envconfig:"DIRECTUS_URL"`
 	DirectusToken string `envconfig:"DIRECTUS_TOKEN"`
 
-	// Dartsass
-	DartSassEmbeddedBinary string `envconfig:"DART_SASS_EMBEDDED_BINARY" default:"sass"`
 }
 
 func Parse() (*Config, error) {
