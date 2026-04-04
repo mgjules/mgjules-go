@@ -7,6 +7,6 @@
     "build": "unocss -m --preflights"
   },
   "devDependencies": {
-    "unocss": "latest"
+    "unocss": "^66.6.7"
   }
 }
