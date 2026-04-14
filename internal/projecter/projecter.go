@@ -58,10 +58,6 @@ func (p *Projecter) Build() {
 	sections := p.fetcher.Sections()
 	experiences := p.fetcher.Experiences()
 	projects := p.fetcher.Projects()
-	// contributions := p.fetcher.Contributions()
-	// awards := p.fetcher.Awards()
-	// interests := p.fetcher.Interests()
-	// languages := p.fetcher.Languages()
 	posts := p.fetcher.Posts()
 
 	ctx := context.Background()
