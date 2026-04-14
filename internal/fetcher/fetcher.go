@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"sync"
 	"time"
@@ -38,12 +39,12 @@ type Fetcher struct {
 	subscribers   []func()
 }
 
-func New(repo repository.Repository, pool *ants.Pool) *Fetcher {
+func New(repo repository.Repository, pool *ants.Pool) (*Fetcher, error) {
 	if repo == nil {
-		panic("repo cannot be nil")
+		return nil, errors.New("repo cannot be nil")
 	}
 	if pool == nil {
-		panic("pool cannot be nil")
+		return nil, errors.New("pool cannot be nil")
 	}
 
 	f := &Fetcher{
@@ -56,7 +57,7 @@ func New(repo repository.Repository, pool *ants.Pool) *Fetcher {
 		f.Fetch()
 	})
 
-	return f
+	return f, nil
 }
 
 func (f *Fetcher) Start() {

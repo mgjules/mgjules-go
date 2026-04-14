@@ -39,26 +39,38 @@ func main() {
 	}
 	defer pool.Release()
 
-	fetcher := fetcher.New(repo, pool)
-	fetcher.Start()
-	defer fetcher.Stop()
+	f, err := fetcher.New(repo, pool)
+	if err != nil {
+		log.Fatalf("failed to create fetcher: %v", err)
+	}
+	f.Start()
+	defer f.Stop()
 
-	projecter := projecter.New(cfg.Prod, pool, fetcher)
-	fetcher.AddSubscriber(projecter.Build)
+	p, err := projecter.New(cfg.Prod, pool, f)
+	if err != nil {
+		log.Fatalf("failed to create projecter: %v", err)
+	}
+	f.AddSubscriber(p.Build)
 
-	pool.Submit(fetcher.Fetch)
+	pool.Submit(f.Fetch)
 
-	auth := auth.New(cfg.AuthToken)
+	a, err := auth.New(cfg.AuthToken)
+	if err != nil {
+		log.Fatalf("failed to create auth: %v", err)
+	}
 
-	server := http.NewServer(
+	server, err := http.NewServer(
 		cfg.Prod,
 		cfg.ServerHost,
 		cfg.ServerPort,
 		cfg.ServerTLSDomain,
-		auth,
-		fetcher,
-		projecter,
+		a,
+		f,
+		p,
 	)
+	if err != nil {
+		log.Fatalf("failed to create server: %v", err)
+	}
 	if err = server.Start(); err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"errors"
 	"fmt"
 	"io/fs"
 	"log/slog"
@@ -35,15 +36,15 @@ func NewServer(
 	auth *auth.Auth,
 	fetcher *fetcher.Fetcher,
 	projection *projecter.Projecter,
-) *Server {
+) (*Server, error) {
 	if auth == nil {
-		panic("auth cannot be nil")
+		return nil, errors.New("auth cannot be nil")
 	}
 	if fetcher == nil {
-		panic("fetcher cannot be nil")
+		return nil, errors.New("fetcher cannot be nil")
 	}
 	if projection == nil {
-		panic("projection cannot be nil")
+		return nil, errors.New("projection cannot be nil")
 	}
 
 	s := &Server{
@@ -60,7 +61,7 @@ func NewServer(
 
 	s.initRoutes()
 
-	return s
+	return s, nil
 }
 
 func (s *Server) Start() error {

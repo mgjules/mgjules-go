@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
+	"errors"
 	"log/slog"
 	"slices"
 	"strings"
 	"sync"
 
 	"github.com/a-h/templ"
-	"github.com/mgjules/mgjules-go/internal/fetcher"
+	"github.com/mgjules/mgjules-go/internal/entity"
 	"github.com/mgjules/mgjules-go/internal/templates/minimal"
 	"github.com/panjf2000/ants/v2"
 )
@@ -19,46 +20,60 @@ const (
 	seperator string = "/"
 )
 
-type Projecter struct {
-	prod    bool
-	pool    *ants.Pool
-	fetcher *fetcher.Fetcher
+type DataProvider interface {
+	Meta() entity.Meta
+	Links() []entity.Link
+	Introduction() entity.Introduction
+	Sections() []entity.Section
+	Experiences() []entity.Experience
+	Projects() []entity.Project
+	Contributions() []entity.Contribution
+	Awards() []entity.Award
+	Interests() []entity.Interest
+	Languages() []entity.Language
+	Posts() []entity.Post
+}
 
-	mu          sync.RWMutex // guards the projections
+type Projecter struct {
+	prod bool
+	pool *ants.Pool
+	data DataProvider
+
+	mu          sync.RWMutex
 	projections map[string][]byte
 }
 
 func New(
 	prod bool,
 	pool *ants.Pool,
-	fetcher *fetcher.Fetcher,
-) *Projecter {
+	data DataProvider,
+) (*Projecter, error) {
 	if pool == nil {
-		panic("pool cannot be empty")
+		return nil, errors.New("pool cannot be nil")
 	}
-	if fetcher == nil {
-		panic("fetcher cannot be nil")
+	if data == nil {
+		return nil, errors.New("data provider cannot be nil")
 	}
 
 	return &Projecter{
 		prod:        prod,
 		pool:        pool,
-		fetcher:     fetcher,
+		data:        data,
 		projections: make(map[string][]byte),
-	}
+	}, nil
 }
 
 func (p *Projecter) Build() {
 	slog.Debug("Building projections...")
 	defer slog.Debug("Built projections successfully")
 
-	meta := p.fetcher.Meta()
-	links := p.fetcher.Links()
-	intro := p.fetcher.Introduction()
-	sections := p.fetcher.Sections()
-	experiences := p.fetcher.Experiences()
-	projects := p.fetcher.Projects()
-	posts := p.fetcher.Posts()
+	meta := p.data.Meta()
+	links := p.data.Links()
+	intro := p.data.Introduction()
+	sections := p.data.Sections()
+	experiences := p.data.Experiences()
+	projects := p.data.Projects()
+	posts := p.data.Posts()
 
 	ctx := context.Background()
 	b := &bytes.Buffer{}
