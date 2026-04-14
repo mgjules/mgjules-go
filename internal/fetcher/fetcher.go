@@ -74,11 +74,12 @@ func (f *Fetcher) AddSubscriber(s func()) {
 }
 
 func (f *Fetcher) notify() {
+	f.subscribersMu.RLock()
+	defer f.subscribersMu.RUnlock()
 	for _, s := range f.subscribers {
 		if s == nil {
 			continue
 		}
-
 		f.pool.Submit(s)
 	}
 }
@@ -180,96 +181,78 @@ func (f *Fetcher) Fetch() {
 
 func (f *Fetcher) Meta() entity.Meta {
 	f.dataMu.RLock()
-	meta := DeepCopy(f.meta)
-	f.dataMu.RUnlock()
-
-	return meta
+	defer f.dataMu.RUnlock()
+	if f.meta == nil {
+		return entity.Meta{}
+	}
+	return *f.meta
 }
 
 func (f *Fetcher) Links() []entity.Link {
 	f.dataMu.RLock()
-	links := DeepCopy(&f.links)
-	f.dataMu.RUnlock()
-
-	return links
+	defer f.dataMu.RUnlock()
+	return f.links
 }
 
 func (f *Fetcher) Introduction() entity.Introduction {
 	f.dataMu.RLock()
-	intro := DeepCopy(f.intro)
-	f.dataMu.RUnlock()
-
-	return intro
+	defer f.dataMu.RUnlock()
+	if f.intro == nil {
+		return entity.Introduction{}
+	}
+	return *f.intro
 }
 
 func (f *Fetcher) Sections() []entity.Section {
 	f.dataMu.RLock()
-	sections := DeepCopy(&f.sections)
-	f.dataMu.RUnlock()
-
-	return sections
+	defer f.dataMu.RUnlock()
+	return f.sections
 }
 
 func (f *Fetcher) Experiences() []entity.Experience {
 	f.dataMu.RLock()
-	experiences := DeepCopy(&f.experiences)
-	f.dataMu.RUnlock()
-
-	return experiences
+	defer f.dataMu.RUnlock()
+	return f.experiences
 }
 
 func (f *Fetcher) Projects() []entity.Project {
 	f.dataMu.RLock()
-	projects := DeepCopy(&f.projects)
-	f.dataMu.RUnlock()
-
-	return projects
+	defer f.dataMu.RUnlock()
+	return f.projects
 }
 
 func (f *Fetcher) Contributions() []entity.Contribution {
 	f.dataMu.RLock()
-	contributions := DeepCopy(&f.contributions)
-	f.dataMu.RUnlock()
-
-	return contributions
+	defer f.dataMu.RUnlock()
+	return f.contributions
 }
 
 func (f *Fetcher) Awards() []entity.Award {
 	f.dataMu.RLock()
-	awards := DeepCopy(&f.awards)
-	f.dataMu.RUnlock()
-
-	return awards
+	defer f.dataMu.RUnlock()
+	return f.awards
 }
 
 func (f *Fetcher) Interests() []entity.Interest {
 	f.dataMu.RLock()
-	interests := DeepCopy(&f.interests)
-	f.dataMu.RUnlock()
-
-	return interests
+	defer f.dataMu.RUnlock()
+	return f.interests
 }
 
 func (f *Fetcher) Languages() []entity.Language {
 	f.dataMu.RLock()
-	languages := DeepCopy(&f.languages)
-	f.dataMu.RUnlock()
-
-	return languages
+	defer f.dataMu.RUnlock()
+	return f.languages
 }
 
 func (f *Fetcher) Posts() []entity.Post {
 	f.dataMu.RLock()
-	posts := DeepCopy(&f.posts)
-	f.dataMu.RUnlock()
-
-	return posts
+	defer f.dataMu.RUnlock()
+	return f.posts
 }
 
 func (f *Fetcher) FetchedAt() time.Time {
 	f.dataMu.RLock()
-	fetchedAt := f.fetchedAt
-	f.dataMu.RUnlock()
-
-	return fetchedAt
+	defer f.dataMu.RUnlock()
+	return f.fetchedAt
 }
