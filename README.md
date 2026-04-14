@@ -11,7 +11,7 @@ Source code for my [personal website](https://michael.jules.mu).
 All pages are pre-rendered into memory at startup and refreshed every hour. HTTP requests are plain memory lookups — no per-request templating.
 
 ```
-Repository (Directus / EdgeDB / Static)
+Repository (Directus / Static)
     └── Fetcher  — concurrent fetch, hourly cron, in-memory cache
           └── Projecter  — builds pre-rendered HTML pages on each fetch
                 └── HTTP Server  — serves pages directly from memory
@@ -42,9 +42,7 @@ cp .env.example .env
 | `STATIC` | | `false` | Use hardcoded static data (no CMS needed) |
 | `DIRECTUS_URL` | | | Directus CMS base URL |
 | `DIRECTUS_TOKEN` | | | Directus API token |
-| `EDGEDB_DSN` | | | EdgeDB DSN (**deprecated**, takes priority over Directus if set) |
-
-**Repository selection priority:** EdgeDB → Directus → Static. At least one must be configured.
+**Repository selection priority:** Directus → Static. At least one must be configured.
 
 **Content:** lives in the configured CMS (Directus). For local development without CMS access, set `STATIC=true` to use the hardcoded data in `internal/repository/static/`.
 
