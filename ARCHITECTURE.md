@@ -11,7 +11,7 @@ Personal website ([michael.jules.mu](https://michael.jules.mu)) built with Go, u
 All pages are pre-rendered into memory at startup and refreshed every hour. HTTP requests are plain memory lookups — no per-request templating.
 
 ```
-Repository (Directus/EdgeDB/Static)
+Repository (Directus/Static)
     └── Fetcher (concurrent fetch, hourly cron, in-memory cache)
           └── Projecter (pre-rendered HTML, gzip compressed)
                 └── HTTP Server (serves from memory)
@@ -54,12 +54,11 @@ Repository (Directus/EdgeDB/Static)
 
 ### 4. Repository (`internal/repository/`)
 
-Three implementations with priority: EdgeDB > Directus > Static
+Two implementations with priority: Directus > Static
 
 | Implementation | Description |
 |---------------|-------------|
 | directus/ | REST API client using resty, configurable via env |
-| edgedb/ | Graph database client (deprecated, takes priority if DSN set) |
 | static/ | Hardcoded fixture data for local dev without CMS |
 
 ### 5. Entities (`internal/entity/`)
@@ -109,7 +108,7 @@ main (cmd/serve/main.go)
                     └── projecter.Get (internal/projecter/projecter.go:84)
                           └── Build (internal/projecter/projecter.go:51)
                                 └── Index (internal/templates/minimal/index_templ.go:17)
-                                      └── DeepCopy (internal/fetcher/deepcopy.go)
+                                      └── DataProvider (internal/projecter/projecter.go)
 ```
 
 ### 2. HTTP Request
@@ -138,7 +137,6 @@ Cron (@hourly)
 graph TD
     subgraph Data Sources
         Directus["Directus CMS<br/>(REST API)"]
-        EdgeDB["EdgeDB<br/>(deprecated)"]
         Static["Static Data<br/>(hardcoded)"]
     end
 
@@ -157,7 +155,6 @@ graph TD
     end
 
     Directus --> Repository
-    EdgeDB --> Repository
     Static --> Repository
     Repository --> Fetcher
     Fetcher -->|"@hourly cron"| Projecter
