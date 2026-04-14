@@ -7,7 +7,6 @@ require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/cenkalti/backoff/v4 v4.3.0
-	github.com/edgedb/edgedb-go v0.14.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/jinzhu/copier v0.3.5
@@ -20,15 +19,7 @@ require (
 )
 
 require (
-	github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d // indirect
-	github.com/sigurn/crc16 v0.0.0-20211026045750-20ab5afb07e3 // indirect
-	github.com/xdg/scram v1.0.5 // indirect
-	github.com/xdg/stringprep v1.0.3 // indirect
 	golang.org/x/exp v0.0.0-20230108222341-4b8118a2686a // indirect
-	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
-	golang.org/x/tools v0.38.0 // indirect
 )

@@ -21,13 +21,9 @@ type Config struct {
 	// Static
 	Static bool `envconfig:"STATIC"`
 
-	// EdgeDB (deprecated)
-	EdgeDBDSN string `envconfig:"EDGEDB_DSN"`
-
 	// Directus
 	DirectusURL   string `envconfig:"DIRECTUS_URL"`
 	DirectusToken string `envconfig:"DIRECTUS_TOKEN"`
-
 }
 
 func Parse() (*Config, error) {

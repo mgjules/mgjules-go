@@ -27,7 +27,10 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	repo := repository.New(ctx, cfg)
+	repo, err := repository.New(ctx, cfg)
+	if err != nil {
+		log.Fatalf("failed to create repository: %v", err)
+	}
 	defer repo.Cleanup()
 
 	pool, err := ants.NewPool(100)
