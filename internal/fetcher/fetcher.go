@@ -2,7 +2,6 @@ package fetcher
 
 import (
 	"context"
-	"errors"
 	"log/slog"
 	"sync"
 	"time"
@@ -84,194 +83,75 @@ func (f *Fetcher) notify() {
 	}
 }
 
+func fetchEntity[T any](
+	f *Fetcher,
+	ctx context.Context,
+	wg *sync.WaitGroup,
+	name string,
+	fetch func(context.Context) (T, error),
+	store func(T),
+) {
+	wg.Add(1)
+	f.pool.Submit(func() {
+		defer wg.Done()
+		slog.Debug("Fetching data...", "entity", name)
+		result, err := fetch(ctx)
+		if err != nil {
+			slog.Error("failed to fetch", "entity", name, "error", err)
+			return
+		}
+		f.dataMu.Lock()
+		store(result)
+		f.dataMu.Unlock()
+	})
+}
+
 func (f *Fetcher) Fetch() {
 	operation := func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 		defer cancel()
+		var wg sync.WaitGroup
 
-		var (
-			wg   sync.WaitGroup
-			errs error
-		)
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching meta data...")
-			meta, err := f.repo.GetMeta(ctx, "bd99e066-440b-11ed-924c-9fd15527df84")
-			if err != nil {
-				slog.Error("failed to get meta", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.meta = meta
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching links data...")
-			links, err := f.repo.GetLinks(ctx)
-			if err != nil {
-				slog.Error("failed to get links", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.links = links
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching introduction data...")
-			intro, err := f.repo.GetIntroduction(ctx, "a4296eac-441b-11ed-924c-830c8fd1144c")
-			if err != nil {
-				slog.Error("failed to get introduction", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.intro = intro
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching section data...")
-			sections, err := f.repo.GetSections(ctx)
-			if err != nil {
-				slog.Error("failed to get sections", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.sections = sections
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching experience data...")
-			experiences, err := f.repo.GetExperiences(ctx)
-			if err != nil {
-				slog.Error("failed to get experiences", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.experiences = experiences
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching project data...")
-			projects, err := f.repo.GetProjects(ctx)
-			if err != nil {
-				slog.Error("failed to get projects", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.projects = projects
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching contribution data...")
-			contributions, err := f.repo.GetContributions(ctx)
-			if err != nil {
-				slog.Error("failed to get contributions", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.contributions = contributions
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching award data...")
-			awards, err := f.repo.GetAwards(ctx)
-			if err != nil {
-				slog.Error("failed to get awards", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.awards = awards
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching interest data...")
-			interests, err := f.repo.GetInterests(ctx)
-			if err != nil {
-				slog.Error("failed to get interests", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.interests = interests
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching language data...")
-			languages, err := f.repo.GetLanguages(ctx)
-			if err != nil {
-				slog.Error("failed to get languages", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.languages = languages
-				f.dataMu.Unlock()
-			}
-		})
-
-		wg.Add(1)
-		f.pool.Submit(func() {
-			defer wg.Done()
-
-			slog.Debug("Fetching post data...")
-			posts, err := f.repo.GetPosts(ctx)
-			if err != nil {
-				slog.Error("failed to get posts", "error", err)
-				errs = errors.Join(errs, err)
-			} else {
-				f.dataMu.Lock()
-				f.posts = posts
-				f.dataMu.Unlock()
-			}
-		})
+		fetchEntity(f, ctx, &wg, "meta",
+			func(ctx context.Context) (*entity.Meta, error) {
+				return f.repo.GetMeta(ctx, "bd99e066-440b-11ed-924c-9fd15527df84")
+			},
+			func(v *entity.Meta) { f.meta = v })
+		fetchEntity(f, ctx, &wg, "links",
+			func(ctx context.Context) ([]entity.Link, error) { return f.repo.GetLinks(ctx) },
+			func(v []entity.Link) { f.links = v })
+		fetchEntity(f, ctx, &wg, "intro",
+			func(ctx context.Context) (*entity.Introduction, error) {
+				return f.repo.GetIntroduction(ctx, "a4296eac-441b-11ed-924c-830c8fd1144c")
+			},
+			func(v *entity.Introduction) { f.intro = v })
+		fetchEntity(f, ctx, &wg, "sections",
+			func(ctx context.Context) ([]entity.Section, error) { return f.repo.GetSections(ctx) },
+			func(v []entity.Section) { f.sections = v })
+		fetchEntity(f, ctx, &wg, "experiences",
+			func(ctx context.Context) ([]entity.Experience, error) { return f.repo.GetExperiences(ctx) },
+			func(v []entity.Experience) { f.experiences = v })
+		fetchEntity(f, ctx, &wg, "projects",
+			func(ctx context.Context) ([]entity.Project, error) { return f.repo.GetProjects(ctx) },
+			func(v []entity.Project) { f.projects = v })
+		fetchEntity(f, ctx, &wg, "contributions",
+			func(ctx context.Context) ([]entity.Contribution, error) { return f.repo.GetContributions(ctx) },
+			func(v []entity.Contribution) { f.contributions = v })
+		fetchEntity(f, ctx, &wg, "awards",
+			func(ctx context.Context) ([]entity.Award, error) { return f.repo.GetAwards(ctx) },
+			func(v []entity.Award) { f.awards = v })
+		fetchEntity(f, ctx, &wg, "interests",
+			func(ctx context.Context) ([]entity.Interest, error) { return f.repo.GetInterests(ctx) },
+			func(v []entity.Interest) { f.interests = v })
+		fetchEntity(f, ctx, &wg, "languages",
+			func(ctx context.Context) ([]entity.Language, error) { return f.repo.GetLanguages(ctx) },
+			func(v []entity.Language) { f.languages = v })
+		fetchEntity(f, ctx, &wg, "posts",
+			func(ctx context.Context) ([]entity.Post, error) { return f.repo.GetPosts(ctx) },
+			func(v []entity.Post) { f.posts = v })
 
 		wg.Wait()
-
-		return errs
+		return nil
 	}
 
 	exp := backoff.NewExponentialBackOff()
